@@ -3,55 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ザジ・ズー - 黄金町の夢の入り口</title>
-    <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru&family=Zen+Maru+Gothic:wght@300;700&display=swap" rel="stylesheet">
+    <title>ZAZIMON | 公式公演情報</title>
+    <!-- レトロ風フォントの読み込み -->
+    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
     <style>
-        body { 
-            background: #fff5f5; /* 淡いピンクの背景 */
-            color: #555; 
-            font-family: 'Zen Maru Gothic', sans-serif; 
-            line-height: 1.8; 
-            text-align: center;
-            padding: 40px 20px;
-        }
-        .container { max-width: 500px; margin: 0 auto; background: white; padding: 40px; border-radius: 30px; box-shadow: 10px 10px 0px #ffdada; border: 2px solid #ffc0cb; }
-        h1 { font-family: 'Kiwi Maru', serif; color: #ff6b9d; font-size: 1.5em; }
-        .search-box { margin-top: 30px; padding: 20px; border: 2px dashed #ffc0cb; border-radius: 15px; }
-        input { padding: 10px; width: 60%; border: 1px solid #ddd; border-radius: 10px; }
-        button { padding: 10px 20px; background: #ff6b9d; color: white; border: none; border-radius: 10px; cursor: pointer; }
-        footer { margin-top: 40px; font-size: 0.8em; color: #aaa; }
+        body { background-color: #333; color: #fff; font-family: 'DotGothic16', sans-serif; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 20px; }
+        
+        /* 検索窓（上部） */
+        .search-container { background: #fff; color: #333; padding: 10px; width: 100%; max-width: 400px; display: flex; justify-content: space-between; border: 4px solid #fff; margin-bottom: 30px; }
+        input { border: none; outline: none; width: 70%; font-family: inherit; }
+        button { background: #ff0000; color: white; border: none; padding: 5px 10px; cursor: pointer; font-family: inherit; }
+
+        /* 公演情報カード */
+        .main-card { background: #fff; color: #333; padding: 20px; width: 100%; max-width: 500px; border: 8px solid #ddd; position: relative; }
+        .main-card::before { content: ""; position: absolute; top: -12px; left: -12px; width: 100%; height: 100%; border: 2px solid #555; pointer-events: none; }
+        
+        h1 { color: #d63031; font-size: 1.2em; border-bottom: 2px solid #d63031; padding-bottom: 10px; }
+        .event-info { font-size: 0.9em; margin: 20px 0; }
+        .cta { text-align: center; margin-top: 20px; color: #666; font-size: 0.8em; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>ザわめきが宇宙の…<br>縮めてザジモン！</h1>
-        <p>「コガネタウンで僕と握手。」</p>
-        
-        <div class="search-box">
-            <p>記憶の断片を検索：</p>
-            <input type="text" id="keyword" placeholder="キーワードを入力...">
-            <button onclick="checkKeyword()">探す</button>
-            <p id="result"></p>
+
+    <div class="search-container">
+        <input type="text" id="keyword" placeholder="検索...">
+        <button onclick="checkKeyword()">OK</button>
+    </div>
+    <div id="result" style="margin-bottom: 20px; color: yellow;"></div>
+
+    <div class="main-card">
+        <h1>『ザわめきが宇宙の…縮めてザジモン！』</h1>
+        <div class="event-info">
+            <p><strong>公演日：</strong>9/12-13, 10/11-13</p>
+            <p><strong>場所：</strong>黄金町ロックカクほか</p>
+            <p>鑑賞者が巨大なオブジェクトと共に歩く、移動型演劇。キミも江戸川乱歩の眼を持とう！</p>
         </div>
+        <p><em>「コガネタウンで僕と握手。」</em></p>
     </div>
 
     <script>
+        const links = {
+            "ザジモン": "zazimon-article.html",
+            "ザジ山ザジ蔵": "zazizokura-mail.html",
+            "うんち": "unchi-news.html",
+            "ザジボール": "zaziball-note.html"
+        };
+
         function checkKeyword() {
             const val = document.getElementById('keyword').value;
             const res = document.getElementById('result');
-            
-            // キーワード辞書（ここにどんどん追加！）
-            const links = { 
-                "ザジモン": "zazimon-article.html",
-                "ザジ山ザジ蔵": "zazizokura-mail.html",
-                "うんち": "unchi-news.html",
-                "ザジボール": "zaziball-note.html"
-           };
-
             if (links[val]) {
-                res.innerHTML = `<br><a href="${links[val]}" style="color:#ff6b9d;">見つけた：${val} のページへ</a>`;
+                window.location.href = links[val]; // 直接ページへ遷移
             } else {
-                res.innerHTML = "<br>なにも見つからない……。";
+                res.innerHTML = "＞ " + val + " はみつからない！";
             }
         }
     </script>
