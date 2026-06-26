@@ -3,41 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ハイチケ宣伝部！</title>
+    <title>ザジ・ズー公演情報</title>
     <style>
-        body { background-color: #1a1a1a; color: #e0e0e0; font-family: 'Courier New', Courier, monospace; padding: 20px; line-height: 1.6; }
-        .container { max-width: 600px; margin: 0 auto; }
-        h1, h2 { color: #ff3e3e; }
-        a { color: #00ffcc; }
-        .search-box { margin: 30px 0; padding: 20px; border: 1px solid #444; background: #2a2a2a; text-align: center; }
-        input { padding: 10px; width: 70%; border: none; }
-        button { padding: 10px; background: #ff3e3e; color: white; border: none; cursor: pointer; }
+        body { background: #f4f4f4; color: #333; font-family: 'Helvetica', sans-serif; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; }
+        .search-area { background: #333; padding: 20px; color: white; margin: 20px 0; }
+        input { padding: 8px; width: 60%; }
+        button { padding: 8px 15px; cursor: pointer; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>ハイチケ宣伝部！</h1>
-        <h2>若手演劇集団ザジ・ズーがゲームを開発中！最新情報に迫る</h2>
-        <p><em>2025年6月26日</em></p>
-        <p>「全てを横断し包括するのがこの『ザジモン』になる」。木村友哉はそう語った。</p>
+        <h1>『ザわめきが宇宙の…（略）…縮めてザジモン！』</h1>
+        <p><strong>公演日程：</strong>9/12-13、10/11-13</p>
+        <p><strong>場所：</strong>黄金町ロックカクほか</p>
+        <p><em>「コガネタウンで僕と握手。」</em></p>
+        
+        <nav>
+            <a href="#news">NEWS</a> | <a href="#member">出演者</a> | <a href="#schedule">スケジュール</a>
+        </nav>
 
-        <!-- 検索フォーム -->
-        <div class="search-box">
-            <p>記事内のキーワードを検索：</p>
-            <input type="text" id="keyword" placeholder="例：コガネタウン">
+        <div class="search-area">
+            <h3>検索：真実の断片を探す</h3>
+            <input type="text" id="keyword" placeholder="キーワードを入力...">
             <button onclick="checkKeyword()">検索</button>
+            <p id="result"></p>
         </div>
-        <div id="result"></div>
     </div>
 
     <script>
         function checkKeyword() {
-            const input = document.getElementById('keyword').value;
-            const result = document.getElementById('result');
-            if (input === 'コガネタウン') {
-                result.innerHTML = '<p style="color:yellow;">検索結果：<br>「若手演劇集団ザジ・ズーがゲームを開発中！」のアーカイブ記事が見つかりました。<br><a href="zazizoo.html">＞記事全文を読む</a></p>';
+            const val = document.getElementById('keyword').value;
+            const res = document.getElementById('result');
+            
+            // 検索ワードと飛ばし先の管理
+            const clues = {
+                "ザジモン": "zazimon-hidden.html",
+                "コガネタウン": "kogane-info.html"
+                // ここにキーワードをどんどん追加していきます
+            };
+
+            if (clues[val]) {
+                res.innerHTML = `<a href="${clues[val]}" style="color:yellow;">[検索結果] 機密ファイルへのアクセスを確認しました。</a>`;
             } else {
-                result.innerHTML = '<p>該当なし。もう一度探してみて。</p>';
+                res.innerHTML = "検索結果なし。";
             }
         }
     </script>
