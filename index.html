@@ -1,57 +1,532 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZAZIMON | 公式公演情報</title>
-    <style>
-        body { background-color: #333; color: #fff; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; padding: 20px; }
-        
-        /* 検索窓 */
-        .search-container { background: #fff; color: #333; padding: 10px; width: 100%; max-width: 400px; display: flex; justify-content: space-between; border: 4px solid #fff; margin-bottom: 30px; }
-        input { border: none; outline: none; width: 70%; }
-        button { background: #ff0000; color: white; border: none; padding: 5px 10px; cursor: pointer; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZAZIMON | 公式公演情報</title>
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ━━━━━━━━━━━━━━━━━━━
+   RESET & BASE
+━━━━━━━━━━━━━━━━━━━ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
 
-        /* 公演情報カード */
-        .main-card { background: #fff; color: #333; padding: 20px; width: 100%; max-width: 500px; border: 8px solid #ddd; }
-        h1 { color: #d63031; font-size: 1.2em; border-bottom: 2px solid #d63031; padding-bottom: 10px; }
-    </style>
+:root {
+  --sky: #5BA4CF;
+  --sky-light: #9DC8E8;
+  --grass: #4CAF50;
+  --grass-dark: #388E3C;
+  --sun: #FFD600;
+  --sun-dark: #F9A825;
+  --white: #FFFFFF;
+  --ink: #1A1A2E;
+  --panel: #F0F8FF;
+  --border: #2C3E50;
+  --red: #E53935;
+  --pixel: 'DotGothic16', monospace;
+  --sans: 'Noto Sans JP', sans-serif;
+}
+
+body {
+  font-family: var(--pixel);
+  background: var(--sky);
+  color: var(--ink);
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background 0.5s;
+  image-rendering: pixelated;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━
+   PIXEL SKY BACKGROUND
+━━━━━━━━━━━━━━━━━━━ */
+.sky-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background:
+    linear-gradient(180deg,
+      #5BA4CF 0%,
+      #7EC8E3 40%,
+      #A8D8EA 60%,
+      #4CAF50 60%,
+      #388E3C 80%,
+      #2E7D32 100%
+    );
+  transition: all 1.5s ease;
+}
+
+/* 雲（CSSドット絵） */
+.cloud {
+  position: absolute;
+  background: var(--white);
+  border-radius: 0;
+  image-rendering: pixelated;
+  opacity: 0.9;
+  animation: cloudFloat linear infinite;
+}
+.cloud::before, .cloud::after {
+  content: '';
+  position: absolute;
+  background: var(--white);
+}
+.cloud-1 { width: 48px; height: 16px; top: 12%; left: -60px; animation-duration: 28s; animation-delay: 0s; }
+.cloud-1::before { width: 32px; height: 16px; top: -12px; left: 8px; }
+.cloud-1::after  { width: 16px; height: 12px; top: -8px; left: 24px; }
+.cloud-2 { width: 64px; height: 16px; top: 22%; left: -80px; animation-duration: 36s; animation-delay: -12s; }
+.cloud-2::before { width: 40px; height: 16px; top: -12px; left: 12px; }
+.cloud-2::after  { width: 20px; height: 12px; top: -8px; left: 32px; }
+.cloud-3 { width: 40px; height: 16px; top: 8%; left: -50px; animation-duration: 22s; animation-delay: -6s; }
+.cloud-3::before { width: 24px; height: 14px; top: -10px; left: 8px; }
+.cloud-3::after  { width: 14px; height: 10px; top: -6px; left: 20px; }
+
+@keyframes cloudFloat {
+  from { left: -100px; }
+  to   { left: 110vw; }
+}
+
+/* 太陽 */
+.sun {
+  position: absolute;
+  top: 6%;
+  right: 12%;
+  width: 40px;
+  height: 40px;
+  background: var(--sun);
+  border-radius: 50%;
+  box-shadow: 0 0 0 8px var(--sun-dark);
+  animation: sunPulse 3s ease-in-out infinite;
+  transition: opacity 1.5s;
+}
+@keyframes sunPulse { 0%,100%{box-shadow:0 0 0 6px var(--sun-dark)} 50%{box-shadow:0 0 0 10px var(--sun-dark)} }
+
+/* ━━━━━━━━━━━━━━━━━━━
+   WRAPPER
+━━━━━━━━━━━━━━━━━━━ */
+.wrapper {
+  position: relative;
+  z-index: 10;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 32px 16px 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━
+   TITLE LOGO
+━━━━━━━━━━━━━━━━━━━ */
+.game-title {
+  text-align: center;
+  padding: 4px 0 0;
+}
+.game-title-main {
+  font-size: 13px;
+  color: var(--white);
+  letter-spacing: 0.15em;
+  text-shadow: 2px 2px 0 #1565C0, -1px -1px 0 #1565C0;
+  margin-bottom: 6px;
+}
+.game-title-big {
+  font-size: 32px;
+  color: var(--sun);
+  text-shadow:
+    3px 3px 0 var(--sun-dark),
+    -2px -2px 0 #E65100,
+    5px 5px 0 rgba(0,0,0,0.3);
+  letter-spacing: 0.08em;
+  line-height: 1;
+  display: block;
+  animation: titleBounce 2s ease-in-out infinite;
+}
+@keyframes titleBounce {
+  0%,100%{ transform: translateY(0); }
+  50%{ transform: translateY(-4px); }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━
+   GAME BOY PANEL
+━━━━━━━━━━━━━━━━━━━ */
+.gb-panel {
+  width: 100%;
+  background: var(--panel);
+  border: 4px solid var(--border);
+  border-radius: 4px;
+  box-shadow:
+    6px 6px 0 var(--border),
+    inset 0 1px 0 rgba(255,255,255,0.8);
+  overflow: hidden;
+  transition: all 0.5s;
+}
+
+.gb-panel-header {
+  background: var(--border);
+  color: var(--white);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  padding: 5px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.gb-blink {
+  width: 8px; height: 8px;
+  background: var(--grass);
+  border-radius: 50%;
+  animation: blink 1s step-end infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+.gb-panel-body { padding: 20px 16px; }
+
+/* ━━━━━━━━━━━━━━━━━━━
+   DIALOG BOX（ゲームボーイ風テキスト枠）
+━━━━━━━━━━━━━━━━━━━ */
+.dialog {
+  width: 100%;
+  background: var(--white);
+  border: 3px solid var(--border);
+  padding: 14px 16px 18px;
+  position: relative;
+  font-size: 13px;
+  line-height: 1.9;
+  box-shadow: 3px 3px 0 var(--border);
+}
+.dialog::after {
+  content: '▼';
+  position: absolute;
+  bottom: 6px; right: 12px;
+  font-size: 12px;
+  animation: blink 0.8s step-end infinite;
+}
+.dialog strong { color: var(--red); }
+
+/* ━━━━━━━━━━━━━━━━━━━
+   公演情報カード
+━━━━━━━━━━━━━━━━━━━ */
+.info-card {
+  width: 100%;
+  background: var(--white);
+  border: 3px solid var(--border);
+  box-shadow: 3px 3px 0 var(--border);
+}
+.info-card-title {
+  background: var(--red);
+  color: var(--white);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  padding: 6px 14px;
+}
+.info-card-body { padding: 14px 16px; }
+.info-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-size: 12px;
+  margin-bottom: 10px;
+  line-height: 1.7;
+}
+.info-row:last-child { margin-bottom: 0; }
+.info-key {
+  flex-shrink: 0;
+  background: var(--border);
+  color: var(--white);
+  font-size: 10px;
+  padding: 2px 6px;
+  letter-spacing: 0.1em;
+  margin-top: 2px;
+}
+.info-val { color: var(--ink); }
+.info-val em {
+  font-style: normal;
+  color: #888;
+  font-size: 11px;
+  display: block;
+  margin-top: 2px;
+  letter-spacing: 0.2em;
+}
+
+/* 公演タイトル（詩） */
+.show-title {
+  width: 100%;
+  background: var(--ink);
+  color: var(--sun);
+  border: 3px solid var(--border);
+  padding: 16px;
+  font-size: 11px;
+  line-height: 2;
+  letter-spacing: 0.05em;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.4);
+  text-align: left;
+}
+.show-title-label {
+  font-size: 9px;
+  color: var(--sky-light);
+  letter-spacing: 0.3em;
+  margin-bottom: 8px;
+  display: block;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━
+   検索フォーム
+━━━━━━━━━━━━━━━━━━━ */
+.search-panel {
+  width: 100%;
+  background: var(--white);
+  border: 3px solid var(--border);
+  box-shadow: 3px 3px 0 var(--border);
+  overflow: hidden;
+}
+.search-panel-title {
+  background: var(--grass-dark);
+  color: var(--white);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  padding: 6px 14px;
+}
+.search-body { padding: 14px 16px; }
+.search-hint {
+  font-size: 11px;
+  color: #666;
+  margin-bottom: 12px;
+  line-height: 1.7;
+}
+.search-row {
+  display: flex;
+  border: 2px solid var(--border);
+}
+.search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-family: var(--pixel);
+  font-size: 14px;
+  padding: 10px 12px;
+  background: #F8F8F8;
+  color: var(--ink);
+  letter-spacing: 0.05em;
+}
+.search-input::placeholder { color: #bbb; font-size: 12px; }
+.search-btn {
+  background: var(--red);
+  color: var(--white);
+  border: none;
+  font-family: var(--pixel);
+  font-size: 12px;
+  padding: 10px 16px;
+  cursor: pointer;
+  letter-spacing: 0.1em;
+  transition: background 0.15s, transform 0.1s;
+  flex-shrink: 0;
+}
+.search-btn:hover { background: #C62828; }
+.search-btn:active { transform: translate(2px, 2px); }
+
+#search-result {
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--red);
+  min-height: 18px;
+  letter-spacing: 0.05em;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━
+   ARG キーワード入力フラッシュ演出
+━━━━━━━━━━━━━━━━━━━ */
+@keyframes glitchFlash {
+  0%   { filter: invert(0) hue-rotate(0deg); }
+  20%  { filter: invert(1) hue-rotate(180deg); }
+  40%  { filter: invert(0) hue-rotate(90deg); }
+  60%  { filter: invert(1) hue-rotate(270deg); }
+  80%  { filter: invert(0) hue-rotate(45deg); }
+  100% { filter: invert(0) hue-rotate(0deg); }
+}
+.glitch-transition {
+  animation: glitchFlash 0.5s steps(2) forwards;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━
+   フッター
+━━━━━━━━━━━━━━━━━━━ */
+.game-footer {
+  text-align: center;
+  font-size: 10px;
+  color: rgba(255,255,255,0.6);
+  letter-spacing: 0.2em;
+  padding-bottom: 20px;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━
+   モバイル対応
+━━━━━━━━━━━━━━━━━━━ */
+@media (max-width: 420px) {
+  .game-title-big { font-size: 26px; }
+  .wrapper { padding: 24px 12px 48px; }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━
+   ダーク遷移時のスカイBG変化
+   （JS で body に .dark クラスを付与）
+━━━━━━━━━━━━━━━━━━━ */
+body.going-dark .sky-bg {
+  background: linear-gradient(180deg, #050508 0%, #0D0520 40%, #1A0A2A 70%, #0A0A0A 100%);
+}
+body.going-dark .sun { opacity: 0; }
+body.going-dark .cloud { opacity: 0; }
+body.going-dark .game-title-big {
+  color: #B8B0CC;
+  text-shadow: 3px 3px 0 #3A1A5A, 0 0 20px #6B2D8B;
+  animation: none;
+}
+body.going-dark .dialog {
+  background: #0D0D1A;
+  border-color: #6B2D8B;
+  color: #C8C0D8;
+  box-shadow: 3px 3px 0 #4A0E6B, 0 0 15px rgba(107,45,139,0.4);
+}
+</style>
 </head>
 <body>
 
-    <div class="search-container">
-        <input type="text" id="keyword" placeholder="検索...">
-        <button onclick="checkKeyword()">OK</button>
+<!-- 背景 -->
+<div class="sky-bg">
+  <div class="sun"></div>
+  <div class="cloud cloud-1"></div>
+  <div class="cloud cloud-2"></div>
+  <div class="cloud cloud-3"></div>
+</div>
+
+<!-- メインコンテンツ -->
+<div class="wrapper">
+
+  <!-- タイトルロゴ -->
+  <div class="game-title">
+    <div class="game-title-main">OFFICIAL PERFORMANCE INFO</div>
+    <span class="game-title-big">ZAZIMON</span>
+  </div>
+
+  <!-- 公演タイトル（詩） -->
+  <div class="show-title">
+    <span class="show-title-label">// PERFORMANCE TITLE</span>
+    『ザわめきが宇宙の眼前でかさぶたを剥がした、白む朝、ジっと、本物になりそこねたものたちが、ズーっと終電の喉笛で待ちぼうけしている、高架下で星を溺れさせ、川の寝言を転がしながら、モう演じてもいないという顔で、ン、と最後のいびきと共に桜へ身を投げた、スれ違うあなたを私が増築して、ターンする橋のたもとに、生まれていく』
+  </div>
+
+  <!-- ダイアログ（説明） -->
+  <div class="dialog">
+    鑑賞者が巨大なオブジェクトと共に歩くことで、<strong>「注視（ツアー）」</strong>と<strong>「窃視（プロムナード）」</strong>のチャンネルを高速で切り替え続ける移動劇。キミも近代日本文学最大のフラヌール・<strong>江戸川乱歩</strong>の眼を持とう！事件はそこで起きている。
+  </div>
+
+  <!-- 公演情報 -->
+  <div class="info-card">
+    <div class="info-card-title">▶ PERFORMANCE INFO</div>
+    <div class="info-card-body">
+      <div class="info-row">
+        <span class="info-key">日程</span>
+        <span class="info-val">
+          2026年 9月12日・13日<br>
+          10月10日・11日・12日
+        </span>
+      </div>
+      <div class="info-row">
+        <span class="info-key">場所</span>
+        <span class="info-val">黄金町ロックカク ほか</span>
+      </div>
+      <div class="info-row">
+        <span class="info-key">出演</span>
+        <span class="info-val">ザジ・ズー</span>
+      </div>
+      <div class="info-row">
+        <span class="info-key">チケット</span>
+        <span class="info-val">
+          <em>COMING SOON</em>
+        </span>
+      </div>
     </div>
-    <div id="result" style="margin-bottom: 20px; color: yellow;"></div>
+  </div>
 
-    <div class="main-card">
-        <h1>『ザわめきが宇宙の眼前でかさぶたを剥がした、白む朝、ジっと、本物になりそこねたものたちが、ズーっと終電の喉笛で待ちぼうけしている、高架下で星を溺れさせ、川の寝言を転がしながら、モう演じてもいないという顔で、ン、と最後のいびきと共に桜へ身を投げた、スれ違うあなたを私が増築して、ターンする橋のたもとに、生まれていく』</h1>
-        <div class="event-info">
-            <p><strong>公演日：</strong>9/12-13, 10/11-13</p>
-            <p><strong>場所：</strong>黄金町ロックカクほか</p>
-            <p>鑑賞者が巨大なオブジェクトと共に歩くことで、<strong>「注視（ツアー）」</strong>と<strong>「窃視（プロムナード）」</strong>のチャンネルを高速で切り替え続ける移動劇。キミも近代日本文学最大のフラヌール・<strong>江戸川乱歩</strong>の眼を持とう！事件はそこで起きている。
-</p>
-        </div>
-        <p><em>「コガネタウンで僕を見つけて」</em></p>
+  <!-- 検索フォーム -->
+  <div class="search-panel" id="search-panel">
+    <div class="search-panel-title">▶ SEARCH / キーワード検索</div>
+    <div class="search-body">
+      <div class="search-hint">
+        「コガネタウンで僕を見つけて」
+      </div>
+      <div class="search-row">
+        <input
+          class="search-input"
+          id="keyword"
+          type="text"
+          placeholder="キーワードを入力…"
+          onkeydown="if(event.key==='Enter') checkKeyword()"
+          autocomplete="off"
+        >
+        <button class="search-btn" onclick="checkKeyword()">けってい！</button>
+      </div>
+      <div id="search-result"></div>
     </div>
+  </div>
 
-    <script>
-        function checkKeyword() {
-            const val = document.getElementById('keyword').value.trim();
-            const pages = {
-                "ザジモン": "zazimon-article.html",
-                "ザジ山ザジ蔵": "zazizokura-mail.html",
-                "うんち": "unchi-news.html",
-                "ザジボール": "zaziball-note.html"
-            };
+  <div class="game-footer">
+    © ZAZIZOO 2026 &nbsp;|&nbsp; 黄金町ARGプロジェクト
+  </div>
 
-            if (pages[val]) {
-                window.location.href = pages[val];
-            } else {
-                document.getElementById('result').innerText = "＞ " + val + " はみつからない！";
-            }
-        }
-    </script>
+</div><!-- /wrapper -->
+
+<script>
+// ━━━━━━━━━━━━━━━━━━━━━━━━━
+//  ★ キーワードとリンク先の対応 ★
+//  （ここを書き換えるだけでOK）
+// ━━━━━━━━━━━━━━━━━━━━━━━━━
+var PAGES = {
+  'ザジモン':       'zazimon-article.html',
+  'ザジ山ザジ蔵':   'zazizokura-mail.html',
+  'うんち':         'unchi-news.html',
+  'ザジボール':     'zaziball-note.html',
+};
+
+// ARGキーワード（これらは遷移前にダーク演出が入る）
+var DARK_KEYWORDS = ['ザジ山ザジ蔵', 'うんち'];
+
+function checkKeyword() {
+  var val = document.getElementById('keyword').value.trim();
+  var result = document.getElementById('search-result');
+
+  if (!val) {
+    result.textContent = '＞ キーワードを　いれてね';
+    return;
+  }
+
+  var dest = PAGES[val];
+
+  if (dest) {
+    result.textContent = '＞ ' + val + ' …みつけた！';
+
+    // ダーク系キーワードは演出してから遷移
+    if (DARK_KEYWORDS.indexOf(val) !== -1) {
+      document.body.classList.add('going-dark');
+      document.body.classList.add('glitch-transition');
+      setTimeout(function() {
+        window.location.href = dest;
+      }, 700);
+    } else {
+      setTimeout(function() {
+        window.location.href = dest;
+      }, 300);
+    }
+  } else {
+    result.textContent = '＞ 「' + val + '」は　みつからない！';
+    // 少し揺らす
+    var panel = document.getElementById('search-panel');
+    panel.style.transform = 'translateX(-4px)';
+    setTimeout(function(){ panel.style.transform = 'translateX(4px)'; }, 80);
+    setTimeout(function(){ panel.style.transform = 'translateX(-2px)'; }, 160);
+    setTimeout(function(){ panel.style.transform = ''; }, 240);
+  }
+}
+</script>
+
 </body>
 </html>
