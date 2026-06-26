@@ -1,6 +1,59 @@
-            const links = {
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ザジ・ズー - 黄金町の夢の入り口</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru&family=Zen+Maru+Gothic:wght@300;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            background: #fff5f5; /* 淡いピンクの背景 */
+            color: #555; 
+            font-family: 'Zen Maru Gothic', sans-serif; 
+            line-height: 1.8; 
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .container { max-width: 500px; margin: 0 auto; background: white; padding: 40px; border-radius: 30px; box-shadow: 10px 10px 0px #ffdada; border: 2px solid #ffc0cb; }
+        h1 { font-family: 'Kiwi Maru', serif; color: #ff6b9d; font-size: 1.5em; }
+        .search-box { margin-top: 30px; padding: 20px; border: 2px dashed #ffc0cb; border-radius: 15px; }
+        input { padding: 10px; width: 60%; border: 1px solid #ddd; border-radius: 10px; }
+        button { padding: 10px 20px; background: #ff6b9d; color: white; border: none; border-radius: 10px; cursor: pointer; }
+        footer { margin-top: 40px; font-size: 0.8em; color: #aaa; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ザわめきが宇宙の…<br>縮めてザジモン！</h1>
+        <p>「コガネタウンで僕と握手。」</p>
+        
+        <div class="search-box">
+            <p>記憶の断片を検索：</p>
+            <input type="text" id="keyword" placeholder="キーワードを入力...">
+            <button onclick="checkKeyword()">探す</button>
+            <p id="result"></p>
+        </div>
+    </div>
+
+    <script>
+        function checkKeyword() {
+            const val = document.getElementById('keyword').value;
+            const res = document.getElementById('result');
+            
+            // キーワード辞書（ここにどんどん追加！）
+            const links = { 
                 "ザジモン": "zazimon-article.html",
                 "ザジ山ザジ蔵": "zazizokura-mail.html",
                 "うんち": "unchi-news.html",
                 "ザジボール": "zaziball-note.html"
-            };
+           };
+
+            if (links[val]) {
+                res.innerHTML = `<br><a href="${links[val]}" style="color:#ff6b9d;">見つけた：${val} のページへ</a>`;
+            } else {
+                res.innerHTML = "<br>なにも見つからない……。";
+            }
+        }
+    </script>
+</body>
+</html>
