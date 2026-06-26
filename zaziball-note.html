@@ -7,33 +7,30 @@
         body { background: #fdfdfd; color: #333; font-family: sans-serif; padding: 40px; line-height: 1.6; }
         .container { max-width: 600px; margin: 0 auto; }
         
-        /* 写真を配置するエリア */
+        /* 画像エリア：画像がないときはグレーの枠になる */
         .photo-area { 
             width: 100%; 
-            height: 300px; 
+            min-height: 300px; 
             background: #eee; 
             border: 2px solid #ddd; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
             margin-bottom: 30px;
-            color: #999;
+            overflow: hidden;
         }
         
-        /* 写真を実際に表示する時はここを使う */
-        .photo-area img { max-width: 100%; height: auto; }
+        .photo-area img { max-width: 100%; height: auto; display: block; }
         
         h3 { border-bottom: 2px solid #333; padding-bottom: 5px; }
-        a { color: #d63031; text-decoration: none; }
+        a { color: #d63031; text-decoration: none; display: block; margin-top: 20px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- ここに写真を表示 -->
     <div class="photo-area">
         <img src="zaziball.png" alt="ザジボールのイメージ">
-        PHOTO_PLACEHOLDER
     </div>
 
     <h3>開発メモ No.14「ザジボールについて」</h3>
