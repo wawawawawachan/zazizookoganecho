@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>開発中止のおしらせ | ZAZIMON</title>
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--sky:#5BA4CF;--grass:#4CAF50;--grass-dark:#388E3C;--sun:#FFD600;--sun-dark:#F9A825;--red:#E53935;--ink:#1A1A2E;--border:#2C3E50;--pixel:'DotGothic16',monospace;--sans:'Noto Sans JP',sans-serif;}
+body{font-family:var(--sans);background:var(--sky);color:var(--ink);min-height:100vh;overflow-x:hidden;}
+.sky-bg{position:fixed;inset:0;z-index:0;background:linear-gradient(180deg,#5BA4CF 0%,#7EC8E3 40%,#A8D8EA 58%,#4CAF50 58%,#388E3C 78%,#2E7D32 100%);}
+.cloud{position:absolute;background:#fff;opacity:0.9;animation:cloudFloat linear infinite;}
+.cloud::before,.cloud::after{content:'';position:absolute;background:#fff;}
+.cloud-1{width:48px;height:16px;top:10%;left:-60px;animation-duration:28s;}
+.cloud-1::before{width:32px;height:16px;top:-12px;left:8px;}
+.cloud-1::after{width:16px;height:12px;top:-8px;left:24px;}
+@keyframes cloudFloat{from{left:-100px}to{left:110vw}}
+.sun-el{position:absolute;top:6%;right:12%;width:40px;height:40px;background:var(--sun);border-radius:50%;box-shadow:0 0 0 8px var(--sun-dark);}
+.nav{position:sticky;top:0;z-index:200;background:var(--ink);border-bottom:3px solid var(--grass-dark);}
+.nav-inner{max-width:560px;margin:0 auto;display:flex;align-items:center;padding:0 12px;}
+.nav-logo{font-family:var(--pixel);font-size:14px;color:var(--sun);padding:10px 12px 10px 0;border-right:2px solid #333;margin-right:4px;text-decoration:none;white-space:nowrap;text-shadow:1px 1px 0 #000;}
+.nav-links{display:flex;overflow-x:auto;}
+.nav-links a{font-family:var(--pixel);font-size:11px;color:#aaa;text-decoration:none;padding:10px 12px;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-3px;transition:color 0.15s,border-color 0.15s;}
+.nav-links a:hover{color:#fff;border-bottom-color:var(--grass);}
+.wrapper{position:relative;z-index:10;max-width:560px;margin:0 auto;padding:28px 16px 64px;display:flex;flex-direction:column;gap:16px;}
+
+/* おしらせ文書スタイル */
+.notice-card{background:#fff;border:4px solid var(--border);box-shadow:6px 6px 0 var(--border);overflow:hidden;}
+.notice-card-head{background:var(--red);color:#fff;font-family:var(--pixel);font-size:10px;letter-spacing:0.3em;padding:6px 14px;display:flex;justify-content:space-between;}
+.notice-body{padding:24px 20px;}
+.notice-date{font-family:var(--pixel);font-size:11px;color:#888;letter-spacing:0.2em;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid #eee;}
+.notice-title{font-family:var(--pixel);font-size:18px;color:var(--red);line-height:1.5;margin-bottom:20px;padding:12px;border:3px solid var(--red);background:#fff5f5;text-align:center;}
+.notice-text{font-size:14px;line-height:2.2;color:#333;}
+.notice-text p{margin-bottom:14px;}
+.notice-text strong{color:var(--ink);}
+.notice-sign{margin-top:24px;padding-top:16px;border-top:2px solid #eee;font-family:var(--pixel);font-size:12px;color:#555;text-align:right;line-height:1.8;}
+
+/* 重要ボックス */
+.important-box{background:#fff5f5;border:3px solid var(--red);padding:14px 16px;margin:16px 0;font-family:var(--pixel);font-size:12px;line-height:1.8;}
+.important-box-label{color:var(--red);font-size:10px;letter-spacing:0.2em;margin-bottom:6px;display:block;}
+
+.back-row{display:flex;gap:10px;}
+.back-btn{display:block;font-family:var(--pixel);font-size:12px;background:var(--ink);color:var(--sun);border:3px solid var(--ink);padding:11px 16px;text-decoration:none;text-align:center;box-shadow:4px 4px 0 var(--grass-dark);transition:transform 0.1s;flex:1;}
+.back-btn:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--grass-dark);}
+.back-btn.news{background:var(--border);}
+.game-footer{text-align:center;font-family:var(--pixel);font-size:10px;color:rgba(255,255,255,0.6);letter-spacing:0.2em;}
+</style>
+</head>
+<body>
+<div class="sky-bg"><div class="sun-el"></div><div class="cloud cloud-1"></div></div>
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">☆ ZAZIMON</a>
+    <div class="nav-links">
+      <a href="index.html">TOP</a>
+      <a href="news.html">NEWS</a>
+      <a href="about.html">あらすじ</a>
+      <a href="ticket.html">チケット</a>
+    </div>
+  </div>
+</nav>
+<div class="wrapper">
+
+  <div class="notice-card">
+    <div class="notice-card-head">
+      <span>▶ IMPORTANT NOTICE</span>
+      <span style="color:#ffaaaa;">⚠ 重要</span>
+    </div>
+    <div class="notice-body">
+      <div class="notice-date">2025年9月30日　発表</div>
+      <div class="notice-title">ザジモン開発中止のおしらせ</div>
+
+      <div class="notice-text">
+        <p>平素よりザジモンプロジェクトを応援いただき、誠にありがとうございます。</p>
+        <p>このたび、<strong>「ザジモン」の開発を一時中止</strong>することをお知らせいたします。</p>
+        <p>開発チームより、以下のメッセージが届いています。</p>
+      </div>
+
+      <div class="important-box">
+        <span class="important-box-label">// DEVELOPER MESSAGE</span>
+        バグが消せません。<br>
+        このバグを消すということは、<br>
+        この街に残っている記憶ごと消してしまうことになる。<br>
+        だから、いったん止めます。<br>
+        — 開発担当　ザジ山ザジ蔵
+      </div>
+
+      <div class="notice-text">
+        <p>詳細については、続報をお待ちください。</p>
+        <p>なお、<strong>公演自体は予定通り実施</strong>する方向で調整中です。</p>
+      </div>
+
+      <div class="notice-sign">
+        ザジモンプロジェクト 広報担当<br>
+        2025.09.30
+      </div>
+    </div>
+  </div>
+
+  <div class="back-row">
+    <a class="back-btn news" href="news.html">← NEWS一覧</a>
+    <a class="back-btn" href="index.html">← TOP</a>
+  </div>
+  <div class="game-footer">© ZAZIZOO 2026 | 黄金町ARGプロジェクト</div>
+</div>
+</body>
+</html>
+EOF
