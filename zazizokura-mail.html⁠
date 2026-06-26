@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>メールの記録</title></head>
+<body style="background:#000; color:#0f0; padding:20px; font-family:monospace;">
+    <h3>件名：Re: バグについて</h3>
+    <p>送信者：ザジ山ザジ蔵</p>
+    <p>やっぱり、このバグは僕には消せません。<br>これを消すということは、この街に残っている記憶ごと消してしまうことになる。</p>
+    <p>（……以下、メール内容を貼り付け）</p>
+    <a href="index.html" style="color:#0f0;">戻る</a>
+</body>
+</html>
