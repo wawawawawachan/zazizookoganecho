@@ -1,96 +1,224 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <title>ハイチケ宣伝部：ザジ・ズー特集</title>
-    <style>
-        body { background: #f0e6d2; color: #333; font-family: 'Times New Roman', serif; padding: 40px; line-height: 1.8; }
-        .paper { background: #fff; padding: 40px; border: 1px solid #ccc; box-shadow: 5px 5px 15px rgba(0,0,0,0.1); max-width: 700px; margin: 0 auto; }
-        h1 { border-bottom: 2px solid #333; padding-bottom: 10px; font-size: 1.5em; }
-        h2 { font-size: 1.2em; margin-top: 30px; }
-        .divider { text-align: center; margin: 30px 0; font-weight: bold; }
-        a { display: block; margin-top: 40px; color: #555; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ハイチケ宣伝部：ザジ・ズー特集</title>
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --sky:#5BA4CF;--grass:#4CAF50;--grass-dark:#388E3C;
+  --sun:#FFD600;--red:#E53935;--ink:#1A1A2E;
+  --panel:#F0F8FF;--border:#2C3E50;
+  --pixel:'DotGothic16',monospace;--sans:'Noto Sans JP',sans-serif;
+}
+body{
+  font-family:var(--sans);
+  background:linear-gradient(180deg,#7EC8E3 0%,#B8E4F7 35%,#4CAF50 35%,#388E3C 65%,#2E7D32 100%);
+  min-height:100vh;
+  padding:24px 16px 48px;
+}
+.wrapper{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:16px;}
+
+/* ヘッダー */
+.page-header{
+  background:var(--ink);
+  color:#fff;
+  padding:8px 16px;
+  font-family:var(--pixel);
+  font-size:10px;
+  letter-spacing:0.3em;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.header-dot{width:8px;height:8px;background:var(--sun);border-radius:50%;animation:blink 1s step-end infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* 雑誌ロゴ */
+.mag-logo{
+  background:var(--red);
+  color:#fff;
+  font-family:var(--pixel);
+  font-size:22px;
+  padding:12px 20px;
+  border:4px solid var(--ink);
+  box-shadow:5px 5px 0 var(--ink);
+  text-align:center;
+  letter-spacing:0.1em;
+}
+.mag-logo-sub{font-size:10px;letter-spacing:0.3em;display:block;margin-top:4px;opacity:0.8;}
+
+/* 記事本文 */
+.article-card{
+  background:var(--panel);
+  border:4px solid var(--ink);
+  box-shadow:5px 5px 0 var(--ink);
+  overflow:hidden;
+}
+.article-eyebrow{
+  background:var(--grass-dark);
+  color:#fff;
+  font-family:var(--pixel);
+  font-size:10px;
+  letter-spacing:0.25em;
+  padding:6px 16px;
+}
+.article-title{
+  font-family:var(--pixel);
+  font-size:16px;
+  line-height:1.6;
+  padding:16px;
+  border-bottom:3px solid var(--border);
+  color:var(--ink);
+}
+.article-body{
+  padding:16px;
+  font-size:13px;
+  line-height:2;
+  color:#333;
+}
+.article-body p{margin-bottom:14px;}
+.article-body strong{color:var(--red);}
+
+/* 区切り線 */
+.divider{
+  font-family:var(--pixel);
+  text-align:center;
+  color:var(--grass-dark);
+  font-size:12px;
+  letter-spacing:0.5em;
+  margin:8px 0;
+}
+
+/* 発言者ブロック */
+.speaker{
+  font-family:var(--pixel);
+  font-size:11px;
+  background:var(--ink);
+  color:var(--sun);
+  padding:4px 10px;
+  display:inline-block;
+  margin-bottom:6px;
+  letter-spacing:0.1em;
+}
+
+/* スクープボックス */
+.scoop-box{
+  background:#fff;
+  border:3px solid var(--ink);
+  padding:14px 16px;
+  margin:16px 0;
+  box-shadow:3px 3px 0 var(--grass);
+}
+.scoop-box-label{
+  font-family:var(--pixel);
+  font-size:10px;
+  color:var(--red);
+  letter-spacing:0.3em;
+  margin-bottom:8px;
+}
+.member-list{font-size:13px;line-height:2;}
+.mystery{
+  background:var(--sun);
+  color:var(--ink);
+  font-family:var(--pixel);
+  font-size:14px;
+  padding:12px 16px;
+  margin-top:10px;
+  border:2px solid var(--ink);
+  line-height:1.8;
+}
+
+/* 戻るボタン */
+.back-btn{
+  display:block;
+  font-family:var(--pixel);
+  font-size:13px;
+  background:var(--ink);
+  color:var(--sun);
+  border:3px solid var(--ink);
+  padding:12px 20px;
+  text-decoration:none;
+  text-align:center;
+  box-shadow:4px 4px 0 var(--grass-dark);
+  transition:transform 0.1s;
+}
+.back-btn:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--grass-dark);}
+</style>
 </head>
 <body>
+<div class="wrapper">
 
-<div class="paper">
-    <p>公開日：2025年6月25日</p>
-    <h1>ハイチケ宣伝部「若手演劇集団ザジ・ズーがゲーム開発中！最新情報に迫る」</h1>
+  <div class="page-header">
+    <span>HAITIKE PRESS // SPECIAL FEATURE</span>
+    <span class="header-dot"></span>
+  </div>
 
-    <p>「演劇を観る」だけでは終わらない。<br>
-    近年、街歩きや展示、参加型企画など、ジャンルを横断した作品づくりを続ける演劇集団ザジ・ズーが、今度は<strong>オリジナルゲーム『ザジモン』</strong>を開発しているという情報をキャッチしました。</p>
+  <div class="mag-logo">
+    ハイチケ宣伝部
+    <span class="mag-logo-sub">YOUNG THEATRE MAGAZINE</span>
+  </div>
 
-    <p>果たして『ザジモン』とはどんなゲームなのでしょうか。代表の木村友哉さんにお話を伺いました。</p>
+  <div class="article-card">
+    <div class="article-eyebrow">▶ SPECIAL INTERVIEW — 2025.06.25</div>
+    <div class="article-title">
+      若手演劇集団ザジ・ズーが<br>ゲーム開発中！最新情報に迫る
+    </div>
+    <div class="article-body">
+      <p>「演劇を観る」だけでは終わらない。街歩きや展示、参加型企画など、ジャンルを横断した作品づくりを続ける演劇集団ザジ・ズーが、今度は<strong>オリジナルゲーム『ザジモン』</strong>を開発しているという情報をキャッチしました。</p>
 
-    <div class="divider">⸻</div>
+      <div class="divider">★ ⸻ ★ ⸻ ★</div>
 
-    <h2>「街そのものがゲームになる」</h2>
-    <p>——まず、『ザジモン』とはどんな作品なのでしょうか？</p>
-    <p><strong>木村友哉：</strong><br>
-    「まだ詳しくは話せないんですけど（笑）、“街を歩くこと”そのものがゲームになるような作品を考えています。演劇って劇場の中だけじゃなくて、人に会ったり、偶然何かを見つけたりする時間も含めて体験だと思うんです。その感覚をゲームにできないかなって。」</p>
+      <p><span class="speaker">── まず、『ザジモン』とはどんな作品ですか？</span></p>
+      <p><span class="speaker">木村友哉：</span>まだ詳しくは話せないんですけど（笑）、"街を歩くこと"そのものがゲームになるような作品を考えています。演劇って劇場の中だけじゃなくて、人に会ったり、偶然何かを見つけたりする時間も含めて体験だと思うんです。その感覚をゲームにできないかなって。</p>
 
-    <p>——ゲームと演劇を組み合わせる？</p>
-    <p><strong>木村：</strong><br>
-    「そうですね。ゲームでもあり、演劇でもあり、展示でもある。ザジ・ズーがこれまでやってきたことを全部混ぜ込んだ作品にしたいです。」</p>
+      <div class="divider">★ ⸻ ★ ⸻ ★</div>
 
-    <div class="divider">⸻</div>
+      <p><span class="speaker">── ゲームと演劇を組み合わせる？</span></p>
+      <p><span class="speaker">木村：</span>そうですね。ゲームでもあり、演劇でもあり、展示でもある。ザジ・ズーがこれまでやってきたことを全部混ぜ込んだ作品にしたいです。</p>
 
-    <h2>黄金町バザールへの参加も</h2>
-    <p>今年、ザジ・ズーは黄金町バザールへの参加も予定しています。<br>
-    街を舞台にした企画を準備しているとのことで、『ザジモン』もその世界観とつながっているようです。</p>
-    <p><strong>木村：</strong><br>
-    「黄金町って歩いているだけで物語が転がっている街なんですよね。だから、お客さんにも実際に歩いてもらって、その中でゲームや演劇が自然に始まるようなことができたら面白いなと思っています。」</p>
+      <div class="divider">★ ⸻ ★ ⸻ ★</div>
 
-    <div class="divider">⸻</div>
+      <p>今年、ザジ・ズーは<strong>黄金町バザール</strong>への参加も予定しています。</p>
+      <p><span class="speaker">木村：</span>黄金町って歩いているだけで物語が転がっている街なんですよね。お客さんにも実際に歩いてもらって、その中でゲームや演劇が自然に始まるようなことができたら面白いなと思っています。</p>
 
-    <h2>「全部を横断する作品」</h2>
-    <p>——かなり大きな企画になりそうですね。</p>
-    <p><strong>木村：</strong><br>
-    「俺たちって、本当にやりたいことが多いんですよ（笑）。演劇もやりたいし、ゲームも作りたいし、展示も好きだし、街で何か起こすのも好き。それがザジ・ズーのいいところでもあるし、弱点でもある。<br>
-    だから、その全部を横断して、一つにまとめる作品が<strong>『ザジモン』</strong>になると思っています。」</p>
+      <div class="divider">★ ⸻ ★ ⸻ ★</div>
 
-    <div class="divider">⸻</div>
+      <p><span class="speaker">木村：</span>俺たちって、本当にやりたいことが多いんですよ（笑）。演劇もやりたいし、ゲームも作りたいし、展示も好きだし、街で何か起こすのも好き。その全部を横断して、一つにまとめる作品が<strong>『ザジモン』</strong>になると思っています。</p>
 
-    <h2>開発チームには謎の人物も？</h2>
-    <p>今回特別に、開発メンバーの一覧も見せていただきました。</p>
-    <ul>
-        <li>企画・演出：木村友哉</li>
-        <li>世界観監修：ザジ・ズー</li>
-        <li>ゲーム開発：ザジ山ザジ蔵</li>
-    </ul>
+      <div class="divider">★ ⸻ ★ ⸻ ★</div>
 
-    <p>……あれ？<br>
-    ザジ山ザジ蔵さんとは、どんな方なのでしょうか。</p>
+      <div class="scoop-box">
+        <div class="scoop-box-label">▶ SCOOP：開発メンバー一覧</div>
+        <div class="member-list">
+          企画・演出：木村友哉<br>
+          世界観監修：ザジ・ズー<br>
+          ゲーム開発：<strong>ザジ山ザジ蔵</strong>
+        </div>
+      </div>
 
-    <p><strong>木村：</strong><br>
-    「昔からいるメンバーですよ（笑）。」</p>
+      <p>……あれ？ <strong>ザジ山ザジ蔵</strong>さんとは、どんな方なのでしょうか。</p>
+      <p><span class="speaker">木村：</span>昔からいるメンバーですよ（笑）。</p>
+      <p>そう言って笑うだけで、それ以上は教えてくれませんでした。公式サイトを確認すると、確かにメンバー紹介には名前があります。</p>
 
-    <p>そう言って笑うだけで、それ以上は教えてくれませんでした。<br>
-    ザジ・ズーの公式サイトを確認すると、確かにメンバー紹介には名前があります。</p>
+      <div class="mystery">
+        ザジ山ザジ蔵<br>
+        2000年生まれ。<br>
+        「コガネタウンで僕を見つけて。」
+      </div>
 
-    <div class="divider">⸻</div>
+      <p style="margin-top:14px;">プロフィールは、それだけ。写真も経歴も掲載されていません。</p>
 
-    <p><strong>ザジ山ザジ蔵</strong><br>
-    2000年生まれ。<br>
-    「コガネタウンで僕を見つけて。」</p>
+      <div class="divider">★ ⸻ ★ ⸻ ★</div>
 
-    <div class="divider">⸻</div>
+      <p>取材中、木村さんがふとこんなことを口にしていました。<br>
+      「完成したら、たぶんゲームじゃなくなるんですよ。」<br>
+      その言葉の意味は、最後まで聞くことができませんでした。</p>
+    </div>
+  </div>
 
-    <p>プロフィールは、それだけ。<br>
-    写真も経歴も掲載されていません。<br>
-    ゲームクリエイターだという彼は、一体何者なのでしょうか。<br>
-    『ザジモン』の続報を楽しみに待ちたいと思います。</p>
+  <a class="back-btn" href="index.html">← トップに戻る</a>
 
-    <div class="divider">⸻</div>
-
-    <h3>編集後記</h3>
-    <p>取材中、木村さんがふとこんなことを口にしていました。<br>
-    「完成したら、たぶんゲームじゃなくなるんですよ。」<br>
-    その言葉の意味は、最後まで聞くことができませんでした。</p>
-
-    <a href="index.html">← トップに戻る</a>
 </div>
-
 </body>
 </html>
