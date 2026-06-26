@@ -1,71 +1,261 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <title>SYSTEM_ACCESS_LOG</title>
-    <style>
-        body { 
-            background: #000; 
-            color: #0f0; 
-            font-family: 'Courier New', Courier, monospace; 
-            padding: 40px; 
-            line-height: 1.5;
-            font-size: 1.1em;
-        }
-        .container { max-width: 600px; margin: 0 auto; border: 1px solid #0f0; padding: 30px; }
-        h3 { border-bottom: 1px solid #0f0; padding-bottom: 10px; color: #fff; }
-        .divider { color: #0f0; margin: 20px 0; }
-        .sender { color: #0a0; font-weight: bold; margin-top: 20px; }
-        a { color: #0f0; display: block; margin-top: 40px; text-decoration: none; }
-        a:hover { background: #0f0; color: #000; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SYSTEM_ACCESS_LOG</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{
+  background:#000;
+  color:#00FF41;
+  font-family:'Share Tech Mono','Courier New',monospace;
+  min-height:100vh;
+  padding:0;
+  overflow-x:hidden;
+}
+
+/* スキャンライン */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.12) 2px,rgba(0,0,0,0.12) 4px);
+  pointer-events:none;z-index:9999;
+}
+
+/* フリッカー */
+@keyframes flicker{0%,95%,100%{opacity:1}96%{opacity:0.8}97%{opacity:1}98%{opacity:0.85}}
+body{animation:flicker 7s infinite;}
+
+/* ターミナルウィンドウ */
+.terminal{
+  max-width:600px;
+  margin:0 auto;
+  min-height:100vh;
+  padding:0;
+}
+
+/* ターミナルヘッダーバー */
+.term-bar{
+  background:#001100;
+  border-bottom:1px solid #00FF41;
+  padding:8px 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  font-size:11px;
+  letter-spacing:0.2em;
+  position:sticky;top:0;z-index:100;
+}
+.term-dots{display:flex;gap:6px;}
+.term-dot{width:10px;height:10px;border-radius:50%;}
+.dot-r{background:#FF3B3B;}
+.dot-y{background:#FFD600;}
+.dot-g{background:#00FF41;}
+.term-title{color:#00CC33;font-size:11px;}
+
+/* メインコンテンツ */
+.term-body{padding:24px 20px 48px;}
+
+/* システムログ行 */
+.sys-line{
+  font-size:12px;
+  color:#005500;
+  margin-bottom:4px;
+  letter-spacing:0.05em;
+}
+.sys-line::before{content:'> ';}
+
+/* メールヘッダー */
+.mail-header{
+  border:1px solid #00FF41;
+  padding:12px 16px;
+  margin:20px 0;
+  background:#001A00;
+  font-size:12px;
+  line-height:1.9;
+}
+.mail-key{color:#00CC33;}
+.mail-val{color:#00FF41;}
+
+/* メッセージブロック */
+.msg-block{
+  margin:0 0 4px;
+  border-left:3px solid #003300;
+  padding:0;
+}
+.msg-block.active{border-left-color:#00FF41;}
+
+.msg-sender{
+  background:#001100;
+  border:1px solid #003300;
+  border-bottom:none;
+  padding:6px 14px;
+  font-size:11px;
+  letter-spacing:0.2em;
+  color:#00CC33;
+}
+.msg-sender.highlight{background:#002200;border-color:#00FF41;color:#00FF41;}
+
+.msg-body{
+  background:#000;
+  border:1px solid #003300;
+  padding:14px 16px;
+  font-size:14px;
+  line-height:2;
+  color:#00FF41;
+}
+.msg-block.active .msg-body{border-color:#00FF41;}
+
+/* キーワード強調 */
+.kw{
+  background:#00FF41;
+  color:#000;
+  padding:1px 6px;
+  font-weight:bold;
+}
+
+/* 区切り */
+.divider{
+  color:#003300;
+  font-size:11px;
+  letter-spacing:0.3em;
+  text-align:center;
+  padding:8px 0;
+}
+
+/* カーソル */
+.cursor{
+  display:inline-block;
+  width:10px;height:16px;
+  background:#00FF41;
+  animation:blink 0.7s step-end infinite;
+  vertical-align:bottom;
+  margin-left:2px;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* 戻るリンク */
+.back-link{
+  display:block;
+  margin-top:32px;
+  color:#00FF41;
+  text-decoration:none;
+  font-size:13px;
+  letter-spacing:0.2em;
+  border:1px solid #00FF41;
+  padding:10px 16px;
+  text-align:center;
+  transition:background 0.15s,color 0.15s;
+}
+.back-link:hover{background:#00FF41;color:#000;}
+</style>
 </head>
 <body>
+<div class="terminal">
 
-<div class="container">
-    <h3>件名：Re: バグについて</h3>
-    
-    <p class="sender">送信者：ザジ山ザジ蔵</p>
-    <p>やっぱり、このバグは僕には消せません。<br>
-    これを消すということは、<br>
-    この街に残っている記憶ごと消してしまうことになる。<br>
-    だから、ごめん。</p>
+  <div class="term-bar">
+    <div class="term-dots">
+      <div class="term-dot dot-r"></div>
+      <div class="term-dot dot-y"></div>
+      <div class="term-dot dot-g"></div>
+    </div>
+    <div class="term-title">SYSTEM_ACCESS_LOG — SESSION #0077</div>
+    <div style="font-size:10px;color:#005500;" id="clock">--:--:--</div>
+  </div>
+
+  <div class="term-body">
+
+    <div class="sys-line">LOADING ENCRYPTED MAIL ARCHIVE...</div>
+    <div class="sys-line">DECRYPTION KEY: ACCEPTED</div>
+    <div class="sys-line">WARNING: FILE INTEGRITY COMPROMISED</div>
+    <div class="sys-line">DISPLAYING RECOVERED DATA...<span class="cursor"></span></div>
+
+    <div class="mail-header">
+      <div><span class="mail-key">件名：</span><span class="mail-val">Re: バグについて</span></div>
+      <div><span class="mail-key">日付：</span><span class="mail-val">20XX.09.?? &nbsp;??:??:??</span></div>
+      <div><span class="mail-key">状態：</span><span class="mail-val" style="color:#FF3B3B;">CORRUPTED — PARTIAL RECOVERY</span></div>
+    </div>
+
+    <div class="divider">━━━━ RECOVERED MESSAGES ━━━━</div>
+
+    <div class="msg-block">
+      <div class="msg-sender">送信者：ザジ山ザジ蔵</div>
+      <div class="msg-body">
+        やっぱり、このバグは僕には消せません。<br>
+        これを消すということは、<br>
+        この街に残っている記憶ごと消してしまうことになる。<br>
+        だから、ごめん。
+      </div>
+    </div>
 
     <div class="divider">⸻</div>
 
-    <p class="sender">送信者：木村友哉</p>
-    <p>……ダメだ。<br>
-    消してくれ。<br>
-    じゃないと、お前が──</p>
+    <div class="msg-block active">
+      <div class="msg-sender highlight">送信者：木村友哉</div>
+      <div class="msg-body">
+        ……ダメだ。<br>
+        消してくれ。<br>
+        じゃないと、お前が──
+      </div>
+    </div>
 
     <div class="divider">⸻</div>
 
-    <p class="sender">送信者：ザジ山ザジ蔵</p>
-    <p>ゆうや。<br>
-    心配してくれてありがとう。<br>
-    でも、これを始めたのは僕なんだ。<br>
-    最後まで僕がやる。<br>
-    それに、万が一何かあっても大丈夫。<br>
-    だって、ザジ・ズーだもん。</p>
+    <div class="msg-block">
+      <div class="msg-sender">送信者：ザジ山ザジ蔵</div>
+      <div class="msg-body">
+        ゆうや。<br>
+        心配してくれてありがとう。<br>
+        でも、これを始めたのは僕なんだ。<br>
+        最後まで僕がやる。<br>
+        それに、万が一何かあっても大丈夫。<br>
+        だって、ザジ・ズーだもん。
+      </div>
+    </div>
 
     <div class="divider">⸻</div>
 
-    <p class="sender">送信者：木村友哉</p>
-    <p>……。<br>
-    約束しろ。<br>
-    もし本当に何かあったら、<br>
-    必ずみんなで迎えに行く。<br>
-    どれだけ時間がかかっても。</p>
+    <div class="msg-block active">
+      <div class="msg-sender highlight">送信者：木村友哉</div>
+      <div class="msg-body">
+        ……。<br>
+        約束しろ。<br>
+        もし本当に何かあったら、<br>
+        必ずみんなで迎えに行く。<br>
+        どれだけ時間がかかっても。
+      </div>
+    </div>
 
     <div class="divider">⸻</div>
 
-    <p class="sender">送信者：ザジ山ザジ蔵</p>
-    <p>うん。<br>
-    じゃあ、<br>
-    未来で待ってる。キーワードは、「うんち」</p>
+    <div class="msg-block">
+      <div class="msg-sender">送信者：ザジ山ザジ蔵</div>
+      <div class="msg-body">
+        うん。<br>
+        じゃあ、<br>
+        未来で待ってる。キーワードは、<span class="kw">「うんち」</span>
+      </div>
+    </div>
 
-    <a href="index.html">＞[ BACK_TO_MAIN ]</a>
+    <div class="divider">━━━━ END OF FILE ━━━━</div>
+
+    <div class="sys-line">TRANSMISSION ENDED</div>
+    <div class="sys-line">NEXT KEYWORD DETECTED IN ARCHIVE<span class="cursor"></span></div>
+
+    <a class="back-link" href="index.html">＞ [ BACK_TO_MAIN ]</a>
+
+  </div>
 </div>
 
+<script>
+function tick(){
+  var now=new Date();
+  document.getElementById('clock').textContent=now.toTimeString().slice(0,8);
+}
+tick();setInterval(tick,1000);
+</script>
 </body>
 </html>
+EOF
