@@ -1,19 +1,33 @@
-    <script>
-        const links = {
-            "ザジモン": "zazimon-article.html",
-            "ザジ山ザジ蔵": "zazizokura-mail.html",
-            "うんち": "unchi-news.html",
-            "ザジボール": "zaziball-note.html"
-        };
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>ZAZIMON | 公演情報</title>
+</head>
+<body>
+    <div class="search-container">
+        <input type="text" id="keyword" placeholder="検索...">
+        <button onclick="checkKeyword()">OK</button>
+    </div>
+    <div id="result"></div>
 
+    <script>
         function checkKeyword() {
-            const val = document.getElementById('keyword').value.trim(); // 余計な空白を削除
-            const res = document.getElementById('result');
-            
-            if (links[val]) {
-                window.location.href = links[val]; 
+            const val = document.getElementById('keyword').value;
+            // ページがあるか確認するための単純なルール
+            const pages = {
+                "ザジモン": "zazimon-article.html",
+                "ザジ山ザジ蔵": "zazizokura-mail.html",
+                "うんち": "unchi-news.html",
+                "ザジボール": "zaziball-note.html"
+            };
+
+            if (pages[val]) {
+                window.location.href = pages[val];
             } else {
-                res.innerHTML = "＞ " + val + " はみつからない！";
+                document.getElementById('result').innerText = val + " は見つかりません。";
             }
         }
     </script>
+</body>
+</html>
