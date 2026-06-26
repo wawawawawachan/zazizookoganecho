@@ -1,64 +1,261 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <title>開発メモ | ザジボール</title>
-    <style>
-        body { background: #fdfdfd; color: #333; font-family: sans-serif; padding: 40px; line-height: 1.6; }
-        .container { max-width: 600px; margin: 0 auto; }
-        
-        /* 画像エリア：画像がないときはグレーの枠になる */
-        .photo-area { 
-            width: 100%; 
-            min-height: 300px; 
-            background: #eee; 
-            border: 2px solid #ddd; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            margin-bottom: 30px;
-            overflow: hidden;
-        }
-        
-        .photo-area img { max-width: 100%; height: auto; display: block; }
-        
-        h3 { border-bottom: 2px solid #333; padding-bottom: 5px; }
-        a { color: #d63031; text-decoration: none; display: block; margin-top: 20px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>開発メモ | ザジボール</title>
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --sky:#5BA4CF;--grass:#4CAF50;--grass-dark:#388E3C;
+  --sun:#FFD600;--red:#E53935;--ink:#1A1A2E;
+  --nb:#F5F0E8;--nb-line:#C8D8E8;--nb-red:#E53935;
+  --pixel:'DotGothic16',monospace;--sans:'Noto Sans JP',sans-serif;
+}
+body{
+  font-family:var(--sans);
+  background:linear-gradient(180deg,#7EC8E3 0%,#B8E4F7 35%,#4CAF50 35%,#2E7D32 100%);
+  min-height:100vh;
+  padding:24px 16px 48px;
+}
+.wrapper{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:16px;}
+
+/* ヘッダーバー */
+.page-header{
+  background:var(--ink);
+  color:#fff;
+  padding:8px 16px;
+  font-family:var(--pixel);
+  font-size:10px;
+  letter-spacing:0.3em;
+  display:flex;justify-content:space-between;
+}
+
+/* ノートカバー */
+.note-cover{
+  background:var(--ink);
+  border:4px solid #000;
+  box-shadow:6px 6px 0 #000;
+  padding:20px;
+  text-align:center;
+  color:var(--sun);
+  font-family:var(--pixel);
+}
+.note-cover-label{
+  font-size:10px;
+  letter-spacing:0.4em;
+  color:#7EC8E3;
+  margin-bottom:8px;
+}
+.note-cover-title{font-size:20px;letter-spacing:0.1em;line-height:1.5;}
+.note-cover-num{
+  font-size:11px;
+  color:#555;
+  margin-top:12px;
+  letter-spacing:0.2em;
+}
+
+/* 画像エリア */
+.photo-area{
+  background:var(--nb);
+  border:4px solid var(--ink);
+  box-shadow:5px 5px 0 var(--ink);
+  overflow:hidden;
+}
+.photo-area-header{
+  background:var(--grass-dark);
+  color:#fff;
+  font-family:var(--pixel);
+  font-size:10px;
+  padding:5px 14px;
+  letter-spacing:0.2em;
+}
+.photo-inner{
+  min-height:200px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#e8e0d0;
+  position:relative;
+}
+.photo-inner img{max-width:100%;height:auto;display:block;}
+.photo-placeholder{
+  text-align:center;
+  color:#aaa;
+  font-family:var(--pixel);
+  font-size:12px;
+  padding:40px;
+}
+
+/* ノート本文 */
+.note-body{
+  background:var(--nb);
+  border:4px solid var(--ink);
+  box-shadow:5px 5px 0 var(--ink);
+  overflow:hidden;
+}
+.note-body-header{
+  background:var(--red);
+  color:#fff;
+  font-family:var(--pixel);
+  font-size:10px;
+  padding:5px 14px;
+  letter-spacing:0.25em;
+}
+
+/* ノート罫線 */
+.note-lines{
+  padding:16px;
+  background:
+    linear-gradient(var(--nb-line) 1px,transparent 1px);
+  background-size:100% 32px;
+  background-position:0 31px;
+}
+
+/* 赤マージン線 */
+.note-lines::before{
+  content:'';
+  position:absolute;
+  left:52px;
+  top:0;bottom:0;
+  width:2px;
+  background:rgba(229,57,53,0.3);
+}
+
+.note-section{
+  position:relative;
+  padding-left:0;
+}
+.note-num{
+  font-family:var(--pixel);
+  font-size:10px;
+  color:var(--red);
+  letter-spacing:0.2em;
+  margin-bottom:6px;
+  display:block;
+}
+.note-text{
+  font-size:14px;
+  line-height:2.2;
+  color:var(--ink);
+  margin-bottom:24px;
+}
+.note-text p{margin-bottom:8px;}
+.note-text strong{color:var(--grass-dark);}
+
+/* 手書き風メモ枠 */
+.memo-box{
+  border:2px dashed var(--ink);
+  padding:12px 14px;
+  margin:12px 0;
+  font-size:13px;
+  line-height:2;
+  color:#555;
+  background:rgba(255,255,255,0.5);
+  font-style:italic;
+}
+.memo-label{
+  font-family:var(--pixel);
+  font-size:10px;
+  color:var(--red);
+  font-style:normal;
+  margin-bottom:4px;
+  display:block;
+}
+
+/* 区切り */
+.hr{
+  border:none;
+  border-top:2px solid var(--nb-line);
+  margin:16px 0;
+}
+
+/* 戻るボタン */
+.back-btn{
+  display:block;
+  font-family:var(--pixel);
+  font-size:13px;
+  background:var(--ink);
+  color:var(--sun);
+  border:3px solid var(--ink);
+  padding:12px 20px;
+  text-decoration:none;
+  text-align:center;
+  box-shadow:4px 4px 0 var(--grass-dark);
+  transition:transform 0.1s;
+}
+.back-btn:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--grass-dark);}
+</style>
 </head>
 <body>
+<div class="wrapper">
 
-<div class="container">
-    <div class="photo-area">
-        <img src="zaziball.png" alt="ザジボールのイメージ">
+  <div class="page-header">
+    <span>ZAZIMON DEV NOTES</span>
+    <span>INTERNAL USE ONLY</span>
+  </div>
+
+  <div class="note-cover">
+    <div class="note-cover-label">DEVELOPMENT MEMO</div>
+    <div class="note-cover-title">開発メモ No.14<br>「ザジボールについて」</div>
+    <div class="note-cover-num">ZAZIMON PROJECT — CONFIDENTIAL</div>
+  </div>
+
+  <div class="photo-area">
+    <div class="photo-area-header">▶ DEVICE IMAGE: ザジボール</div>
+    <div class="photo-inner">
+      <img src="zaziball.png" alt="ザジボールのイメージ" onerror="this.parentNode.innerHTML='<div class=\'photo-placeholder\'>[ IMAGE: zaziball.png ]<br>画像を配置してください</div>'">
     </div>
+  </div>
 
-    <h3>開発メモ No.14「ザジボールについて」</h3>
+  <div class="note-body">
+    <div class="note-body-header">▶ MEMO CONTENT</div>
+    <div class="note-lines">
 
-    <p>ザジボールは、ザジモンを捕まえるための道具。<br>
-    ただ投げるだけのボールではない。</p>
+      <div class="note-section">
+        <span class="note-num">// 01 — ザジボールとは</span>
+        <div class="note-text">
+          <p>ザジボールは、ザジモンを捕まえるための道具。ただ投げるだけのボールではない。</p>
+          <p>ザジボールは、相手との「<strong>出会い</strong>」を記録する装置だ。相手の名前を知り、言葉を交わし、その存在を認識したとき、初めてボールは反応する。</p>
+        </div>
+      </div>
 
-    <p>ザジボールは、相手との「出会い」を記録する装置だ。<br>
-    相手の名前を知り、言葉を交わし、その存在を認識したとき、初めてボールは反応する。</p>
+      <hr class="hr">
 
-    <p>だから、逃げている相手には効かない。<br>
-    見つけようとしていない相手にも効かない。<br>
-    ザジボールは、「会えた」という事実そのものを保存する。</p>
+      <div class="note-section">
+        <span class="note-num">// 02 — 効かない条件</span>
+        <div class="note-text">
+          <p>だから、逃げている相手には効かない。見つけようとしていない相手にも効かない。</p>
+          <p>ザジボールは、「<strong>会えた</strong>」という事実そのものを保存する。</p>
+        </div>
+      </div>
 
-    <hr>
+      <hr class="hr">
 
-    <p>ゲームではボタン一つで捕獲できるように見えるけれど、本当はそうじゃない。<br>
-    人は、人に会わないと捕まらない。<br>
-    だからザジモンGOでは、実際に街へ出て、人に会ってもらう仕様にした。<br>
-    少し不便だけど、そのほうが本物だから。</p>
+      <div class="note-section">
+        <span class="note-num">// 03 — ゲームと現実</span>
+        <div class="note-text">
+          <p>ゲームではボタン一つで捕獲できるように見えるけれど、本当はそうじゃない。</p>
+          <p>人は、人に会わないと捕まらない。だからザジモンGOでは、実際に街へ出て、人に会ってもらう仕様にした。少し不便だけど、そのほうが本物だから。</p>
+        </div>
+      </div>
 
-    <p><em>※開発メモ<br>
-    ザジボールのデザインは未定。<br>
-    丸い必要もないのかもしれない。<br>
-    もしかしたら、「話しかけること」自体がザジボールなのかもしれない。</em></p>
+      <hr class="hr">
 
-    <a href="index.html">← 戻る</a>
+      <div class="memo-box">
+        <span class="memo-label">※ 開発メモ（追記）</span>
+        ザジボールのデザインは未定。<br>
+        丸い必要もないのかもしれない。<br>
+        もしかしたら、「<strong>話しかけること</strong>」自体がザジボールなのかもしれない。
+      </div>
+
+    </div>
+  </div>
+
+  <a class="back-btn" href="index.html">← 戻る</a>
+
 </div>
-
 </body>
 </html>
+EOF
