@@ -1,9 +1,186 @@
 <!DOCTYPE html>
-<html>
-<head><meta charset="UTF-8"><title>壁新聞</title></head>
-<body style="background:#ffffe0; padding:20px;">
-    <h1>黄金町小学校壁新聞「うんちに気をつけて」</h1>
-    <p>こんにちは。黄金町壁新聞係です。今日は、うんちに気をつけて欲しくて書きました。最近のうんちは襲ってきます。そういう時は自分のザジモンをザジボールから出して戦いましょう。</p>
-    <a href="index.html">戻る</a>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>壁新聞「うんちに気をつけて」</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kurenaido&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{
+  background:#FFFDE7;
+  min-height:100vh;
+  padding:24px 16px 48px;
+  font-family:'Zen Kurenaido','Noto Sans JP',sans-serif;
+}
+
+.wrapper{max-width:500px;margin:0 auto;display:flex;flex-direction:column;gap:16px;}
+
+/* 画鋲 */
+.pin{
+  width:20px;height:20px;
+  background:#E53935;
+  border-radius:50%;
+  border:3px solid #B71C1C;
+  box-shadow:1px 1px 3px rgba(0,0,0,0.3);
+  position:absolute;
+}
+
+/* 紙 */
+.paper{
+  background:#FFFDE7;
+  border:3px solid #8D6E63;
+  padding:28px 24px 24px;
+  position:relative;
+  box-shadow:3px 4px 0 #A1887F, 6px 8px 12px rgba(0,0,0,0.15);
+  transform:rotate(-0.8deg);
+}
+.paper::before{
+  content:'';
+  position:absolute;inset:0;
+  background:repeating-linear-gradient(
+    transparent,transparent 27px,
+    rgba(173,216,230,0.4) 27px,rgba(173,216,230,0.4) 29px
+  );
+  pointer-events:none;
+}
+
+.pin-tl{top:-10px;left:20px;}
+.pin-tr{top:-10px;right:20px;}
+
+/* タイトル */
+.news-title{
+  font-size:26px;
+  font-weight:700;
+  color:#BF360C;
+  text-align:center;
+  line-height:1.4;
+  margin-bottom:8px;
+  position:relative;z-index:1;
+  border-bottom:3px solid #BF360C;
+  padding-bottom:10px;
+}
+
+/* 発行情報 */
+.news-meta{
+  font-size:11px;
+  color:#8D6E63;
+  text-align:right;
+  margin-bottom:16px;
+  position:relative;z-index:1;
+}
+
+/* 本文 */
+.news-body{
+  font-size:15px;
+  line-height:2.2;
+  color:#3E2723;
+  position:relative;z-index:1;
+}
+.news-body p{margin-bottom:12px;}
+
+/* ポイント枠 */
+.point-box{
+  background:rgba(255,235,59,0.5);
+  border:2px solid #F9A825;
+  border-radius:4px;
+  padding:12px 16px;
+  margin:14px 0;
+  font-size:14px;
+  line-height:2;
+}
+.point-box-title{
+  font-weight:700;
+  color:#E65100;
+  margin-bottom:4px;
+  font-size:15px;
+}
+
+/* ★マーク */
+.star{color:#FFD600;font-size:16px;}
+
+/* イラスト（CSS絵文字大） */
+.illust{
+  text-align:center;
+  font-size:48px;
+  padding:8px 0;
+  line-height:1;
+}
+
+/* 署名 */
+.sign{
+  text-align:right;
+  font-size:12px;
+  color:#8D6E63;
+  margin-top:16px;
+  border-top:1px dashed #BCAAA4;
+  padding-top:12px;
+  position:relative;z-index:1;
+}
+
+/* 戻るボタン */
+.back-btn{
+  display:block;
+  font-family:'Noto Sans JP',sans-serif;
+  font-size:13px;
+  background:#3E2723;
+  color:#FFFDE7;
+  padding:12px 20px;
+  text-decoration:none;
+  text-align:center;
+  border:3px solid #1A0000;
+  box-shadow:4px 4px 0 #1A0000;
+  transform:rotate(0.5deg);
+  transition:transform 0.1s;
+}
+.back-btn:hover{transform:rotate(0deg) translate(2px,2px);box-shadow:2px 2px 0 #1A0000;}
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <div class="paper" style="transform:rotate(-1.2deg);">
+    <div class="pin pin-tl"></div>
+    <div class="pin pin-tr"></div>
+
+    <div class="news-title">
+      黄金町小学校　壁新聞<br>
+      「うんちに気をつけて」
+    </div>
+    <div class="news-meta">黄金町小学校 壁新聞係 発行</div>
+
+    <div class="illust">💩</div>
+
+    <div class="news-body">
+      <p>こんにちは。黄金町壁新聞係です。</p>
+      <p>今日は、うんちに気をつけてほしくて書きました。</p>
+
+      <div class="point-box">
+        <div class="point-box-title"><span class="star">★</span> 最近のうんちは、おそってきます！</div>
+        そういう時は、自分のザジモンをザジボールから出して、いっしょに戦いましょう。
+      </div>
+
+      <p>みなさんのザジモンはつよいです。だいじょうぶです。でも一人でたたかっては、ぜったいにダメです。</p>
+
+      <div class="point-box">
+        <div class="point-box-title"><span class="star">★</span> うんちにかつ　３つのルール</div>
+        ① なかまといっしょにたたかう<br>
+        ② にげるときはダッシュ<br>
+        ③ かったらてをあらう
+      </div>
+
+      <p>ランポくんも、さいしょはこわかったけど、なかまがいたからかてました。きみにも、かならずなかまがいます。</p>
+    </div>
+
+    <div class="sign">
+      壁新聞係　ザジ山ザジ蔵（たぶん）<br>
+      <span style="font-size:10px;">※このかみをみつけたひとへ：ザジボールをさがして</span>
+    </div>
+  </div>
+
+  <a class="back-btn" href="index.html">← もどる</a>
+
+</div>
 </body>
 </html>
+EOF
