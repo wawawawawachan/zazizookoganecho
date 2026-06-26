@@ -1,9 +1,68 @@
 <!DOCTYPE html>
-<html>
-<head><meta charset="UTF-8"><title>開発メモ</title></head>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>開発メモ | ザジボール</title>
+    <style>
+        body { background: #fdfdfd; color: #333; font-family: sans-serif; padding: 40px; line-height: 1.6; }
+        .container { max-width: 600px; margin: 0 auto; }
+        
+        /* 写真を配置するエリア */
+        .photo-area { 
+            width: 100%; 
+            height: 300px; 
+            background: #eee; 
+            border: 2px solid #ddd; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            margin-bottom: 30px;
+            color: #999;
+        }
+        
+        /* 写真を実際に表示する時はここを使う */
+        .photo-area img { max-width: 100%; height: auto; }
+        
+        h3 { border-bottom: 2px solid #333; padding-bottom: 5px; }
+        a { color: #d63031; text-decoration: none; }
+    </style>
+</head>
 <body>
-    <h1>開発メモ No.14「ザジボールについて」</h1>
-    <p>ザジボールは、ザジモンを捕まえるための道具。</p>
-    <a href="index.html">戻る</a>
+
+<div class="container">
+    <!-- ここに写真を表示 -->
+    <div class="photo-area">
+        <!-- 写真を入れるときは下の行のコメントアウトを消してURLを入れてください -->
+        <!-- <img src="zaziball.png" alt="ザジボールのイメージ"> -->
+        PHOTO_PLACEHOLDER
+    </div>
+
+    <h3>開発メモ No.14「ザジボールについて」</h3>
+
+    <p>ザジボールは、ザジモンを捕まえるための道具。<br>
+    ただ投げるだけのボールではない。</p>
+
+    <p>ザジボールは、相手との「出会い」を記録する装置だ。<br>
+    相手の名前を知り、言葉を交わし、その存在を認識したとき、初めてボールは反応する。</p>
+
+    <p>だから、逃げている相手には効かない。<br>
+    見つけようとしていない相手にも効かない。<br>
+    ザジボールは、「会えた」という事実そのものを保存する。</p>
+
+    <hr>
+
+    <p>ゲームではボタン一つで捕獲できるように見えるけれど、本当はそうじゃない。<br>
+    人は、人に会わないと捕まらない。<br>
+    だからザジモンGOでは、実際に街へ出て、人に会ってもらう仕様にした。<br>
+    少し不便だけど、そのほうが本物だから。</p>
+
+    <p><em>※開発メモ<br>
+    ザジボールのデザインは未定。<br>
+    丸い必要もないのかもしれない。<br>
+    もしかしたら、「話しかけること」自体がザジボールなのかもしれない。</em></p>
+
+    <a href="index.html">← 戻る</a>
+</div>
+
 </body>
 </html>
