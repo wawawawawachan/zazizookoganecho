@@ -2,19 +2,42 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>ZAZIMON | 公演情報</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZAZIMON | 公式公演情報</title>
+    <style>
+        body { background-color: #333; color: #fff; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        
+        /* 検索窓 */
+        .search-container { background: #fff; color: #333; padding: 10px; width: 100%; max-width: 400px; display: flex; justify-content: space-between; border: 4px solid #fff; margin-bottom: 30px; }
+        input { border: none; outline: none; width: 70%; }
+        button { background: #ff0000; color: white; border: none; padding: 5px 10px; cursor: pointer; }
+
+        /* 公演情報カード */
+        .main-card { background: #fff; color: #333; padding: 20px; width: 100%; max-width: 500px; border: 8px solid #ddd; }
+        h1 { color: #d63031; font-size: 1.2em; border-bottom: 2px solid #d63031; padding-bottom: 10px; }
+    </style>
 </head>
 <body>
+
     <div class="search-container">
         <input type="text" id="keyword" placeholder="検索...">
         <button onclick="checkKeyword()">OK</button>
     </div>
-    <div id="result"></div>
+    <div id="result" style="margin-bottom: 20px; color: yellow;"></div>
+
+    <div class="main-card">
+        <h1>『ザわめきが宇宙の…縮めてザジモン！』</h1>
+        <div class="event-info">
+            <p><strong>公演日：</strong>9/12-13, 10/11-13</p>
+            <p><strong>場所：</strong>黄金町ロックカクほか</p>
+            <p>鑑賞者が巨大なオブジェクトと共に歩く、移動型演劇。キミも江戸川乱歩の眼を持とう！</p>
+        </div>
+        <p><em>「コガネタウンで僕と握手。」</em></p>
+    </div>
 
     <script>
         function checkKeyword() {
-            const val = document.getElementById('keyword').value;
-            // ページがあるか確認するための単純なルール
+            const val = document.getElementById('keyword').value.trim();
             const pages = {
                 "ザジモン": "zazimon-article.html",
                 "ザジ山ザジ蔵": "zazizokura-mail.html",
@@ -25,7 +48,7 @@
             if (pages[val]) {
                 window.location.href = pages[val];
             } else {
-                document.getElementById('result').innerText = val + " は見つかりません。";
+                document.getElementById('result').innerText = "＞ " + val + " はみつからない！";
             }
         }
     </script>
