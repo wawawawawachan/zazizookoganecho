@@ -3,30 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ザジ・ズー公演情報</title>
+    <title>ザジ・ズー - 黄金町の夢の入り口</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru&family=Zen+Maru+Gothic:wght@300;700&display=swap" rel="stylesheet">
     <style>
-        body { background: #f4f4f4; color: #333; font-family: 'Helvetica', sans-serif; padding: 20px; }
-        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; }
-        .search-area { background: #333; padding: 20px; color: white; margin: 20px 0; }
-        input { padding: 8px; width: 60%; }
-        button { padding: 8px 15px; cursor: pointer; }
+        body { 
+            background: #fff5f5; /* 淡いピンクの背景 */
+            color: #555; 
+            font-family: 'Zen Maru Gothic', sans-serif; 
+            line-height: 1.8; 
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .container { max-width: 500px; margin: 0 auto; background: white; padding: 40px; border-radius: 30px; box-shadow: 10px 10px 0px #ffdada; border: 2px solid #ffc0cb; }
+        h1 { font-family: 'Kiwi Maru', serif; color: #ff6b9d; font-size: 1.5em; }
+        .search-box { margin-top: 30px; padding: 20px; border: 2px dashed #ffc0cb; border-radius: 15px; }
+        input { padding: 10px; width: 60%; border: 1px solid #ddd; border-radius: 10px; }
+        button { padding: 10px 20px; background: #ff6b9d; color: white; border: none; border-radius: 10px; cursor: pointer; }
+        footer { margin-top: 40px; font-size: 0.8em; color: #aaa; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>『ザわめきが宇宙の…（略）…縮めてザジモン！』</h1>
-        <p><strong>公演日程：</strong>9/12-13、10/11-13</p>
-        <p><strong>場所：</strong>黄金町ロックカクほか</p>
-        <p><em>「コガネタウンで僕と握手。」</em></p>
+        <h1>ザわめきが宇宙の…<br>縮めてザジモン！</h1>
+        <p>「コガネタウンで僕と握手。」</p>
         
-        <nav>
-            <a href="#news">NEWS</a> | <a href="#member">出演者</a> | <a href="#schedule">スケジュール</a>
-        </nav>
-
-        <div class="search-area">
-            <h3>検索：真実の断片を探す</h3>
+        <div class="search-box">
+            <p>記憶の断片を検索：</p>
             <input type="text" id="keyword" placeholder="キーワードを入力...">
-            <button onclick="checkKeyword()">検索</button>
+            <button onclick="checkKeyword()">探す</button>
             <p id="result"></p>
         </div>
     </div>
@@ -36,17 +40,17 @@
             const val = document.getElementById('keyword').value;
             const res = document.getElementById('result');
             
-            // 検索ワードと飛ばし先の管理
-            const clues = {
+            // キーワード辞書（ここにどんどん追加！）
+            const links = {
                 "ザジモン": "zazimon-hidden.html",
-                "コガネタウン": "kogane-info.html"
-                // ここにキーワードをどんどん追加していきます
+                "コガネタウン": "kogane-info.html",
+                "かさぶた": "kasabuta.html"
             };
 
-            if (clues[val]) {
-                res.innerHTML = `<a href="${clues[val]}" style="color:yellow;">[検索結果] 機密ファイルへのアクセスを確認しました。</a>`;
+            if (links[val]) {
+                res.innerHTML = `<br><a href="${links[val]}" style="color:#ff6b9d;">見つけた：${val} のページへ</a>`;
             } else {
-                res.innerHTML = "検索結果なし。";
+                res.innerHTML = "<br>なにも見つからない……。";
             }
         }
     </script>
