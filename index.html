@@ -2,29 +2,44 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>ザジ・ズー特設ページ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ハイチケ宣伝部！</title>
     <style>
-        body { font-family: sans-serif; line-height: 1.6; max-width: 800px; margin: 40px auto; padding: 20px; }
-        .hidden-clue { color: #ccc; font-style: italic; }
+        body { background-color: #1a1a1a; color: #e0e0e0; font-family: 'Courier New', Courier, monospace; padding: 20px; line-height: 1.6; }
+        .container { max-width: 600px; margin: 0 auto; }
+        h1, h2 { color: #ff3e3e; }
+        a { color: #00ffcc; }
+        .search-box { margin: 30px 0; padding: 20px; border: 1px solid #444; background: #2a2a2a; text-align: center; }
+        input { padding: 10px; width: 70%; border: none; }
+        button { padding: 10px; background: #ff3e3e; color: white; border: none; cursor: pointer; }
     </style>
 </head>
 <body>
+    <div class="container">
+        <h1>ハイチケ宣伝部！</h1>
+        <h2>若手演劇集団ザジ・ズーがゲームを開発中！最新情報に迫る</h2>
+        <p><em>2025年6月26日</em></p>
+        <p>「全てを横断し包括するのがこの『ザジモン』になる」。木村友哉はそう語った。</p>
 
-    <h1>ハイチケ宣伝部！</h1>
-    <h2>若手演劇集団ザジ・ズーがゲームを開発中！最新情報に迫る</h2>
-    <p><em>投稿日：2025年6月26日（※一年前の記事）</em></p>
+        <!-- 検索フォーム -->
+        <div class="search-box">
+            <p>記事内のキーワードを検索：</p>
+            <input type="text" id="keyword" placeholder="例：コガネタウン">
+            <button onclick="checkKeyword()">検索</button>
+        </div>
+        <div id="result"></div>
+    </div>
 
-    <p>今、最も勢いのある演劇集団「ザジ・ズー」が、驚きのプロジェクトを進行中だ。</p>
-
-    <p>木村友哉は語る。「俺たちって、ほんとにやりたいことが多い。笑　それがザジ・ズーのいいところだと思っていて、弱点でもある。全てを横断し包括するのがこの『ザジモン』になる」</p>
-
-    <p>黄金町バザールでの屋外演劇など、彼らの挑戦は止まらない。だが、いまだ『ザジモン』は日の目を見ていない。</p>
-
-    <hr>
-    <h3>編集部注：謎のクリエイター「ザジ山ザジ蔵」について</h3>
-    <p>記事内で言及された、ザジ・ズー専属のゲームクリエイター「ザジ山ザジ蔵」。彼については、過去の資料に一切の記述がない。唯一の手がかりは、彼らの公式サイトに残されたプロフィールのみだ。</p>
-
-    <p><a href="zazizo.html">＞ザジ山ザジ蔵のプロフィールを見る</a></p>
-
+    <script>
+        function checkKeyword() {
+            const input = document.getElementById('keyword').value;
+            const result = document.getElementById('result');
+            if (input === 'コガネタウン') {
+                result.innerHTML = '<p style="color:yellow;">検索結果：<br>「若手演劇集団ザジ・ズーがゲームを開発中！」のアーカイブ記事が見つかりました。<br><a href="zazizoo.html">＞記事全文を読む</a></p>';
+            } else {
+                result.innerHTML = '<p>該当なし。もう一度探してみて。</p>';
+            }
+        }
+    </script>
 </body>
 </html>
