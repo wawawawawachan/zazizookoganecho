@@ -1,1 +1,211 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>チケット | ZAZIMON</title>
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--sky:#5BA4CF;--grass:#4CAF50;--grass-dark:#388E3C;--sun:#FFD600;--sun-dark:#F9A825;--red:#E53935;--ink:#1A1A2E;--border:#2C3E50;--pixel:'DotGothic16',monospace;--sans:'Noto Sans JP',sans-serif;}
+body{font-family:var(--sans);background:var(--sky);color:var(--ink);min-height:100vh;overflow-x:hidden;}
+.sky-bg{position:fixed;inset:0;z-index:0;background:linear-gradient(180deg,#5BA4CF 0%,#7EC8E3 40%,#A8D8EA 58%,#4CAF50 58%,#388E3C 78%,#2E7D32 100%);}
+.cloud{position:absolute;background:#fff;opacity:0.9;animation:cloudFloat linear infinite;}
+.cloud::before,.cloud::after{content:'';position:absolute;background:#fff;}
+.cloud-1{width:48px;height:16px;top:10%;left:-60px;animation-duration:28s;}
+.cloud-1::before{width:32px;height:16px;top:-12px;left:8px;}
+.cloud-1::after{width:16px;height:12px;top:-8px;left:24px;}
+.cloud-2{width:64px;height:16px;top:18%;left:-80px;animation-duration:36s;animation-delay:-14s;}
+.cloud-2::before{width:40px;height:16px;top:-12px;left:12px;}
+.cloud-2::after{width:20px;height:12px;top:-8px;left:32px;}
+@keyframes cloudFloat{from{left:-100px}to{left:110vw}}
+.sun-el{position:absolute;top:6%;right:12%;width:40px;height:40px;background:var(--sun);border-radius:50%;box-shadow:0 0 0 8px var(--sun-dark);animation:sunPulse 3s ease-in-out infinite;}
+@keyframes sunPulse{0%,100%{box-shadow:0 0 0 6px var(--sun-dark)}50%{box-shadow:0 0 0 11px var(--sun-dark)}}
+.nav{position:sticky;top:0;z-index:200;background:var(--ink);border-bottom:3px solid var(--grass-dark);}
+.nav-inner{max-width:560px;margin:0 auto;display:flex;align-items:center;padding:0 12px;}
+.nav-logo{font-family:var(--pixel);font-size:14px;color:var(--sun);padding:10px 12px 10px 0;border-right:2px solid #333;margin-right:4px;text-decoration:none;white-space:nowrap;text-shadow:1px 1px 0 #000;}
+.nav-links{display:flex;overflow-x:auto;}
+.nav-links a{font-family:var(--pixel);font-size:11px;color:#aaa;text-decoration:none;padding:10px 12px;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-3px;transition:color 0.15s,border-color 0.15s;}
+.nav-links a:hover{color:#fff;border-bottom-color:var(--grass);}
+.nav-links a.active{color:var(--sun);border-bottom-color:var(--sun);}
+.wrapper{position:relative;z-index:10;max-width:560px;margin:0 auto;padding:28px 16px 64px;display:flex;flex-direction:column;gap:16px;}
+
+.page-label{font-family:var(--pixel);font-size:10px;color:rgba(255,255,255,0.7);letter-spacing:0.3em;}
+.page-heading{font-family:var(--pixel);font-size:22px;color:#fff;text-shadow:2px 2px 0 var(--ink);margin-bottom:4px;}
+
+/* チケット本体（ミシン目風） */
+.ticket-wrap{position:relative;}
+.ticket{
+  background:#fff;
+  border:4px solid var(--border);
+  box-shadow:6px 6px 0 var(--border);
+  overflow:hidden;
+  position:relative;
+}
+.ticket-top{
+  background:var(--sun-dark);
+  padding:20px 20px 16px;
+  position:relative;
+}
+.ticket-label{font-family:var(--pixel);font-size:10px;color:rgba(0,0,0,0.5);letter-spacing:0.3em;margin-bottom:6px;}
+.ticket-show{font-family:var(--pixel);font-size:15px;color:var(--ink);line-height:1.6;margin-bottom:10px;}
+.ticket-by{font-family:var(--pixel);font-size:11px;color:rgba(0,0,0,0.6);letter-spacing:0.1em;}
+
+/* ミシン目 */
+.ticket-perforation{
+  height:16px;
+  background:repeating-linear-gradient(90deg,var(--border) 0px,var(--border) 8px,transparent 8px,transparent 16px);
+  opacity:0.3;
+}
+
+.ticket-body{padding:20px;}
+.ticket-coming{
+  text-align:center;
+  padding:28px 16px;
+}
+.coming-big{
+  font-family:var(--pixel);
+  font-size:28px;
+  color:var(--border);
+  letter-spacing:0.1em;
+  display:block;
+  margin-bottom:8px;
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+.coming-sub{font-family:var(--pixel);font-size:11px;color:#888;letter-spacing:0.2em;}
+
+/* チケット種別（グレーアウト） */
+.ticket-types{display:flex;flex-direction:column;gap:10px;margin-top:16px;}
+.ticket-type{
+  background:#f5f5f5;
+  border:2px solid #ddd;
+  padding:14px 16px;
+  display:flex;align-items:center;justify-content:space-between;
+  opacity:0.5;
+}
+.ticket-type-name{font-family:var(--pixel);font-size:13px;color:#999;}
+.ticket-type-price{font-family:var(--pixel);font-size:13px;color:#999;}
+.ticket-type-badge{font-family:var(--pixel);font-size:9px;background:#ddd;color:#999;padding:2px 8px;letter-spacing:0.1em;}
+
+/* メール登録フォーム */
+.notify-card{background:#fff;border:4px solid var(--border);box-shadow:6px 6px 0 var(--border);overflow:hidden;}
+.notify-head{background:var(--grass-dark);color:#fff;font-family:var(--pixel);font-size:10px;letter-spacing:0.3em;padding:6px 14px;}
+.notify-body{padding:18px 16px;}
+.notify-desc{font-family:var(--pixel);font-size:12px;color:#555;margin-bottom:14px;line-height:1.8;}
+.notify-row{display:flex;border:2px solid var(--border);}
+.notify-input{flex:1;border:none;outline:none;font-family:var(--pixel);font-size:13px;padding:10px 12px;background:#f8f8f8;color:var(--ink);}
+.notify-input::placeholder{color:#bbb;font-size:11px;}
+.notify-btn{background:var(--grass-dark);color:#fff;border:none;font-family:var(--pixel);font-size:11px;padding:10px 14px;cursor:pointer;white-space:nowrap;transition:background 0.15s;}
+.notify-btn:hover{background:var(--grass);}
+.notify-note{font-size:11px;color:#aaa;margin-top:8px;font-family:var(--pixel);}
+#notify-done{display:none;font-family:var(--pixel);font-size:12px;color:var(--grass-dark);margin-top:10px;}
+
+/* 公演情報 */
+.info-mini{background:#F0F8FF;border:3px solid var(--sky);padding:14px 16px;}
+.info-mini-label{font-family:var(--pixel);font-size:10px;color:var(--sky);letter-spacing:0.2em;margin-bottom:10px;display:block;}
+.info-row{display:flex;gap:10px;font-size:12px;margin-bottom:8px;align-items:flex-start;}
+.info-row:last-child{margin-bottom:0;}
+.info-key{font-family:var(--pixel);font-size:10px;background:var(--border);color:#fff;padding:2px 6px;flex-shrink:0;margin-top:1px;}
+
+.back-btn{display:block;font-family:var(--pixel);font-size:12px;background:var(--ink);color:var(--sun);border:3px solid var(--ink);padding:11px 16px;text-decoration:none;text-align:center;box-shadow:4px 4px 0 var(--grass-dark);transition:transform 0.1s;}
+.back-btn:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--grass-dark);}
+.game-footer{text-align:center;font-family:var(--pixel);font-size:10px;color:rgba(255,255,255,0.6);letter-spacing:0.2em;}
+</style>
+</head>
+<body>
+<div class="sky-bg"><div class="sun-el"></div><div class="cloud cloud-1"></div><div class="cloud cloud-2"></div></div>
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">☆ ZAZIMON</a>
+    <div class="nav-links">
+      <a href="index.html">TOP</a>
+      <a href="news.html">NEWS</a>
+      <a href="about.html">あらすじ</a>
+      <a href="ticket.html" class="active">チケット</a>
+    </div>
+  </div>
+</nav>
+<div class="wrapper">
+
+  <div>
+    <div class="page-label">// TICKET INFORMATION</div>
+    <div class="page-heading">🎫 チケット</div>
+  </div>
+
+  <!-- チケット -->
+  <div class="ticket-wrap">
+    <div class="ticket">
+      <div class="ticket-top">
+        <div class="ticket-label">ADMISSION TICKET</div>
+        <div class="ticket-show">黄金町で逢いまshow<br>ZAZIMON × ザジズー</div>
+        <div class="ticket-by">presented by ZAZIZOO</div>
+      </div>
+      <div class="ticket-perforation"></div>
+      <div class="ticket-body">
+        <div class="ticket-coming">
+          <span class="coming-big">COMING SOON</span>
+          <span class="coming-sub">チケット販売開始まで　しばらくお待ちください</span>
+        </div>
+        <div class="ticket-types">
+          <div class="ticket-type">
+            <span class="ticket-type-name">一般チケット</span>
+            <span class="ticket-type-price">¥ - - - -</span>
+            <span class="ticket-type-badge">準備中</span>
+          </div>
+          <div class="ticket-type">
+            <span class="ticket-type-name">学生チケット</span>
+            <span class="ticket-type-price">¥ - - - -</span>
+            <span class="ticket-type-badge">準備中</span>
+          </div>
+          <div class="ticket-type">
+            <span class="ticket-type-name">無料展示</span>
+            <span class="ticket-type-price">無料</span>
+            <span class="ticket-type-badge">詳細近日</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 通知登録 -->
+  <div class="notify-card">
+    <div class="notify-head">▶ 販売開始通知を受け取る</div>
+    <div class="notify-body">
+      <div class="notify-desc">メールアドレスを登録すると、チケット販売開始時にお知らせします。</div>
+      <div class="notify-row">
+        <input class="notify-input" id="email-input" type="email" placeholder="your@email.com">
+        <button class="notify-btn" onclick="registerEmail()">登録する</button>
+      </div>
+      <div class="notify-note">※ 登録情報はチケット案内のみに使用します</div>
+      <div id="notify-done">✓ 登録しました！販売開始時にご連絡します。</div>
+    </div>
+  </div>
+
+  <!-- 公演情報 -->
+  <div class="info-mini">
+    <span class="info-mini-label">// PERFORMANCE INFO</span>
+    <div class="info-row"><span class="info-key">日程</span><span>9月12・13日 / 10月10・11・12日（2026年）</span></div>
+    <div class="info-row"><span class="info-key">場所</span><span>黄金町ロックカク ほか</span></div>
+    <div class="info-row"><span class="info-key">出演</span><span>ザジ・ズー</span></div>
+  </div>
+
+  <a class="back-btn" href="index.html">← TOPに戻る</a>
+  <div class="game-footer">© ZAZIZOO 2026 | 黄金町ARGプロジェクト</div>
+</div>
+
+<script>
+function registerEmail(){
+  var v=document.getElementById('email-input').value.trim();
+  if(!v||v.indexOf('@')===-1){
+    alert('正しいメールアドレスを入力してください');
+    return;
+  }
+  document.getElementById('email-input').disabled=true;
+  document.querySelector('.notify-btn').disabled=true;
+  document.getElementById('notify-done').style.display='block';
+}
+</script>
+</body>
+</html>
 
