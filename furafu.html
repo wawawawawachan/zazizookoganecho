@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>フラフラニール | ZAZIMON開発メモ</title>
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--sky:#5BA4CF;--grass:#4CAF50;--grass-dark:#388E3C;--sun:#FFD600;--sun-dark:#F9A825;--red:#E53935;--ink:#1A1A2E;--border:#2C3E50;--nb:#F5F0E8;--pixel:'DotGothic16',monospace;--sans:'Noto Sans JP',sans-serif;}
+body{font-family:var(--sans);background:var(--sky);color:var(--ink);min-height:100vh;overflow-x:hidden;}
+.sky-bg{position:fixed;inset:0;z-index:0;background:linear-gradient(180deg,#5BA4CF 0%,#7EC8E3 40%,#A8D8EA 58%,#4CAF50 58%,#388E3C 78%,#2E7D32 100%);}
+.cloud{position:absolute;background:#fff;opacity:0.9;animation:cloudFloat linear infinite;}
+.cloud::before,.cloud::after{content:'';position:absolute;background:#fff;}
+.cloud-1{width:48px;height:16px;top:10%;left:-60px;animation-duration:28s;}
+.cloud-1::before{width:32px;height:16px;top:-12px;left:8px;}
+.cloud-1::after{width:16px;height:12px;top:-8px;left:24px;}
+@keyframes cloudFloat{from{left:-100px}to{left:110vw}}
+.sun-el{position:absolute;top:6%;right:12%;width:40px;height:40px;background:var(--sun);border-radius:50%;box-shadow:0 0 0 8px var(--sun-dark);animation:sunPulse 3s ease-in-out infinite;}
+@keyframes sunPulse{0%,100%{box-shadow:0 0 0 6px var(--sun-dark)}50%{box-shadow:0 0 0 11px var(--sun-dark)}}
+.nav{position:sticky;top:0;z-index:200;background:var(--ink);border-bottom:3px solid var(--grass-dark);}
+.nav-inner{max-width:560px;margin:0 auto;display:flex;align-items:center;padding:0 12px;}
+.nav-logo{font-family:var(--pixel);font-size:14px;color:var(--sun);padding:10px 12px 10px 0;border-right:2px solid #333;margin-right:4px;text-decoration:none;white-space:nowrap;text-shadow:1px 1px 0 #000;}
+.nav-links{display:flex;overflow-x:auto;}
+.nav-links a{font-family:var(--pixel);font-size:11px;color:#aaa;text-decoration:none;padding:10px 12px;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-3px;transition:color 0.15s,border-color 0.15s;}
+.nav-links a:hover{color:#fff;border-bottom-color:var(--grass);}
+.wrapper{position:relative;z-index:10;max-width:560px;margin:0 auto;padding:28px 16px 64px;display:flex;flex-direction:column;gap:16px;}
+
+/* ノートスタイル */
+.note{background:var(--nb);border:4px solid var(--border);box-shadow:6px 6px 0 var(--border);overflow:hidden;}
+.note-tab{background:var(--grass-dark);color:#fff;font-family:var(--pixel);font-size:10px;letter-spacing:0.3em;padding:6px 14px;display:flex;justify-content:space-between;}
+.note-body{
+  padding:20px 18px;
+  background:linear-gradient(var(--nb) 0%,var(--nb) 100%);
+  background-image:repeating-linear-gradient(transparent,transparent 31px,#C8D8E8 31px,#C8D8E8 33px);
+  background-size:100% 32px;
+  background-position:0 19px;
+}
+
+.skill-title-block{margin-bottom:20px;padding-bottom:16px;border-bottom:3px solid #C8D8E8;}
+.skill-label{font-family:var(--pixel);font-size:10px;color:#888;letter-spacing:0.3em;margin-bottom:8px;display:block;}
+.skill-name-big{font-family:var(--pixel);font-size:24px;color:var(--grass-dark);text-shadow:2px 2px 0 rgba(0,0,0,0.1);}
+
+.desc{font-size:14px;line-height:2.2;color:#333;margin-bottom:16px;}
+.desc p{margin-bottom:10px;}
+
+/* ゲージバー */
+.gauge-demo{background:#fff;border:3px solid var(--border);padding:16px;margin:14px 0;box-shadow:3px 3px 0 var(--border);}
+.gauge-label{font-family:var(--pixel);font-size:10px;color:#888;letter-spacing:0.2em;margin-bottom:10px;display:block;}
+.gauge-bar-wrap{background:#e0e0e0;border:2px solid var(--border);height:20px;margin-bottom:6px;position:relative;overflow:hidden;}
+.gauge-fill{height:100%;background:linear-gradient(90deg,var(--grass),var(--sun));animation:fillUp 3s ease-out forwards;}
+@keyframes fillUp{from{width:0%}to{width:78%}}
+.gauge-bar-text{font-family:var(--pixel);font-size:10px;color:#555;text-align:right;}
+.gauge-event{font-family:var(--pixel);font-size:11px;color:var(--red);margin-top:8px;opacity:0;animation:fadeIn 0.5s 2.8s forwards;}
+@keyframes fadeIn{to{opacity:1}}
+
+/* モンスターリスト */
+.mon-list{background:#fff;border:3px solid var(--border);padding:14px 16px;margin:14px 0;box-shadow:3px 3px 0 var(--border);}
+.mon-list-label{font-family:var(--pixel);font-size:10px;color:var(--sky);letter-spacing:0.2em;margin-bottom:10px;display:block;}
+.mon-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #eee;font-family:var(--pixel);font-size:13px;}
+.mon-item:last-child{border-bottom:none;}
+.mon-emoji{font-size:24px;}
+.mon-name{flex:1;}
+.mon-fav{font-size:11px;color:#888;}
+
+/* 開発メモ */
+.dev-memo{background:#FFFDE7;border:3px dashed var(--sun-dark);padding:14px 16px;margin:14px 0;}
+.dev-memo-label{font-family:var(--pixel);font-size:10px;color:var(--sun-dark);letter-spacing:0.2em;margin-bottom:8px;display:block;}
+.dev-memo-text{font-size:13px;line-height:2;color:#555;font-style:italic;}
+
+.back-row{display:flex;gap:10px;}
+.back-btn{display:block;font-family:var(--pixel);font-size:12px;background:var(--ink);color:var(--sun);border:3px solid var(--ink);padding:11px 16px;text-decoration:none;text-align:center;box-shadow:4px 4px 0 var(--grass-dark);transition:transform 0.1s;flex:1;}
+.back-btn:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--grass-dark);}
+.back-btn.sub{background:var(--border);}
+.game-footer{text-align:center;font-family:var(--pixel);font-size:10px;color:rgba(255,255,255,0.6);letter-spacing:0.2em;}
+</style>
+</head>
+<body>
+<div class="sky-bg"><div class="sun-el"></div><div class="cloud cloud-1"></div></div>
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">☆ ZAZIMON</a>
+    <div class="nav-links">
+      <a href="index.html">TOP</a>
+      <a href="news.html">NEWS</a>
+      <a href="about.html">あらすじ</a>
+      <a href="ticket.html">チケット</a>
+    </div>
+  </div>
+</nav>
+<div class="wrapper">
+
+  <div class="note">
+    <div class="note-tab">
+      <span>▶ 開発メモ No.07 — スキル仕様</span>
+      <span>INTERNAL</span>
+    </div>
+    <div class="note-body">
+
+      <div class="skill-title-block">
+        <span class="skill-label">// 必殺技</span>
+        <div class="skill-name-big">フラフラニール</div>
+      </div>
+
+      <div class="desc">
+        <p>黄金町をフラフラ散歩する必殺技。</p>
+        <p>歩けば歩くほど、パートナーザジモンのやる気とパワーがアップする。</p>
+      </div>
+
+      <div class="gauge-demo">
+        <span class="gauge-label">// 上演ゲージ シミュレーション</span>
+        <div class="gauge-bar-wrap">
+          <div class="gauge-fill"></div>
+        </div>
+        <div class="gauge-bar-text">歩行距離: 1.2km / 1.5km</div>
+        <div class="gauge-event">⚡ もうすぐ　上演イベントが　はじまる！</div>
+      </div>
+
+      <div class="mon-list">
+        <span class="mon-list-label">// 対応ザジモン</span>
+        <div class="mon-item">
+          <span class="mon-emoji">🦎</span>
+          <span class="mon-name">ザジカゲ</span>
+          <span class="mon-fav">高架下・路地裏</span>
+        </div>
+        <div class="mon-item">
+          <span class="mon-emoji">🐢</span>
+          <span class="mon-name">ジズガメ</span>
+          <span class="mon-fav">川沿い・水辺</span>
+        </div>
+        <div class="mon-item">
+          <span class="mon-emoji">🌱</span>
+          <span class="mon-name">ザジズダネ</span>
+          <span class="mon-fav">公園・草むら</span>
+        </div>
+      </div>
+
+      <div class="dev-memo">
+        <span class="dev-memo-label">// 開発メモ（追記）</span>
+        <div class="dev-memo-text">
+          当初は経験値システムを実装する予定だったが、「歩くこと自体をご褒美にしたい」という理由から、経験値の代わりに上演ゲージを採用。<br><br>
+          街を歩くほど、街そのものが劇場になっていく。<br><br>
+          キャラクターデザインは木皮さんが担当予定。どんなザジモンが生まれるのか、とても楽しみ。
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="back-row">
+    <a class="back-btn sub" href="index.html#search">← 検索に戻る</a>
+    <a class="back-btn" href="index.html">← TOP</a>
+  </div>
+  <div class="game-footer">© ZAZIZOO 2026 | 黄金町ARGプロジェクト</div>
+</div>
+</body>
+</html>
