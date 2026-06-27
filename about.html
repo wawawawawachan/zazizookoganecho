@@ -1,5 +1,157 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>あらすじ | ZAZIMON</title>
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--sky:#5BA4CF;--grass:#4CAF50;--grass-dark:#388E3C;--sun:#FFD600;--sun-dark:#F9A825;--red:#E53935;--ink:#1A1A2E;--border:#2C3E50;--pixel:'DotGothic16',monospace;--sans:'Noto Sans JP',sans-serif;}
+body{font-family:var(--sans);background:var(--sky);color:var(--ink);min-height:100vh;overflow-x:hidden;}
+.sky-bg{position:fixed;inset:0;z-index:0;background:linear-gradient(180deg,#5BA4CF 0%,#7EC8E3 40%,#A8D8EA 58%,#4CAF50 58%,#388E3C 78%,#2E7D32 100%);}
+.cloud{position:absolute;background:#fff;opacity:0.9;animation:cloudFloat linear infinite;}
+.cloud::before,.cloud::after{content:'';position:absolute;background:#fff;}
+.cloud-1{width:48px;height:16px;top:10%;left:-60px;animation-duration:28s;}
+.cloud-1::before{width:32px;height:16px;top:-12px;left:8px;}
+.cloud-1::after{width:16px;height:12px;top:-8px;left:24px;}
+.cloud-2{width:64px;height:16px;top:18%;left:-80px;animation-duration:36s;animation-delay:-14s;}
+.cloud-2::before{width:40px;height:16px;top:-12px;left:12px;}
+.cloud-2::after{width:20px;height:12px;top:-8px;left:32px;}
+@keyframes cloudFloat{from{left:-100px}to{left:110vw}}
+.sun-el{position:absolute;top:6%;right:12%;width:40px;height:40px;background:var(--sun);border-radius:50%;box-shadow:0 0 0 8px var(--sun-dark);animation:sunPulse 3s ease-in-out infinite;}
+@keyframes sunPulse{0%,100%{box-shadow:0 0 0 6px var(--sun-dark)}50%{box-shadow:0 0 0 11px var(--sun-dark)}}
+.nav{position:sticky;top:0;z-index:200;background:var(--ink);border-bottom:3px solid var(--grass-dark);}
+.nav-inner{max-width:560px;margin:0 auto;display:flex;align-items:center;padding:0 12px;}
+.nav-logo{font-family:var(--pixel);font-size:14px;color:var(--sun);padding:10px 12px 10px 0;border-right:2px solid #333;margin-right:4px;text-decoration:none;white-space:nowrap;text-shadow:1px 1px 0 #000;}
+.nav-links{display:flex;overflow-x:auto;}
+.nav-links a{font-family:var(--pixel);font-size:11px;color:#aaa;text-decoration:none;padding:10px 12px;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-3px;transition:color 0.15s,border-color 0.15s;}
+.nav-links a:hover{color:#fff;border-bottom-color:var(--grass);}
+.nav-links a.active{color:var(--sun);border-bottom-color:var(--sun);}
+.wrapper{position:relative;z-index:10;max-width:560px;margin:0 auto;padding:28px 16px 64px;display:flex;flex-direction:column;gap:16px;}
 
-<!-- ダイアログ -->
-  <div class="dialog">
-    鑑賞者が巨大なオブジェクトと共に歩くことで、<strong>「注視（ツアー）」</strong>と<strong>「窃視（プロムナード）」</strong>のチャンネルを高速で切り替え続ける移動劇。キミも近代日本文学最大のフラヌール・<strong>江戸川乱歩</strong>の眼を持とう！事件はそこで起きている。
+.page-label{font-family:var(--pixel);font-size:10px;color:rgba(255,255,255,0.7);letter-spacing:0.3em;}
+.page-heading{font-family:var(--pixel);font-size:22px;color:#fff;text-shadow:2px 2px 0 var(--ink);margin-bottom:4px;}
+
+/* 公演タイトル */
+.show-title-card{background:var(--ink);border:4px solid var(--border);box-shadow:6px 6px 0 var(--border);padding:20px 18px;color:var(--sun);font-family:var(--pixel);font-size:11px;line-height:2.2;letter-spacing:0.04em;}
+.show-title-label{font-size:9px;color:var(--sky);letter-spacing:0.3em;margin-bottom:10px;display:block;}
+
+/* あらすじカード */
+.story-card{background:#fff;border:4px solid var(--border);box-shadow:6px 6px 0 var(--border);overflow:hidden;}
+.story-head{background:var(--border);color:#fff;font-family:var(--pixel);font-size:10px;letter-spacing:0.3em;padding:6px 14px;}
+.story-body{padding:22px 18px;}
+.story-text{font-size:14px;line-height:2.3;color:#333;}
+.story-text p{margin-bottom:14px;}
+.story-text strong{color:var(--ink);}
+.story-text em{font-style:normal;color:var(--grass-dark);font-weight:700;}
+
+/* 作品概要 */
+.concept-block{background:#F0F8FF;border:3px solid var(--sky);padding:16px 18px;margin:16px 0;}
+.concept-label{font-family:var(--pixel);font-size:10px;color:var(--sky);letter-spacing:0.2em;margin-bottom:10px;display:block;}
+.concept-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;font-size:13px;line-height:1.8;}
+.concept-item:last-child{margin-bottom:0;}
+.concept-icon{flex-shrink:0;font-size:18px;}
+
+/* キャスト */
+.cast-card{background:#fff;border:4px solid var(--border);box-shadow:6px 6px 0 var(--border);overflow:hidden;}
+.cast-head{background:var(--grass-dark);color:#fff;font-family:var(--pixel);font-size:10px;letter-spacing:0.3em;padding:6px 14px;}
+.cast-body{padding:16px 18px;display:flex;gap:20px;flex-wrap:wrap;}
+.cast-item{text-align:center;flex:1;min-width:100px;}
+.cast-icon{font-size:40px;margin-bottom:6px;}
+.cast-name{font-family:var(--pixel);font-size:14px;color:var(--ink);margin-bottom:2px;}
+.cast-role{font-size:11px;color:#888;letter-spacing:0.1em;}
+
+/* ダイアログ */
+.dialog{background:#fff;border:3px solid var(--border);padding:14px 16px 20px;position:relative;font-family:var(--pixel);font-size:13px;line-height:1.9;box-shadow:3px 3px 0 var(--border);}
+.dialog::after{content:'▼';position:absolute;bottom:6px;right:12px;font-size:12px;animation:blink 0.8s step-end infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.dialog strong{color:var(--red);}
+
+.back-row{display:flex;gap:10px;}
+.back-btn{display:block;font-family:var(--pixel);font-size:12px;background:var(--ink);color:var(--sun);border:3px solid var(--ink);padding:11px 16px;text-decoration:none;text-align:center;box-shadow:4px 4px 0 var(--grass-dark);transition:transform 0.1s;flex:1;}
+.back-btn:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--grass-dark);}
+.game-footer{text-align:center;font-family:var(--pixel);font-size:10px;color:rgba(255,255,255,0.6);letter-spacing:0.2em;}
+</style>
+</head>
+<body>
+<div class="sky-bg"><div class="sun-el"></div><div class="cloud cloud-1"></div><div class="cloud cloud-2"></div></div>
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">☆ ZAZIMON</a>
+    <div class="nav-links">
+      <a href="index.html">TOP</a>
+      <a href="news.html">NEWS</a>
+      <a href="about.html" class="active">あらすじ</a>
+      <a href="ticket.html">チケット</a>
+    </div>
   </div>
+</nav>
+<div class="wrapper">
+
+  <div>
+    <div class="page-label">// STORY & CONCEPT</div>
+    <div class="page-heading">📖 あらすじ</div>
+  </div>
+
+  <div class="show-title-card">
+    <span class="show-title-label">// PERFORMANCE TITLE</span>
+    『ザわめきが宇宙の眼前でかさぶたを剥がした、白む朝、ジっと、本物になりそこねたものたちが、ズーっと終電の喉笛で待ちぼうけしている、高架下で星を溺れさせ、川の寝言を転がしながら、モう演じてもいないという顔で、ン、と最後のいびきと共に桜へ身を投げた、スれ違うあなたを私が増築して、ターンする橋のたもとに、生まれていく』
+  </div>
+
+  <div class="dialog">
+    鑑賞者が巨大なオブジェクトと共に歩くことで、<strong>「注視（ツアー）」</strong>と<strong>「窃視（プロムナード）」</strong>のチャンネルを高速で切り替え続ける移動劇。<br>キミも近代日本文学最大のフラヌール・<strong>江戸川乱歩</strong>の眼を持とう！事件はそこで起きている。
+  </div>
+
+  <div class="story-card">
+    <div class="story-head">▶ STORY — あらすじ</div>
+    <div class="story-body">
+      <div class="story-text">
+        <p>コガネタウンに、<strong>ランポくん</strong>という少年がいた。</p>
+        <p>彼は事件を解決するわけでも、誰かを助けるわけでもない。ただ、<em>街を歩き、見つめ、記録する</em>。それだけが彼にできることだった。</p>
+        <p>ある日、ランポくんは3匹のザジモンと出会う。火のザジカゲ、水のジズガメ、草のザジズダネ。どのなかまを選ぶかで、見えてくる街の景色は変わる。</p>
+        <p>歩けば歩くほど、<em>上演ゲージ</em>が蓄積されていく。ゲージが満タンになったとき、街のどこかで何かが起きる。それは演劇なのか、現実なのか。</p>
+        <p>やがてランポくんは気づく。<strong>この街には、まだ誰も語っていない声がある</strong>、と。</p>
+      </div>
+
+      <div class="concept-block">
+        <span class="concept-label">// CONCEPT</span>
+        <div class="concept-item">
+          <span class="concept-icon">👣</span>
+          <div>街を歩くこと自体が、演劇を生み出す。観客はランポくんとなり、黄金町を歩きながら物語に参加する。</div>
+        </div>
+        <div class="concept-item">
+          <span class="concept-icon">🎭</span>
+          <div>上演・展示・街歩き——すべてがひとつの作品。ジャンルの境界が溶けていく体験。</div>
+        </div>
+        <div class="concept-item">
+          <span class="concept-icon">🔍</span>
+          <div>江戸川乱歩のフラヌール的視線で、コガネタウンの記憶を集めよ。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cast-card">
+    <div class="cast-head">▶ CAST — 出演</div>
+    <div class="cast-body">
+      <div class="cast-item">
+        <div class="cast-icon">🎪</div>
+        <div class="cast-name">ザジ</div>
+        <div class="cast-role">performer</div>
+      </div>
+      <div class="cast-item">
+        <div class="cast-icon">🎪</div>
+        <div class="cast-name">ズー</div>
+        <div class="cast-role">performer</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="back-row">
+    <a class="back-btn" href="index.html">← TOPに戻る</a>
+  </div>
+  <div class="game-footer">© ZAZIZOO 2026 | 黄金町ARGプロジェクト</div>
+</div>
+</body>
+</html>
