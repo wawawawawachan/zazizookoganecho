@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>開発日記 No.12</title>
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --dc-bg:#313338;
+  --dc-sidebar:#2B2D31;
+  --dc-panel:#232428;
+  --dc-msg:#DCDDDE;
+  --dc-muted:#949BA4;
+  --dc-name:#FFFFFF;
+  --dc-time:#949BA4;
+  --dc-hover:#2E3035;
+  --dc-link:#00AFF4;
+  --dc-green:#23A55A;
+  --dc-red:#F23F43;
+  --dc-brand:#5865F2;
+  --pixel:'DotGothic16',monospace;
+  --sans:'Noto Sans JP',sans-serif;
+}
+html{scroll-behavior:smooth;}
+body{
+  font-family:var(--sans);
+  background:var(--dc-bg);
+  color:var(--dc-msg);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* スキャンライン（フェーズ2で出現） */
+body::before{
+  content:'';position:fixed;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.06) 2px,rgba(0,0,0,0.06) 4px);
+  pointer-events:none;z-index:9999;opacity:0;
+  transition:opacity 2s;
+}
+body.phase2::before{opacity:1;}
+
+/* フリッカー */
+@keyframes flicker{0%,93%,100%{opacity:1}94%{opacity:0.7}95%{opacity:1}98%{opacity:0.85}}
+body.phase2{animation:flicker 8s infinite;}
+
+/* ━━ Discordレイアウト ━━ */
+.dc-layout{display:flex;height:100vh;overflow:hidden;}
+
+/* サーバーサイドバー */
+.dc-servers{
+  width:72px;flex-shrink:0;
+  background:var(--dc-panel);
+  display:flex;flex-direction:column;align-items:center;
+  padding:12px 0;gap:8px;
+  overflow-y:auto;
+}
+.dc-server-icon{
+  width:48px;height:48px;border-radius:50%;
+  background:var(--dc-brand);
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;cursor:pointer;
+  transition:border-radius 0.15s;
+  flex-shrink:0;
+}
+.dc-server-icon:hover{border-radius:30%;}
+.dc-server-icon.active{border-radius:30%;box-shadow:-4px 0 0 #fff;}
+.dc-server-icon.muted{background:#3A3A3A;color:#666;}
+.dc-divider{width:32px;height:2px;background:#3A3A3A;margin:2px 0;}
+
+/* チャンネルサイドバー */
+.dc-channels{
+  width:240px;flex-shrink:0;
+  background:var(--dc-sidebar);
+  display:flex;flex-direction:column;
+  overflow:hidden;
+}
+.dc-guild-header{
+  padding:12px 16px;
+  border-bottom:1px solid rgba(0,0,0,0.3);
+  font-weight:700;font-size:15px;
+  color:var(--dc-name);
+  display:flex;align-items:center;justify-content:space-between;
+  cursor:pointer;flex-shrink:0;
+}
+.dc-guild-header:hover{background:rgba(255,255,255,0.05);}
+.dc-channel-list{padding:8px 8px;overflow-y:auto;flex:1;}
+.dc-category{
+  font-size:11px;font-weight:700;
+  color:var(--dc-muted);letter-spacing:0.05em;
+  padding:16px 8px 4px;text-transform:uppercase;
+}
+.dc-channel{
+  display:flex;align-items:center;gap:6px;
+  padding:5px 8px;border-radius:4px;
+  font-size:15px;color:var(--dc-muted);cursor:pointer;
+  transition:background 0.1s,color 0.1s;
+}
+.dc-channel:hover{background:rgba(255,255,255,0.06);color:var(--dc-msg);}
+.dc-channel.active{background:rgba(255,255,255,0.1);color:var(--dc-name);}
+.dc-channel.unread{color:var(--dc-name);}
+.dc-channel.unread::after{content:'●';font-size:8px;margin-left:auto;color:var(--dc-name);}
+.dc-channel-hash{color:var(--dc-muted);font-size:18px;line-height:1;}
+.dc-channel.active .dc-channel-hash{color:var(--dc-msg);}
+
+/* ユーザーパネル */
+.dc-user-panel{
+  background:rgba(0,0,0,0.2);
+  padding:8px 8px;
+  display:flex;align-items:center;gap:8px;
+  flex-shrink:0;
+}
+.dc-user-avatar{
+  width:32px;height:32px;border-radius:50%;
+  background:var(--dc-brand);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;flex-shrink:0;position:relative;
+}
+.dc-user-avatar::after{
+  content:'';position:absolute;bottom:-1px;right:-1px;
+  width:10px;height:10px;border-radius:50%;
+  background:var(--dc-green);border:2px solid var(--dc-sidebar);
+}
+.dc-user-name{font-size:13px;font-weight:700;color:var(--dc-name);}
+.dc-user-disc{font-size:11px;color:var(--dc-muted);}
+
+/* メインエリア */
+.dc-main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+
+/* チャンネルヘッダー */
+.dc-chat-header{
+  padding:12px 16px;
+  border-bottom:1px solid rgba(0,0,0,0.3);
+  display:flex;align-items:center;gap:8px;
+  flex-shrink:0;background:var(--dc-bg);
+}
+.dc-chat-header-hash{font-size:22px;color:var(--dc-muted);}
+.dc-chat-header-name{font-size:15px;font-weight:700;color:var(--dc-name);}
+.dc-chat-header-sep{color:var(--dc-muted);margin:0 8px;}
+.dc-chat-header-topic{font-size:13px;color:var(--dc-muted);}
+
+/* メッセージエリア */
+.dc-messages{flex:1;overflow-y:auto;padding:16px 0 8px;}
+.dc-date-divider{
+  display:flex;align-items:center;gap:8px;
+  padding:16px 16px 8px;
+  font-size:12px;color:var(--dc-muted);font-weight:600;
+}
+.dc-date-divider::before,.dc-date-divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.1);}
+
+/* メッセージ */
+.dc-msg{
+  display:flex;gap:16px;
+  padding:2px 16px;
+  transition:background 0.05s;
+  position:relative;
+}
+.dc-msg:hover{background:var(--dc-hover);}
+.dc-msg.header{padding-top:16px;align-items:flex-start;}
+.dc-msg-avatar{
+  width:40px;height:40px;border-radius:50%;
+  flex-shrink:0;margin-top:2px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;
+}
+.dc-msg-avatar.placeholder{background:transparent;width:40px;}
+.dc-msg-content{}
+.dc-msg-meta{display:flex;align-items:baseline;gap:8px;margin-bottom:2px;}
+.dc-msg-author{font-size:15px;font-weight:700;color:var(--dc-name);cursor:pointer;}
+.dc-msg-author:hover{text-decoration:underline;}
+.dc-msg-author.bot{color:var(--dc-brand);}
+.dc-msg-author.system{color:var(--dc-red);}
+.dc-bot-badge{background:var(--dc-brand);color:#fff;font-size:9px;padding:1px 4px;border-radius:3px;font-family:var(--pixel);letter-spacing:0.05em;margin-left:2px;}
+.dc-msg-time{font-size:11px;color:var(--dc-muted);}
+.dc-msg-text{font-size:15px;color:var(--dc-msg);line-height:1.6;}
+.dc-msg-text p{margin-bottom:4px;}
+.dc-msg-text .kw{color:var(--dc-link);}
+.dc-msg-text .deleted{color:var(--dc-muted);font-style:italic;font-size:13px;}
+
+/* 埋め込みメッセージ */
+.dc-embed{
+  margin-top:8px;
+  border-left:4px solid var(--dc-red);
+  background:rgba(0,0,0,0.2);
+  padding:12px 14px;
+  border-radius:0 4px 4px 0;
+  max-width:520px;
+}
+.dc-embed-title{font-size:15px;font-weight:700;color:var(--dc-name);margin-bottom:6px;}
+.dc-embed-desc{font-size:14px;color:var(--dc-msg);line-height:1.6;}
+.dc-embed.brand{border-left-color:var(--dc-brand);}
+.dc-embed.warn{border-left-color:var(--dc-red);background:rgba(242,63,67,0.1);}
+
+/* 既読・リアクション */
+.dc-reactions{display:flex;gap:4px;margin-top:4px;}
+.dc-reaction{
+  background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);
+  border-radius:8px;padding:2px 8px;font-size:12px;
+  display:flex;align-items:center;gap:4px;cursor:pointer;
+  transition:background 0.1s;
+}
+.dc-reaction:hover{background:rgba(255,255,255,0.1);}
+.dc-reaction-count{color:var(--dc-muted);font-size:12px;}
+
+/* システムメッセージ */
+.dc-system-msg{
+  display:flex;align-items:center;gap:10px;
+  padding:4px 16px;font-size:13px;color:var(--dc-muted);
+}
+
+/* 入力エリア */
+.dc-input-area{
+  padding:0 16px 16px;flex-shrink:0;
+}
+.dc-input-box{
+  background:rgba(0,0,0,0.2);
+  border-radius:8px;
+  padding:11px 16px;
+  color:var(--dc-muted);
+  font-size:15px;
+  display:flex;align-items:center;gap:8px;
+  border:1px solid rgba(0,0,0,0.3);
+}
+.dc-input-placeholder{flex:1;}
+
+/* ━━ ホラー演出 ━━ */
+.horror-overlay{
+  position:fixed;inset:0;z-index:500;
+  background:rgba(0,0,0,0.95);
+  display:none;flex-direction:column;
+  align-items:center;justify-content:center;
+  font-family:var(--pixel);
+  color:#fff;
+}
+.horror-overlay.show{display:flex;}
+
+.mbi-logo{
+  font-size:11px;letter-spacing:0.5em;color:#aaa;margin-bottom:32px;
+}
+.mbi-alert{
+  font-size:14px;line-height:2.2;color:#fff;
+  text-align:center;max-width:340px;
+  border:1px solid #333;padding:24px;
+  margin-bottom:24px;
+}
+.mbi-alert strong{color:var(--dc-red);}
+.mbi-cursor{display:inline-block;width:10px;height:18px;background:#fff;animation:blink 0.7s step-end infinite;vertical-align:bottom;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+.mbi-close-btn{
+  font-family:var(--pixel);font-size:12px;
+  background:transparent;border:1px solid #555;color:#555;
+  padding:8px 20px;cursor:pointer;letter-spacing:0.2em;
+  transition:border-color 0.2s,color 0.2s;margin-top:8px;
+}
+.mbi-close-btn:hover{border-color:#fff;color:#fff;}
+
+/* MBI通知バナー */
+.mbi-banner{
+  position:fixed;top:0;left:0;right:0;z-index:400;
+  background:var(--dc-red);
+  color:#fff;font-family:var(--pixel);font-size:11px;
+  padding:6px 16px;
+  display:none;align-items:center;justify-content:space-between;
+  letter-spacing:0.1em;animation:slideDown 0.3s ease;
+}
+.mbi-banner.show{display:flex;}
+@keyframes slideDown{from{transform:translateY(-100%)}to{transform:translateY(0)}}
+
+/* グリッチテキスト */
+@keyframes glitch{
+  0%,100%{clip-path:inset(0 0 100% 0);transform:translate(0)}
+  10%{clip-path:inset(20% 0 60% 0);transform:translate(-3px,0)}
+  20%{clip-path:inset(60% 0 20% 0);transform:translate(3px,0)}
+  30%{clip-path:inset(0 0 0 0);transform:translate(0)}
+}
+.glitch-text{position:relative;}
+.glitch-text::before{
+  content:attr(data-text);position:absolute;inset:0;
+  color:var(--dc-red);
+  animation:glitch 3s 2s infinite;opacity:0.7;
+}
+
+/* モバイル対応 */
+@media(max-width:640px){
+  .dc-servers{width:0;display:none;}
+  .dc-channels{width:0;display:none;}
+  .dc-layout{display:block;}
+  .dc-main{height:100vh;}
+}
+</style>
+</head>
+<body>
+
+<!-- MBIバナー -->
+<div class="mbi-banner" id="mbi-banner">
+  ⚠ MBI INVESTIGATION — 監視対象ワードが検出されました
+  <span style="cursor:pointer;" onclick="document.getElementById('mbi-banner').classList.remove('show')">×</span>
+</div>
+
+<!-- ホラーオーバーレイ -->
+<div class="horror-overlay" id="horror-overlay">
+  <div class="mbi-logo">MBI INVESTIGATION BUREAU</div>
+  <div class="mbi-alert">
+    あなたは<strong>「上演ゲージ」</strong>という単語を使用しました。<br><br>
+    現在地から動かないでください。<br><br>
+    このメッセージは<strong>自動的に削除</strong>されます。<span class="mbi-cursor"></span>
+  </div>
+  <div style="font-size:11px;color:#555;font-family:var(--pixel);letter-spacing:0.2em;">このウィンドウは記録されています</div>
+  <button class="mbi-close-btn" onclick="closeOverlay()">[ ESC — 閉じる ]</button>
+</div>
+
+<!-- Discordレイアウト -->
+<div class="dc-layout">
+
+  <!-- サーバーリスト -->
+  <div class="dc-servers">
+    <div class="dc-server-icon">🏠</div>
+    <div class="dc-divider"></div>
+    <div class="dc-server-icon active">🎮</div>
+    <div class="dc-server-icon muted">🎭</div>
+    <div class="dc-server-icon muted">📍</div>
+    <div class="dc-divider"></div>
+    <div class="dc-server-icon" style="background:#333;font-size:24px;color:#888;">＋</div>
+  </div>
+
+  <!-- チャンネル一覧 -->
+  <div class="dc-channels">
+    <div class="dc-guild-header">
+      ザジモン開発サーバー
+      <span style="font-size:18px;">∨</span>
+    </div>
+    <div class="dc-channel-list">
+      <div class="dc-category">テキストチャンネル</div>
+      <div class="dc-channel"><span class="dc-channel-hash">#</span>general</div>
+      <div class="dc-channel active"><span class="dc-channel-hash">#</span>開発日記</div>
+      <div class="dc-channel unread"><span class="dc-channel-hash">#</span>バグ報告</div>
+      <div class="dc-channel"><span class="dc-channel-hash">#</span>ザジモン図鑑</div>
+      <div class="dc-category">ボイスチャンネル</div>
+      <div class="dc-channel"><span class="dc-channel-hash">🔊</span>作業通話</div>
+    </div>
+    <div class="dc-user-panel">
+      <div class="dc-user-avatar">🧒</div>
+      <div>
+        <div class="dc-user-name">ザジ山ザジ蔵</div>
+        <div class="dc-user-disc">#0077</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- メインチャット -->
+  <div class="dc-main">
+    <div class="dc-chat-header">
+      <span class="dc-chat-header-hash">#</span>
+      <span class="dc-chat-header-name">開発日記</span>
+      <span class="dc-chat-header-sep">|</span>
+      <span class="dc-chat-header-topic">ザジモン開発の記録。なんでも書いていいよ</span>
+    </div>
+
+    <div class="dc-messages" id="messages">
+
+      <div class="dc-date-divider">2025年10月3日</div>
+
+      <!-- メッセージ1（ヘッダー付き） -->
+      <div class="dc-msg header">
+        <div class="dc-msg-avatar" style="background:#5865F2;">🧒</div>
+        <div class="dc-msg-content">
+          <div class="dc-msg-meta">
+            <span class="dc-msg-author">ザジ山ザジ蔵</span>
+            <span class="dc-msg-time">今日 14:23</span>
+          </div>
+          <div class="dc-msg-text">
+            <p>開発日記 No.12</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="dc-msg">
+        <div class="dc-msg-avatar placeholder"></div>
+        <div class="dc-msg-content">
+          <div class="dc-msg-text">
+            <p>上演ゲージって、本当に貯まるんだ。</p>
+            <p>最初はただの演出だと思ってた。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="dc-msg">
+        <div class="dc-msg-avatar placeholder"></div>
+        <div class="dc-msg-content">
+          <div class="dc-msg-text">
+            <p>でも今日、ゲージが100%になった瞬間、本当にザジ・ズーが現れた。</p>
+            <p>しかも、僕しか見えてないわけじゃなかった。</p>
+            <p>近くにいた人も「あれ何？」って言ってた。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="dc-msg">
+        <div class="dc-msg-avatar placeholder"></div>
+        <div class="dc-msg-content">
+          <div class="dc-msg-text">
+            <p>そのあと、架空のはずのザジモンまで出てきた。</p>
+            <p>うんちに襲われたけど、3匹が助けてくれた。</p>
+            <p>今、僕の手元にはザジボールが3つある。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="dc-msg">
+        <div class="dc-msg-avatar placeholder"></div>
+        <div class="dc-msg-content">
+          <div class="dc-msg-text">
+            <p>どう考えてもゲームじゃない。</p>
+            <p>とりあえず証拠を残そうと思って、ザジ・ズーのDiscordに書き込んだ。</p>
+          </div>
+          <div class="dc-embed brand">
+            <div class="dc-embed-title">📤 送信メッセージ</div>
+            <div class="dc-embed-desc">「<span class="kw">上演ゲージ</span>、本当に発動しました。」</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dc-msg">
+        <div class="dc-msg-avatar placeholder"></div>
+        <div class="dc-msg-content">
+          <div class="dc-msg-text">
+            <p>送信。</p>
+            <p>……数秒後。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- MBIからの返信 -->
+      <div class="dc-msg header" id="mbi-msg">
+        <div class="dc-msg-avatar" style="background:#1a1a2e;border:2px solid #F23F43;">🔍</div>
+        <div class="dc-msg-content">
+          <div class="dc-msg-meta">
+            <span class="dc-msg-author system glitch-text" data-text="MBI Investigation">MBI Investigation</span>
+            <span class="dc-bot-badge" style="background:#F23F43;">BOT</span>
+            <span class="dc-msg-time">今日 14:23</span>
+          </div>
+          <div class="dc-embed warn">
+            <div class="dc-embed-title">⚠ 警告</div>
+            <div class="dc-embed-desc">
+              あなたは<strong>「上演ゲージ」</strong>という単語を使用しました。<br>
+              現在地から動かないでください。
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- メッセージ削除後 -->
+      <div class="dc-msg" id="after-mbi" style="display:none;">
+        <div class="dc-msg-avatar placeholder"></div>
+        <div class="dc-msg-content">
+          <div class="dc-msg-text">
+            <p>意味が分からない。</p>
+            <p>すぐにメッセージは消えた。</p>
+            <p>ザジ・ズーのDiscordにも、そのユーザーはいない。</p>
+            <p>でも通知だけは残っている。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="dc-msg" id="after-mbi2" style="display:none;">
+        <div class="dc-msg-avatar placeholder"></div>
+        <div class="dc-msg-content">
+          <div class="dc-msg-text">
+            <p>……これ、検索されてる？</p>
+            <p>「上演ゲージ」って、書いちゃいけなかったのか。</p>
+          </div>
+          <div class="dc-reactions">
+            <div class="dc-reaction">😨 <span class="dc-reaction-count">3</span></div>
+            <div class="dc-reaction">🤔 <span class="dc-reaction-count">1</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /messages -->
+
+    <!-- 入力エリア -->
+    <div class="dc-input-area">
+      <div class="dc-input-box">
+        <span style="font-size:20px;">＋</span>
+        <span class="dc-input-placeholder">#開発日記 へのメッセージ</span>
+        <span style="font-size:18px;">😊</span>
+      </div>
+    </div>
+
+  </div><!-- /dc-main -->
+</div><!-- /dc-layout -->
+
+<!-- 戻るボタン（固定） -->
+<a href="index.html" style="position:fixed;bottom:20px;right:20px;z-index:300;background:#1a1a2e;color:#FFD600;font-family:'DotGothic16',monospace;font-size:12px;padding:10px 16px;text-decoration:none;border:2px solid #FFD600;letter-spacing:0.1em;box-shadow:3px 3px 0 #FFD600;">← TOP</a>
+
+<script>
+// 演出タイムライン
+setTimeout(function(){
+  // MBIバナー出現
+  document.getElementById('mbi-banner').classList.add('show');
+}, 1500);
+
+setTimeout(function(){
+  // ホラーオーバーレイ
+  document.getElementById('horror-overlay').classList.add('show');
+  document.body.classList.add('phase2');
+}, 2800);
+
+setTimeout(function(){
+  // MBIメッセージが「消える」
+  var mbi = document.getElementById('mbi-msg');
+  mbi.style.transition = 'opacity 1s';
+  mbi.style.opacity = '0';
+}, 5000);
+
+setTimeout(function(){
+  var mbi = document.getElementById('mbi-msg');
+  mbi.style.display = 'none';
+  // その後のメッセージ出現
+  document.getElementById('after-mbi').style.display = 'flex';
+}, 6000);
+
+setTimeout(function(){
+  document.getElementById('after-mbi2').style.display = 'flex';
+  // 一番下にスクロール
+  var msgs = document.getElementById('messages');
+  msgs.scrollTop = msgs.scrollHeight;
+}, 7000);
+
+function closeOverlay(){
+  document.getElementById('horror-overlay').classList.remove('show');
+  var msgs = document.getElementById('messages');
+  msgs.scrollTop = msgs.scrollHeight;
+}
+</script>
+</body>
+</html>
