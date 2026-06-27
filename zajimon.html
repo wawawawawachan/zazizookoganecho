@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>挫時紋 ― 黄金町に棲んでいたもの</title>
+  <meta name="description" content="挫時紋とは、黄金町の路地や橋の下に棲んでいたとされる生き物。人の足音、寄り道、偶然の出会いから生まれる「街の記憶」を食べて育つという。再開発とともに、誰の記憶からも消えてしまった。">
+  <meta name="keywords" content="挫時紋, 黄金町, 街の記憶, 路地, 都市伝説, ARG">
+  <meta property="og:title" content="挫時紋 ― 黄金町に棲んでいたもの">
+  <meta property="og:description" content="街の記憶を食べて育つ生き物。人の足音や偶然の出会いから生まれる記憶とともに、黄金町から姿を消した存在について。">
+  <meta property="og:type" content="article">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500&family=Noto+Sans+JP:wght@300;400&display=swap');
+
+    :root {
+      --paper: #EDE5D8;
+      --paper-dark: #D9CFBF;
+      --ink: #1E1610;
+      --ink-faded: #5C5044;
+      --rust: #7A3B1E;
+      --rust-light: #A85030;
+      --shadow: #BFB5A5;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      background: #1A1410;
+    }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'Noto Serif JP', 'Yu Mincho', '游明朝', Georgia, serif;
+      font-weight: 300;
+      line-height: 1.9;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 0 80px;
+      position: relative;
+      min-height: 100vh;
+      box-shadow: 0 0 60px rgba(0,0,0,0.5);
+    }
+
+    /* 紙の質感 */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 100;
+      mix-blend-mode: multiply;
+    }
+
+    /* ヘッダー */
+    header {
+      padding: 72px 48px 48px;
+      border-bottom: 1px solid var(--shadow);
+      position: relative;
+    }
+
+    .eyebrow {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      color: var(--rust);
+      text-transform: uppercase;
+      margin-bottom: 28px;
+      opacity: 0.85;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 8vw, 3.2rem);
+      font-weight: 400;
+      line-height: 1.2;
+      letter-spacing: 0.08em;
+      color: var(--ink);
+      margin-bottom: 20px;
+    }
+
+    /* 「挫」の字に微細な揺らぎ */
+    h1 .char-za {
+      display: inline-block;
+      animation: faint-drift 8s ease-in-out infinite;
+      transform-origin: center bottom;
+      color: var(--rust);
+    }
+
+    @keyframes faint-drift {
+      0%, 100% { opacity: 1; transform: translateY(0) rotate(0deg); }
+      40% { opacity: 0.85; transform: translateY(1px) rotate(-0.3deg); }
+      70% { opacity: 0.9; transform: translateY(-0.5px) rotate(0.2deg); }
+    }
+
+    .subtitle {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--ink-faded);
+      letter-spacing: 0.05em;
+    }
+
+    /* 本文エリア */
+    main {
+      padding: 56px 48px;
+    }
+
+    .section-label {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.25em;
+      color: var(--rust-light);
+      margin-bottom: 20px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--paper-dark);
+    }
+
+    p {
+      font-size: 15px;
+      line-height: 2.0;
+      color: var(--ink);
+      margin-bottom: 28px;
+      letter-spacing: 0.04em;
+    }
+
+    /* にじみ効果つきの強調語 */
+    .blur-word {
+      position: relative;
+      display: inline;
+    }
+    .blur-word::after {
+      content: attr(data-text);
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--rust);
+      filter: blur(2.5px);
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    /* 余白のある引用ブロック */
+    blockquote {
+      margin: 40px 0;
+      padding: 24px 32px;
+      border-left: 2px solid var(--rust);
+      background: var(--paper-dark);
+      position: relative;
+    }
+
+    blockquote p {
+      font-size: 14px;
+      color: var(--ink-faded);
+      margin: 0;
+      line-height: 2.1;
+    }
+
+    blockquote::before {
+      content: '記録断片';
+      position: absolute;
+      top: -10px;
+      left: 30px;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--rust);
+      background: var(--paper-dark);
+      padding: 2px 8px;
+    }
+
+    /* 区切り */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 48px 0;
+      color: var(--shadow);
+    }
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--shadow);
+    }
+    .divider span {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--ink-faded);
+      opacity: 0.6;
+    }
+
+    /* フッター */
+    footer {
+      padding: 32px 48px;
+      border-top: 1px solid var(--shadow);
+    }
+
+    .footer-note {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--ink-faded);
+      letter-spacing: 0.08em;
+      opacity: 0.7;
+      line-height: 1.8;
+    }
+
+    /* 座標的な印 ― シグネチャ要素 */
+    .stamp {
+      display: inline-block;
+      border: 1.5px solid var(--rust);
+      color: var(--rust);
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      padding: 4px 10px;
+      opacity: 0.6;
+      margin-top: 20px;
+      transform: rotate(-1.5deg);
+    }
+
+    /* 消えかけた注釈 */
+    .ghost-note {
+      font-size: 12px;
+      color: var(--ink-faded);
+      opacity: 0.45;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      line-height: 1.8;
+      margin-top: 40px;
+      border-top: 1px dashed var(--shadow);
+      padding-top: 20px;
+    }
+
+    @media (max-width: 520px) {
+      header, main, footer { padding-left: 28px; padding-right: 28px; }
+      h1 { font-size: 2rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .char-za { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <p class="eyebrow">黄金町 都市記録文書 / 消失種目録</p>
+    <h1><span class="char-za">挫</span>時紋</h1>
+    <p class="subtitle">ざじもん ― zajimon</p>
+  </header>
+
+  <main>
+
+    <p class="section-label">概要</p>
+
+    <p>
+      黄金町の再開発、そして人々が街を歩かなくなるにつれて、少しずつ姿を消していった存在。
+      人の足音や寄り道、偶然の出会いから生まれる「街の記憶」を食べて育つ生き物であり、路地や壁、橋の下など、人の視線から少し外れた場所に棲んでいたという。
+    </p>
+
+    <p>
+      しかし街が整備され、人々が目的地へまっすぐ向かうようになると、<span class="blur-word" data-text="挫時紋">挫時紋</span>たちは居場所を失い、いつしか誰の記憶からも消えてしまった。
+    </p>
+
+    <blockquote>
+      <p>「橋の下に何かいる、とよく言われていた。でも見ようとすると、もうそこにはいない。記憶が薄れると同時に、あちらも薄れていくみたいで。」</p>
+    </blockquote>
+
+    <div class="divider"><span>●</span></div>
+
+    <p class="section-label">生態・習性</p>
+
+    <p>
+      挫時紋は「意図されなかった時間」を栄養源とする。
+      目的もなくぶらつく散歩、道に迷って発見した抜け道、店先で見知らぬ人と交わした言葉。
+      そうした偶発的な出来事が積み重なって生まれる「場所の記憶」が、彼らにとっての糧であったとされる。
+    </p>
+
+    <p>
+      棲処は一定ではなく、記憶が濃い場所を求めて移動する。
+      長く使われた路地、常連客の多い角の商店、子どもたちが遊んだ空き地。
+      そういった場所に、ひっそりと気配を残していたという。
+    </p>
+
+    <div class="divider"><span>●</span></div>
+
+    <p class="section-label">消失について</p>
+
+    <p>
+      黄金町周辺が整備されるにつれ、人々の動線は単純化された。
+      寄り道は減り、偶然の出会いは起きにくくなり、街に堆積していた「余白の時間」は失われていった。
+    </p>
+
+    <p>
+      挫時紋たちが消えたのはある日突然のことではなかった。
+      少しずつ、本当に少しずつ、その輪郭が薄れていき、気がついたときにはもう、誰も名前すら思い出せなくなっていた。
+    </p>
+
+    <div class="ghost-note">
+      ※ 本記録は、黄金町周辺で聴取した複数の証言をもとに再構成したものです。<br>
+      挫時紋の目撃情報、あるいは記憶の断片をお持ちの方は、所定の報告経路までご連絡ください。<br>
+      記録番号：ZJM-0047 ／ 最終更新：不明
+    </div>
+
+    <div>
+      <span class="stamp">消失確認済 / VANISHED</span>
+    </div>
+
+  </main>
+
+  <footer>
+    <p class="footer-note">
+      挫時紋に関する記録は断片的であり、その多くは失われている。<br>
+      あなたが覚えているなら、まだそこにいるかもしれない。
+    </p>
+  </footer>
+
+</body>
+</html>
