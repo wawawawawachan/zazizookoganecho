@@ -97,7 +97,7 @@ body{font-family:var(--sans);background:var(--sky);color:var(--ink);min-height:1
 .game-footer{text-align:center;font-family:var(--pixel);font-size:10px;color:rgba(255,255,255,0.6);letter-spacing:0.2em;padding-bottom:20px;}
 @keyframes glitchFlash{0%{filter:invert(0) hue-rotate(0deg)}20%{filter:invert(1) hue-rotate(180deg)}40%{filter:invert(0) hue-rotate(90deg)}60%{filter:invert(1) hue-rotate(270deg)}80%{filter:invert(0) hue-rotate(45deg)}100%{filter:invert(0) hue-rotate(0deg)}}
 .glitch-transition{animation:glitchFlash 0.5s steps(2) forwards;}
-@media(max-width:400px){.game-title-main{font-size:28px;}.menu-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:400px){.game-title-main{font-size:28px;}}
 </style>
 </head>
 <body>
@@ -212,7 +212,7 @@ body{font-family:var(--sans);background:var(--sky);color:var(--ink);min-height:1
   <div class="search-panel" id="search">
     <div class="search-panel-title">▶ SEARCH / キーワード検索</div>
     <div class="search-body">
-      <div class="search-hint">「コガネタウンで僕を探して。最初の検索ワードは<strong>ザジモン</strong>！」</div>
+      <div class="search-hint">「コガネタウンで僕を見つけて」</div>
       <div class="search-row">
         <input class="search-input" id="keyword" type="text" placeholder="キーワードを入力…" autocomplete="off">
         <button class="search-btn" id="search-btn">けってい！</button>
@@ -224,27 +224,36 @@ body{font-family:var(--sans);background:var(--sky);color:var(--ink);min-height:1
 </div>
 <script>
 var PAGES = {
-  'ザジモン': 'zazimon-article.html',
+  'ザジモン':     'zazimon-article.html',
   'ザジ山ザジ蔵': 'zazizokura-mail.html',
-  'うんち': 'unchi-news.html',
-  'ザジボール': 'zaziball-note.html',
-  'ランポ': 'ranpo.html',
+  'うんち':       'unchi-news.html',
+  'ザジボール':   'zaziball-note.html',
+  'ランポ':       'ranpo.html',
   'フラフラニール': 'furafu.html',
-  '上演ゲージ': 'jouengauge.html',
-  'Discord': 'discord.html'
-  '長沼航': 'member-naganuma.html',
+  '上演ゲージ':   'jouengauge.html',
+  'Discord':      'discord.html',
+  '長沼航':       'member-naganuma.html'
 };
 
 var DARK = ['ザジ山ザジ蔵', 'うんち', 'Discord'];
 
+document.getElementById('search-btn').addEventListener('click', doSearch);
+document.getElementById('keyword').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') doSearch();
+});
+
 function doSearch() {
-  var val = document.getElementById('keyword').value.trim();
+  var input = document.getElementById('keyword');
   var result = document.getElementById('search-result');
+  var val = input.value.trim();
+
   if (!val) {
     result.textContent = 'キーワードを いれてね';
     return;
   }
+
   var dest = PAGES[val];
+
   if (dest) {
     result.textContent = val + ' …みつけた！';
     if (DARK.indexOf(val) !== -1) {
@@ -255,18 +264,13 @@ function doSearch() {
     }
   } else {
     result.textContent = '「' + val + '」は みつからない！';
-    var p = document.getElementById('search');
-    p.style.transform = 'translateX(-4px)';
-    setTimeout(function() { p.style.transform = 'translateX(4px)'; }, 80);
-    setTimeout(function() { p.style.transform = 'translateX(-2px)'; }, 160);
-    setTimeout(function() { p.style.transform = ''; }, 240);
+    var panel = document.getElementById('search');
+    panel.style.transform = 'translateX(-4px)';
+    setTimeout(function() { panel.style.transform = 'translateX(4px)'; }, 80);
+    setTimeout(function() { panel.style.transform = 'translateX(-2px)'; }, 160);
+    setTimeout(function() { panel.style.transform = ''; }, 240);
   }
 }
-
-document.getElementById('search-btn').addEventListener('click', doSearch);
-document.getElementById('keyword').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') doSearch();
-});
 </script>
 </body>
 </html>
