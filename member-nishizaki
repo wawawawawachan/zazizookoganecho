@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>西﨑達磨 | ZAZIMON図鑑</title>
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--sky:#5BA4CF;--grass:#4CAF50;--grass-dark:#388E3C;--sun:#FFD600;--sun-dark:#F9A825;--red:#E53935;--ink:#1A1A2E;--border:#2C3E50;--pixel:'DotGothic16',monospace;--sans:'Noto Sans JP',sans-serif;}
+body{font-family:var(--sans);background:var(--sky);color:var(--ink);min-height:100vh;overflow-x:hidden;}
+.sky-bg{position:fixed;inset:0;z-index:0;background:linear-gradient(180deg,#5BA4CF 0%,#7EC8E3 40%,#A8D8EA 58%,#4CAF50 58%,#388E3C 78%,#2E7D32 100%);}
+.cloud{position:absolute;background:#fff;opacity:0.9;animation:cloudFloat linear infinite;}
+.cloud::before,.cloud::after{content:'';position:absolute;background:#fff;}
+.cloud-1{width:48px;height:16px;top:10%;left:-60px;animation-duration:28s;}
+.cloud-1::before{width:32px;height:16px;top:-12px;left:8px;}
+.cloud-1::after{width:16px;height:12px;top:-8px;left:24px;}
+.cloud-2{width:64px;height:16px;top:18%;left:-80px;animation-duration:36s;animation-delay:-14s;}
+.cloud-2::before{width:40px;height:16px;top:-12px;left:12px;}
+.cloud-2::after{width:20px;height:12px;top:-8px;left:32px;}
+@keyframes cloudFloat{from{left:-100px}to{left:110vw}}
+.sun-el{position:absolute;top:6%;right:12%;width:40px;height:40px;background:var(--sun);border-radius:50%;box-shadow:0 0 0 8px var(--sun-dark);animation:sunPulse 3s ease-in-out infinite;}
+@keyframes sunPulse{0%,100%{box-shadow:0 0 0 6px var(--sun-dark)}50%{box-shadow:0 0 0 11px var(--sun-dark)}}
+.nav{position:sticky;top:0;z-index:200;background:var(--ink);border-bottom:3px solid var(--grass-dark);}
+.nav-inner{max-width:560px;margin:0 auto;display:flex;align-items:center;padding:0 12px;}
+.nav-logo{font-family:var(--pixel);font-size:14px;color:var(--sun);padding:10px 12px 10px 0;border-right:2px solid #333;margin-right:4px;text-decoration:none;white-space:nowrap;text-shadow:1px 1px 0 #000;}
+.nav-links{display:flex;overflow-x:auto;}
+.nav-links a{font-family:var(--pixel);font-size:11px;color:#aaa;text-decoration:none;padding:10px 12px;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-3px;transition:color 0.15s,border-color 0.15s;}
+.nav-links a:hover{color:#fff;border-bottom-color:var(--grass);}
+.wrapper{position:relative;z-index:10;max-width:560px;margin:0 auto;padding:28px 16px 64px;display:flex;flex-direction:column;gap:16px;}
+
+/* ━━ メインカード ━━ */
+.zukan-card{background:#fff;border:4px solid var(--border);box-shadow:6px 6px 0 var(--border);overflow:hidden;}
+.zukan-head{background:var(--border);color:#fff;font-family:var(--pixel);font-size:10px;letter-spacing:0.3em;padding:6px 14px;display:flex;justify-content:space-between;align-items:center;}
+.zukan-num{font-size:12px;color:var(--sun);}
+.zukan-body{padding:24px 20px;}
+
+/* ━━ キャラクターエリア ━━ */
+.chara-area{display:flex;gap:16px;align-items:flex-start;margin-bottom:22px;padding-bottom:18px;border-bottom:3px solid #eee;}
+.chara-icon{font-size:64px;line-height:1;flex-shrink:0;}
+.chara-name-block{}
+.chara-name{font-family:var(--pixel);font-size:22px;color:var(--ink);margin-bottom:4px;}
+.chara-title{font-family:var(--pixel);font-size:13px;color:var(--grass-dark);margin-bottom:10px;}
+.chara-tags{display:flex;gap:6px;flex-wrap:wrap;}
+.chara-tag{font-family:var(--pixel);font-size:10px;padding:2px 8px;border-radius:2px;}
+.tag-member{background:var(--grass-dark);color:#fff;}
+.tag-loc{background:var(--sky);color:#fff;}
+.tag-custom{background:var(--sun-dark);color:#fff;}  /* ← 色を自由に変えてOK */
+
+/* ━━ 説明文 ━━ */
+.desc{font-size:14px;line-height:2.2;color:#333;margin-bottom:20px;}
+.desc p{margin-bottom:10px;}
+
+/* ━━ 生息地ボックス ━━ */
+.habitat-box{background:#F0F8FF;border:3px solid var(--sky);padding:14px 16px;margin-bottom:16px;}
+.habitat-label{font-family:var(--pixel);font-size:10px;color:var(--sky);letter-spacing:0.2em;margin-bottom:6px;display:block;}
+.habitat-text{font-size:13px;line-height:1.8;color:#333;}
+
+/* ━━ ひとことダイアログ ━━ */
+.dialog-box{background:#FFFDE7;border:3px solid var(--sun-dark);padding:14px 16px 20px;position:relative;font-family:var(--pixel);font-size:13px;line-height:1.9;}
+.dialog-box::after{content:'▼';position:absolute;bottom:6px;right:12px;font-size:12px;animation:blink 0.8s step-end infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.dialog-label{font-family:var(--pixel);font-size:10px;color:var(--sun-dark);letter-spacing:0.2em;margin-bottom:8px;display:block;}
+
+.back-row{display:flex;gap:10px;}
+.back-btn{display:block;font-family:var(--pixel);font-size:12px;background:var(--ink);color:var(--sun);border:3px solid var(--ink);padding:11px 16px;text-decoration:none;text-align:center;box-shadow:4px 4px 0 var(--grass-dark);transition:transform 0.1s;flex:1;}
+.back-btn:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--grass-dark);}
+.back-btn.sub{background:var(--border);}
+.game-footer{text-align:center;font-family:var(--pixel);font-size:10px;color:rgba(255,255,255,0.6);letter-spacing:0.2em;}
+</style>
+</head>
+<body>
+<div class="sky-bg"><div class="sun-el"></div><div class="cloud cloud-1"></div><div class="cloud cloud-2"></div></div>
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">☆ ZAZIMON</a>
+    <div class="nav-links">
+      <a href="index.html">TOP</a>
+      <a href="news.html">NEWS</a>
+      <a href="about.html">あらすじ</a>
+      <a href="ticket.html">チケット</a>
+    </div>
+  </div>
+</nav>
+<div class="wrapper">
+  <div class="zukan-card">
+    <div class="zukan-head">
+      <span>▶ ZAZIMON図鑑 — なかまザジモン</span>
+      <!-- ↓ 番号を人数分変える -->
+      <span class="zukan-num">#007</span>
+    </div>
+    <div class="zukan-body">
+
+      <div class="chara-area">
+        <!-- ↓ 絵文字を変えてもOK -->
+        <div class="chara-icon">✍️</div>
+        <div class="chara-name-block">
+          <!-- ↓ 名前 -->
+          <div class="chara-name">西﨑達磨</div>
+          <!-- ↓ キャッチコピー -->
+          <div class="chara-title">かきかきザジモン</div>
+          <div class="chara-tags">
+            <span class="chara-tag tag-member">なかまザジモン</span>
+            <!-- ↓ タグは増減自由 -->
+            <span class="chara-tag tag-loc">上演・ステージ</span>
+            <span class="chara-tag tag-custom">テキスト</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ↓ 説明文（pタグを増減して自由に） -->
+      <div class="desc">
+        <p>仲間ザジモンの一人。本公演の上演テキストを担当している。</p>
+        <p>上演を見たら質問してみよう。</p>
+      </div>
+
+      <!-- ↓ 生息地（場所の説明） -->
+      <div class="habitat-box">
+        <span class="habitat-label">// 生息地</span>
+        <div class="habitat-text">黄金町周辺。<br>うろうろしている。</div>
+      </div>
+
+      <!-- ↓ ひとこと（なくてもいい） -->
+      <div class="dialog-box">
+        <span class="dialog-label">// ひとこと</span>
+        事件はそこで起きている。
+      </div>
+
+    </div>
+  </div>
+
+  <div class="back-row">
+    <a class="back-btn sub" href="index.html#search">← 検索に戻る</a>
+    <a class="back-btn" href="index.html">← TOP</a>
+  </div>
+  <div class="game-footer">© ZAZIZOO 2026 | 黄金町ARGプロジェクト</div>
+</div>
+</body>
+</html>
