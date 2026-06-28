@@ -13,10 +13,8 @@ body{
   padding:24px 16px 48px;
   font-family:'Zen Kurenaido','Noto Sans JP',sans-serif;
 }
-
 .wrapper{max-width:500px;margin:0 auto;display:flex;flex-direction:column;gap:16px;}
 
-/* 画鋲 */
 .pin{
   width:20px;height:20px;
   background:#E53935;
@@ -26,7 +24,6 @@ body{
   position:absolute;
 }
 
-/* 紙 */
 .paper{
   background:#FFFDE7;
   border:3px solid #8D6E63;
@@ -48,7 +45,6 @@ body{
 .pin-tl{top:-10px;left:20px;}
 .pin-tr{top:-10px;right:20px;}
 
-/* タイトル */
 .news-title{
   font-size:26px;
   font-weight:700;
@@ -60,8 +56,6 @@ body{
   border-bottom:3px solid #BF360C;
   padding-bottom:10px;
 }
-
-/* 発行情報 */
 .news-meta{
   font-size:11px;
   color:#8D6E63;
@@ -69,8 +63,6 @@ body{
   margin-bottom:16px;
   position:relative;z-index:1;
 }
-
-/* 本文 */
 .news-body{
   font-size:15px;
   line-height:2.2;
@@ -79,7 +71,6 @@ body{
 }
 .news-body p{margin-bottom:12px;}
 
-/* ポイント枠 */
 .point-box{
   background:rgba(255,235,59,0.5);
   border:2px solid #F9A825;
@@ -95,19 +86,13 @@ body{
   margin-bottom:4px;
   font-size:15px;
 }
-
-/* ★マーク */
 .star{color:#FFD600;font-size:16px;}
-
-/* イラスト（CSS絵文字大） */
 .illust{
   text-align:center;
   font-size:48px;
   padding:8px 0;
   line-height:1;
 }
-
-/* 署名 */
 .sign{
   text-align:right;
   font-size:12px;
@@ -118,7 +103,117 @@ body{
   position:relative;z-index:1;
 }
 
-/* 戻るボタン */
+/* ===== 走り書きメモ ===== */
+.memo-wrap {
+  position: relative;
+  margin-top: 20px;
+  z-index: 1;
+}
+
+/* テープで貼られた感じの付箋 */
+.memo-tape {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-1deg);
+  width: 60px;
+  height: 18px;
+  background: rgba(255, 220, 100, 0.75);
+  border-radius: 2px;
+  z-index: 2;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+}
+
+.memo {
+  background: #fff9c4;
+  border: 1.5px solid #c8b400;
+  border-radius: 3px;
+  padding: 14px 16px 12px;
+  position: relative;
+  box-shadow: 2px 3px 6px rgba(0,0,0,0.12);
+  transform: rotate(1.2deg);
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.memo:hover {
+  transform: rotate(0.4deg) scale(1.02);
+  box-shadow: 3px 5px 10px rgba(0,0,0,0.18);
+}
+.memo:hover .memo-arrow {
+  opacity: 1;
+  transform: translateX(4px);
+}
+
+/* 手書き風テキスト */
+.memo-text {
+  font-family: 'Zen Kurenaido', sans-serif;
+  font-size: 15px;
+  line-height: 1.9;
+  color: #5D3A00;
+  transform: rotate(-0.5deg);
+  display: block;
+}
+
+/* キーワード部分 */
+.memo-keyword {
+  display: inline-block;
+  font-size: 19px;
+  font-weight: 700;
+  color: #BF360C;
+  border-bottom: 2px solid #BF360C;
+  letter-spacing: 0.05em;
+  position: relative;
+}
+/* 蛍光ペン風 */
+.memo-keyword::before {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: -2px;
+  right: -2px;
+  height: 10px;
+  background: rgba(255, 235, 59, 0.55);
+  z-index: -1;
+  transform: skewX(-3deg);
+}
+
+/* 矢印 */
+.memo-arrow {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 16px;
+  opacity: 0.5;
+  transition: opacity 0.15s, transform 0.15s;
+  color: #BF360C;
+}
+
+/* タップ後のフラッシュ */
+@keyframes flash-keyword {
+  0%   { background: rgba(255,235,59,0.55); }
+  40%  { background: rgba(255,180,0,0.75); }
+  100% { background: rgba(255,235,59,0.55); }
+}
+.memo.found .memo-keyword::before {
+  animation: flash-keyword 0.6s ease;
+}
+
+/* 小さなスタンプ */
+.memo-stamp {
+  position: absolute;
+  bottom: 10px;
+  right: 12px;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  color: #BF360C;
+  border: 1.5px solid #BF360C;
+  padding: 2px 7px;
+  border-radius: 3px;
+  opacity: 0.5;
+  transform: rotate(3deg);
+  font-family: 'Noto Sans JP', sans-serif;
+}
+
+/* ===== 戻るボタン ===== */
 .back-btn{
   display:block;
   font-family:'Noto Sans JP',sans-serif;
@@ -173,9 +268,21 @@ body{
     </div>
 
     <div class="sign">
-      壁新聞係　ザジ山ザジ蔵（たぶん）<br>
-      <span style="font-size:10px;">※このかみをみつけたひとへ：<strong>ザジボール</strong>をさがして</span>
+      壁新聞係　ザジ山ザジ蔵（たぶん）
     </div>
+
+    <!-- 走り書きメモ -->
+    <div class="memo-wrap">
+      <div class="memo-tape"></div>
+      <div class="memo" onclick="this.classList.add('found')">
+        <span class="memo-text">
+          このかみをみつけたきみへ。<br>
+          つぎは <span class="memo-keyword">ザジボール</span> をさがして。<span class="memo-arrow">→</span>
+        </span>
+        <span class="memo-stamp">FOR YOU</span>
+      </div>
+    </div>
+
   </div>
 
   <a class="back-btn" href="index.html">← もどる</a>
@@ -183,4 +290,3 @@ body{
 </div>
 </body>
 </html>
-EOF
