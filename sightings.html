@@ -519,6 +519,13 @@
     <p class="form-submit">※ このスレッドは閲覧専用です。報告は所定の経路からお願いします。</p>
   </div>
 
+  <!-- ザジ・ズーからのメッセージボタン -->
+  <div style="text-align:center; margin-top:40px;">
+    <button id="dm-trigger" onclick="openDM()">
+      💬 ザジ・ズーからのメッセージを受け取る
+    </button>
+  </div>
+
   <div class="page-footer">
     <p>黄金町・周辺地域 目撃共有板</p>
     <p>管理番号：ZJM-BOARD-003　/ 最終確認：2024年11月</p>
@@ -526,5 +533,351 @@
   </div>
 
 </div>
+
+<!-- DMオーバーレイ -->
+<div id="dm-overlay" onclick="if(event.target===this)closeDM()">
+  <div id="dm-window">
+    <div id="dm-header">
+      <div id="dm-avatar">ア</div>
+      <div>
+        <div id="dm-name">アガリクスティ・パイソン</div>
+        <div id="dm-status">● オンライン</div>
+      </div>
+      <button id="dm-close" onclick="closeDM()">✕</button>
+    </div>
+
+    <div id="dm-body">
+      <!-- メッセージは JS で順番に挿入 -->
+    </div>
+
+    <!-- 選択肢エリア -->
+    <div id="dm-choices" style="display:none;">
+      <button class="choice-btn" onclick="choose('yes')">▶ 協力する</button>
+      <button class="choice-btn choice-btn--soft" onclick="choose('think')">▶ 考える</button>
+    </div>
+
+    <!-- 返答エリア -->
+    <div id="dm-reply" style="display:none;"></div>
+  </div>
+</div>
+
+<style>
+  /* トリガーボタン */
+  #dm-trigger {
+    background: none;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    padding: 14px 28px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+  #dm-trigger:hover {
+    background: var(--accent-glow);
+  }
+
+  /* オーバーレイ */
+  #dm-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  #dm-overlay.open {
+    display: flex;
+  }
+
+  /* DMウィンドウ */
+  #dm-window {
+    background: #1E2030;
+    border: 1px solid #2E3250;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 420px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+  }
+
+  /* DMヘッダー */
+  #dm-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border-bottom: 1px solid #2E3250;
+    background: #181A28;
+    flex-shrink: 0;
+  }
+  #dm-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #3A4A7A;
+    color: #A8B8E8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+  #dm-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: #D4D8E8;
+  }
+  #dm-status {
+    font-size: 11px;
+    color: #57F287;
+    margin-top: 1px;
+  }
+  #dm-close {
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: #6B7094;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 4px 8px;
+    line-height: 1;
+  }
+  #dm-close:hover { color: #D4D8E8; }
+
+  /* メッセージエリア */
+  #dm-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .dm-msg {
+    max-width: 85%;
+    padding: 10px 14px;
+    border-radius: 16px 16px 16px 4px;
+    background: #2A2D42;
+    color: #D4D8E8;
+    font-size: 14px;
+    line-height: 1.75;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    align-self: flex-start;
+  }
+  .dm-msg.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .dm-msg.dm-divider-msg {
+    background: none;
+    color: #383D54;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    padding: 4px 0;
+    align-self: center;
+  }
+
+  /* タイピング表示 */
+  .dm-typing {
+    align-self: flex-start;
+    display: flex;
+    gap: 4px;
+    padding: 10px 14px;
+    background: #2A2D42;
+    border-radius: 16px 16px 16px 4px;
+  }
+  .dm-typing span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #6B7094;
+    animation: typing-dot 1.2s infinite;
+  }
+  .dm-typing span:nth-child(2) { animation-delay: 0.2s; }
+  .dm-typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes typing-dot {
+    0%, 60%, 100% { opacity: 0.3; transform: scale(1); }
+    30% { opacity: 1; transform: scale(1.2); }
+  }
+
+  /* 選択肢 */
+  #dm-choices {
+    padding: 12px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border-top: 1px solid #2E3250;
+    flex-shrink: 0;
+  }
+  .choice-btn {
+    background: #3A4A7A;
+    border: none;
+    color: #D4D8E8;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.15s;
+  }
+  .choice-btn:hover { background: #4A5A9A; }
+  .choice-btn--soft {
+    background: #2A2D42;
+    color: #9098B8;
+  }
+  .choice-btn--soft:hover { background: #32364A; color: #D4D8E8; }
+
+  /* 返答エリア */
+  #dm-reply {
+    padding: 16px;
+    border-top: 1px solid #2E3250;
+    flex-shrink: 0;
+  }
+  #dm-reply .dm-msg {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  #dm-reply .dm-msg.show {
+    opacity: 1;
+    transform: none;
+  }
+  #dm-reply a {
+    color: #7A9FD4;
+    text-decoration: underline;
+  }
+  #dm-reply a:hover { color: #A8C8E8; }
+</style>
+
+<script>
+  const MESSAGES = [
+    'やあ。',
+    '新しいザジ・ズー……いや、なかまザジモンのきみ。',
+    'ここまで辿り着いてくれて、ありがとう。',
+    '⸻',
+    'ザジ山ザジ蔵は、消えてしまった。\n……いや、正確には、忘れられてしまった。',
+    '彼はMBI捜査官に見つかり、ザジモンという存在そのものを消し去る計画の標的になった。',
+    'その瞬間、彼はとっさに過去へつながるワープホールへ飛び込んだ。',
+    '向かった先は、\nまだザジモンが「挫時紋」と呼ばれていた時代。',
+    '⸻',
+    'どうして、そんな危険を冒したのか。',
+    '彼は知っていたんだ。\n\n挫時紋が消えれば、\nこの街から寄り道が消え、\n偶然が消え、\n記憶が消えてしまうことを。',
+    'だから彼は、たったひとりで過去へ向かい、\n今も、この街の記憶を守るために戦っている。',
+    '⸻',
+    'でも、ひとりでは限界がある。\n\n僕たちは仲間を助けたい。\n\nもう一度、\nザジ山ザジ蔵に会いたい。',
+    '……協力してくれるかな？',
+  ];
+
+  const REPLY_YES = `ありがとう。\n\nまずはザジ・ズーの公演へ来てほしい。\n\n君が劇場へ来て、\n黄金町を歩き、\n仲間たちと出会うこと。\n\nそれ自体が、ザジ山ザジ蔵を救う力になる。`;
+  const REPLY_YES_LINK = { text: '→ チケット購入ページへ', href: 'discord.html' };
+
+  const REPLY_THINK = `もちろん、無理にとは言わない。\n\nでも、ひとつだけお願いがある。\n\n黄金町へ来てみてほしい。\n\nランポやザジ・ズーの仲間たちに会えるはずだ。\n\n街を歩いて、\n路地をのぞいて、\n挫時紋を探してみてほしい。\n\nきっと、この街が少し違って見える。\n\nそして、その散歩こそが、\n僕たちへの一番大きな協力なんだ。`;
+  const REPLY_THINK_LINK = { text: '→ 黄金町駅への地図を開く', href: 'https://maps.google.com/?q=黄金町駅' };
+
+  function openDM() {
+    document.getElementById('dm-overlay').classList.add('open');
+    document.getElementById('dm-body').innerHTML = '';
+    document.getElementById('dm-choices').style.display = 'none';
+    document.getElementById('dm-reply').style.display = 'none';
+    document.getElementById('dm-reply').innerHTML = '';
+    playMessages(0);
+  }
+
+  function closeDM() {
+    document.getElementById('dm-overlay').classList.remove('open');
+  }
+
+  function nl2br(str) {
+    return str.replace(/\n/g, '<br>');
+  }
+
+  function addTyping() {
+    const el = document.createElement('div');
+    el.className = 'dm-typing';
+    el.innerHTML = '<span></span><span></span><span></span>';
+    document.getElementById('dm-body').appendChild(el);
+    scrollBottom();
+    return el;
+  }
+
+  function addMessage(text) {
+    const isDivider = text === '⸻';
+    const el = document.createElement('div');
+    el.className = isDivider ? 'dm-msg dm-divider-msg' : 'dm-msg';
+    el.innerHTML = isDivider ? '⸻' : nl2br(text);
+    document.getElementById('dm-body').appendChild(el);
+    requestAnimationFrame(() => { el.classList.add('show'); });
+    scrollBottom();
+  }
+
+  function scrollBottom() {
+    const body = document.getElementById('dm-body');
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function playMessages(i) {
+    if (i >= MESSAGES.length) {
+      document.getElementById('dm-choices').style.display = 'flex';
+      scrollBottom();
+      return;
+    }
+    const text = MESSAGES[i];
+    const isDivider = text === '⸻';
+    const delay = i === 0 ? 400 : (isDivider ? 300 : 600 + Math.random() * 400);
+    const typingDuration = isDivider ? 0 : 700 + text.length * 18;
+
+    setTimeout(() => {
+      let typing = null;
+      if (!isDivider) typing = addTyping();
+
+      setTimeout(() => {
+        if (typing) typing.remove();
+        addMessage(text);
+        playMessages(i + 1);
+      }, typingDuration);
+    }, delay);
+  }
+
+  function choose(type) {
+    document.getElementById('dm-choices').style.display = 'none';
+    const replyDiv = document.getElementById('dm-reply');
+    replyDiv.style.display = 'block';
+
+    const data = type === 'yes'
+      ? { text: REPLY_YES, link: REPLY_YES_LINK }
+      : { text: REPLY_THINK, link: REPLY_THINK_LINK };
+
+    // タイピング
+    const typing = document.createElement('div');
+    typing.className = 'dm-typing';
+    typing.innerHTML = '<span></span><span></span><span></span>';
+    replyDiv.appendChild(typing);
+
+    setTimeout(() => {
+      typing.remove();
+      const msg = document.createElement('div');
+      msg.className = 'dm-msg';
+      msg.innerHTML = nl2br(data.text) + `<br><br><a href="${data.link.href}">${data.link.text}</a>`;
+      replyDiv.appendChild(msg);
+      requestAnimationFrame(() => msg.classList.add('show'));
+      scrollBottom();
+    }, 1200);
+  }
+</script>
 </body>
 </html>
