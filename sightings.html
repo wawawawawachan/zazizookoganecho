@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>挫時紋目撃報告板 ― 黄金町周辺情報共有</title>
+  <meta name="description" content="挫時紋の目撃情報・体験談を共有する掲示板。黄金町周辺での不思議な体験、路地や橋の下で何かを見たという報告が集まっています。">
+  <meta name="keywords" content="挫時紋, 目撃情報, 黄金町, 体験談, 掲示板">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&display=swap');
+
+    :root {
+      --bg: #0D0F14;
+      --surface: #161820;
+      --surface-2: #1C1F2E;
+      --border: #252838;
+      --text: #D4D8E8;
+      --text-muted: #6B7094;
+      --text-faint: #383D54;
+      --accent: #4A6FA5;
+      --accent-glow: rgba(74, 111, 165, 0.15);
+      --warning: #8B6914;
+      --warning-bg: rgba(139, 105, 20, 0.08);
+      --deleted: #2A1A1A;
+      --anomaly: #1A2A1A;
+      --anomaly-text: #7AAF7A;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Noto Sans JP', -apple-system, sans-serif;
+      font-weight: 300;
+      font-size: 14px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ヘッダー */
+    .site-header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 20px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .site-header-inner {
+      max-width: 720px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 52px;
+    }
+
+    .site-name {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: 0.05em;
+    }
+
+    .site-name span {
+      color: var(--text-muted);
+      font-weight: 300;
+    }
+
+    .header-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.03em;
+    }
+
+    /* システム通知バナー */
+    .system-notice {
+      background: var(--warning-bg);
+      border-bottom: 1px solid rgba(139, 105, 20, 0.3);
+      padding: 8px 20px;
+      text-align: center;
+    }
+
+    .system-notice p {
+      font-size: 11px;
+      color: var(--warning);
+      letter-spacing: 0.05em;
+    }
+
+    /* メインレイアウト */
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 24px 20px;
+    }
+
+    /* スレッドヘッダー */
+    .thread-header {
+      margin-bottom: 24px;
+    }
+
+    .thread-title {
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 6px;
+      letter-spacing: 0.03em;
+    }
+
+    .thread-stats {
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      gap: 16px;
+    }
+
+    /* 投稿カード */
+    .post {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 12px;
+      position: relative;
+    }
+
+    .post-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      flex-shrink: 0;
+      font-weight: 400;
+    }
+
+    .post-meta {
+      flex: 1;
+    }
+
+    .username {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .timestamp {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .post-body {
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--text);
+      margin-bottom: 12px;
+      padding-left: 42px;
+    }
+
+    .post-body p + p {
+      margin-top: 8px;
+    }
+
+    .post-footer {
+      display: flex;
+      gap: 16px;
+      padding-left: 42px;
+    }
+
+    .reaction {
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      cursor: default;
+    }
+
+    .reaction-icon {
+      font-size: 13px;
+    }
+
+    /* 異常な投稿スタイル */
+    .post--anomaly {
+      background: var(--anomaly);
+      border-color: rgba(122, 175, 122, 0.2);
+    }
+
+    .post--anomaly .post-body {
+      color: #A8C8A8;
+    }
+
+    .post--anomaly .username {
+      color: var(--anomaly-text);
+    }
+
+    /* 削除済み投稿 */
+    .post--deleted {
+      background: var(--deleted);
+      border-color: rgba(255,255,255,0.04);
+      opacity: 0.7;
+    }
+
+    .deleted-notice {
+      font-size: 12px;
+      color: var(--text-faint);
+      font-style: italic;
+      padding: 8px 0 8px 42px;
+    }
+
+    /* マイナス反応 */
+    .reaction--negative {
+      color: #6B4444;
+    }
+
+    /* ピン留め */
+    .post--pinned {
+      border-color: rgba(74, 111, 165, 0.4);
+    }
+
+    .pin-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      font-size: 10px;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      background: var(--accent-glow);
+      padding: 2px 8px;
+      border-radius: 3px;
+    }
+
+    /* 引用 */
+    .quote {
+      border-left: 2px solid var(--border);
+      padding: 8px 12px;
+      margin: 8px 0;
+      background: var(--surface-2);
+      border-radius: 0 4px 4px 0;
+    }
+
+    .quote-author {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .quote-body {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* 画像添付（グレイアウト） */
+    .attachment {
+      margin: 8px 0;
+      border-radius: 6px;
+      overflow: hidden;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      padding: 28px 20px;
+      text-align: center;
+    }
+
+    .attachment-notice {
+      font-size: 11px;
+      color: var(--text-faint);
+      letter-spacing: 0.05em;
+    }
+
+    /* 区切り */
+    .divider {
+      text-align: center;
+      color: var(--text-faint);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      margin: 20px 0;
+    }
+
+    /* 報告フォーム（ダミー） */
+    .report-form {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      margin-top: 24px;
+    }
+
+    .report-form-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      margin-bottom: 10px;
+    }
+
+    .form-input {
+      width: 100%;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px 12px;
+      color: var(--text-muted);
+      font-size: 13px;
+      font-family: inherit;
+      resize: none;
+      margin-bottom: 10px;
+      cursor: not-allowed;
+    }
+
+    .form-submit {
+      font-size: 12px;
+      color: var(--text-faint);
+      letter-spacing: 0.08em;
+    }
+
+    /* フッター */
+    .page-footer {
+      margin-top: 48px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      font-size: 11px;
+      color: var(--text-faint);
+      letter-spacing: 0.05em;
+      line-height: 2;
+    }
+
+    @media (max-width: 520px) {
+      .post-body, .post-footer { padding-left: 0; margin-top: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <div class="site-name">目撃共有板 <span>/ 黄金町・周辺地域</span></div>
+    <div class="header-meta">閲覧のみ可</div>
+  </div>
+</header>
+
+<div class="system-notice">
+  <p>⚠ 一部の投稿が自動的にアーカイブされています。表示されない報告がある場合があります。</p>
+</div>
+
+<div class="container">
+
+  <div class="thread-header">
+    <h1 class="thread-title">【情報収集】挫時紋の目撃・体験談</h1>
+    <div class="thread-stats">
+      <span>返信 147件</span>
+      <span>閲覧 3,204</span>
+      <span>最終更新 2時間前</span>
+    </div>
+  </div>
+
+  <!-- ピン留め投稿 -->
+  <div class="post post--pinned">
+    <span class="pin-badge">固定</span>
+    <div class="post-header">
+      <div class="avatar">管</div>
+      <div class="post-meta">
+        <div class="username">管理人</div>
+        <div class="timestamp">2024年3月12日 09:00</div>
+      </div>
+    </div>
+    <div class="post-body">
+      <p>挫時紋に関する目撃情報・体験談をこのスレッドにまとめています。</p>
+      <p>報告の際は場所・時間帯・状況をできるだけ詳しく。写真や音声があれば添付してください。<br>
+      ※ 信憑性の確認できない投稿は非表示になる場合があります。</p>
+    </div>
+    <div class="post-footer">
+      <span class="reaction"><span class="reaction-icon">👍</span> 38</span>
+      <span class="reaction"><span class="reaction-icon">🔖</span> 保存</span>
+    </div>
+  </div>
+
+  <!-- 投稿1 -->
+  <div class="post">
+    <div class="post-header">
+      <div class="avatar">橋</div>
+      <div class="post-meta">
+        <div class="username">橋下で寝てた猫</div>
+        <div class="timestamp">2024年11月3日 23:47</div>
+      </div>
+    </div>
+    <div class="post-body">
+      <p>大岡川の橋の下、夜中に自転車で通ったとき、壁になんか模様みたいなのが見えた。落書きとは違う、なんか……動いてるというか。</p>
+      <p>写真撮ろうとしたらスマホの画面が真っ暗になって、戻ったときにはもう何もなかった。</p>
+    </div>
+    <div class="attachment">
+      <p class="attachment-notice">📎 添付ファイル（IMG_2847.jpg）― 読み込みエラー</p>
+    </div>
+    <div class="post-footer">
+      <span class="reaction"><span class="reaction-icon">👍</span> 21</span>
+      <span class="reaction"><span class="reaction-icon">💬</span> 返信 6</span>
+    </div>
+  </div>
+
+  <!-- 投稿2 -->
+  <div class="post">
+    <div class="post-header">
+      <div class="avatar">み</div>
+      <div class="post-meta">
+        <div class="username">みなと通り住民</div>
+        <div class="timestamp">2024年11月8日 14:22</div>
+      </div>
+    </div>
+    <div class="post-body">
+      <p>子どものころ、黄金町のあたりに住んでたおばあちゃんに「路地に住んでる子たちに食べ物を置いてきてあげなさい」って言われてた。子どもだったから何も思わなかったけど、あれって挫時紋のことだったのかな。</p>
+      <p>食べ物じゃなくて、記憶を？　と今になって思う。</p>
+    </div>
+    <div class="post-footer">
+      <span class="reaction"><span class="reaction-icon">👍</span> 54</span>
+      <span class="reaction"><span class="reaction-icon">💬</span> 返信 12</span>
+      <span class="reaction"><span class="reaction-icon">🔖</span> 保存</span>
+    </div>
+  </div>
+
+  <!-- 削除済み投稿 -->
+  <div class="post post--deleted">
+    <div class="post-header">
+      <div class="avatar" style="opacity:0.3">？</div>
+      <div class="post-meta">
+        <div class="username" style="color:var(--text-faint)">［削除済みユーザー］</div>
+        <div class="timestamp">2024年11月9日 02:13</div>
+      </div>
+    </div>
+    <div class="deleted-notice">この投稿は削除されました。</div>
+    <div class="post-footer" style="padding-left:42px">
+      <span class="reaction" style="color:var(--text-faint)"><span class="reaction-icon">👍</span> ―</span>
+    </div>
+  </div>
+
+  <!-- 投稿3 -->
+  <div class="post">
+    <div class="post-header">
+      <div class="avatar">夜</div>
+      <div class="post-meta">
+        <div class="username">夜の散歩者</div>
+        <div class="timestamp">2024年11月10日 00:31</div>
+      </div>
+    </div>
+    <div class="post-body">
+      <div class="quote">
+        <div class="quote-author">橋下で寝てた猫 より：</div>
+        <div class="quote-body">壁になんか模様みたいなのが見えた。落書きとは違う</div>
+      </div>
+      <p>同じ橋のあたりで似たもの見ました。模様というか、文字に近い感じ。読めないけど、なんか……知ってる気がした。</p>
+      <p>その後しばらく、昔行ったきり忘れてた場所の夢を見た。</p>
+    </div>
+    <div class="post-footer">
+      <span class="reaction"><span class="reaction-icon">👍</span> 33</span>
+      <span class="reaction"><span class="reaction-icon">💬</span> 返信 4</span>
+    </div>
+  </div>
+
+  <!-- 投稿4 異常 -->
+  <div class="post post--anomaly">
+    <div class="post-header">
+      <div class="avatar" style="background:#1A2A1A;color:#7AAF7A">？</div>
+      <div class="post-meta">
+        <div class="username">zajimon_0</div>
+        <div class="timestamp" style="color:#4A6A4A">2025年2月28日 — 投稿日時が未来のため表示不可のはずです</div>
+      </div>
+    </div>
+    <div class="post-body">
+      <p>まだ覚えていてくれている人がいる。</p>
+      <p>ありがとう。</p>
+    </div>
+    <div class="post-footer">
+      <span class="reaction reaction--negative"><span class="reaction-icon">👍</span> -7</span>
+      <span class="reaction" style="color:#4A6A4A"><span class="reaction-icon">💬</span> 返信 0</span>
+    </div>
+  </div>
+
+  <div class="divider">― 以下、新しい投稿 ―</div>
+
+  <!-- 投稿5 -->
+  <div class="post">
+    <div class="post-header">
+      <div class="avatar">記</div>
+      <div class="post-meta">
+        <div class="username">記録係K</div>
+        <div class="timestamp">2024年11月14日 18:05</div>
+      </div>
+    </div>
+    <div class="post-body">
+      <p>このスレに集まってる情報、整理してみました。共通点：</p>
+      <p>・夜中から明け方にかけての目撃が多い<br>
+      ・写真・動画に残らない<br>
+      ・見た後に「昔の記憶」が蘇る報告が複数<br>
+      ・「読めないが知っている感じ」の文字・模様</p>
+      <p>挫時紋が消えたんじゃなくて、私たちが覚えていないだけかもしれない。</p>
+    </div>
+    <div class="post-footer">
+      <span class="reaction"><span class="reaction-icon">👍</span> 89</span>
+      <span class="reaction"><span class="reaction-icon">💬</span> 返信 21</span>
+      <span class="reaction"><span class="reaction-icon">🔖</span> 保存 14</span>
+    </div>
+  </div>
+
+  <!-- 報告フォーム（ダミー） -->
+  <div class="report-form">
+    <p class="report-form-label">目撃情報・体験談を投稿する</p>
+    <textarea class="form-input" rows="3" placeholder="現在、新規投稿は受け付けていません。" disabled></textarea>
+    <p class="form-submit">※ このスレッドは閲覧専用です。報告は所定の経路からお願いします。</p>
+  </div>
+
+  <div class="page-footer">
+    <p>黄金町・周辺地域 目撃共有板</p>
+    <p>管理番号：ZJM-BOARD-003　/ 最終確認：2024年11月</p>
+    <p>一部の投稿は自動フィルタにより非表示になっています。</p>
+  </div>
+
+</div>
+</body>
+</html>
