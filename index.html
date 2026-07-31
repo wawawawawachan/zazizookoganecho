@@ -46,7 +46,7 @@ body{font-family:var(--sans);background:var(--sky);color:var(--ink);min-height:1
 .gb-panel-head{background:var(--border);color:#fff;font-family:var(--pixel);font-size:10px;letter-spacing:0.3em;padding:5px 12px;display:flex;justify-content:space-between;align-items:center;}
 .gb-blink{width:8px;height:8px;background:var(--grass);border-radius:50%;animation:blink 1s step-end infinite;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-.gb-panel-body{padding:18px 16px;}
+.gb-panel-body{padding:14px 12px;}
 .dialog{width:100%;background:#fff;border:3px solid var(--border);padding:14px 16px 20px;position:relative;font-family:var(--pixel);font-size:13px;line-height:1.9;box-shadow:3px 3px 0 var(--border);}
 .dialog::after{content:'▼';position:absolute;bottom:6px;right:12px;font-size:12px;animation:blink 0.8s step-end infinite;}
 .dialog strong{color:var(--red);}
@@ -58,14 +58,14 @@ body{font-family:var(--sans);background:var(--sky);color:var(--ink);min-height:1
 .info-row{display:flex;gap:12px;align-items:flex-start;font-size:12px;margin-bottom:10px;line-height:1.7;}
 .info-row:last-child{margin-bottom:0;}
 .info-key{flex-shrink:0;background:var(--border);color:#fff;font-family:var(--pixel);font-size:10px;padding:2px 6px;letter-spacing:0.1em;margin-top:2px;}
-.info-val{color:var(--ink);}
+.info-val{color:var(--ink);font-size:13px;}
 .info-val em{font-style:normal;color:#888;font-size:11px;display:block;margin-top:2px;letter-spacing:0.2em;}
-.menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.menu-btn{display:block;text-decoration:none;background:#fff;border:3px solid var(--border);padding:14px 12px;box-shadow:4px 4px 0 var(--border);font-family:var(--pixel);transition:transform 0.1s,box-shadow 0.1s;position:relative;overflow:hidden;}
-.menu-btn:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--border);}
-.menu-btn-icon{font-size:24px;display:block;margin-bottom:6px;}
-.menu-btn-label{font-size:13px;color:var(--ink);display:block;}
-.menu-btn-sub{font-size:10px;color:#888;letter-spacing:0.1em;display:block;margin-top:2px;}
+.menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.menu-btn{display:block;text-decoration:none;background:#fff;border:3px solid var(--border);padding:12px 10px;box-shadow:3px 3px 0 var(--border);font-family:var(--pixel);transition:transform 0.1s,box-shadow 0.1s;position:relative;overflow:hidden;}
+.menu-btn:hover{transform:translate(1px,1px);box-shadow:2px 2px 0 var(--border);}
+.menu-btn-icon{font-size:20px;display:block;margin-bottom:4px;}
+.menu-btn-label{font-size:12px;color:var(--ink);display:block;font-weight:bold;}
+.menu-btn-sub{font-size:9px;color:#888;letter-spacing:0.1em;display:block;margin-top:1px;}
 .menu-btn.news{border-top:4px solid var(--grass-dark);}
 .menu-btn.about{border-top:4px solid var(--sky);}
 .menu-btn.ticket{border-top:4px solid var(--sun-dark);}
@@ -97,6 +97,8 @@ body{font-family:var(--sans);background:var(--sky);color:var(--ink);min-height:1
 .game-footer{text-align:center;font-family:var(--pixel);font-size:10px;color:rgba(255,255,255,0.6);letter-spacing:0.2em;padding-bottom:20px;}
 @keyframes glitchFlash{0%{filter:invert(0) hue-rotate(0deg)}20%{filter:invert(1) hue-rotate(180deg)}40%{filter:invert(0) hue-rotate(90deg)}60%{filter:invert(1) hue-rotate(270deg)}80%{filter:invert(0) hue-rotate(45deg)}100%{filter:invert(0) hue-rotate(0deg)}}
 .glitch-transition{animation:glitchFlash 0.5s steps(2) forwards;}
+.cta-link{display:inline-block;background:linear-gradient(135deg, var(--sun) 0%, var(--sun-dark) 100%);color:var(--ink);text-decoration:none;padding:10px 16px;border-radius:4px;font-family:var(--pixel);font-size:12px;font-weight:bold;border:2px solid var(--sun-dark);transition:transform 0.1s,box-shadow 0.1s;box-shadow:2px 2px 4px rgba(0,0,0,0.2);margin-top:8px;}
+.cta-link:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 6px rgba(0,0,0,0.3);}
 @media(max-width:400px){.game-title-main{font-size:28px;}}
 </style>
 </head>
@@ -123,10 +125,7 @@ body{font-family:var(--sans);background:var(--sky);color:var(--ink);min-height:1
     <div class="game-title-sub">OFFICIAL PERFORMANCE INFO</div>
     <span class="game-title-main">ZAZIMON</span>
   </div>
-  <div class="show-title">
-    <span class="show-title-label">// PERFORMANCE TITLE</span>
-    『ザわめきが宇宙の眼前でかさぶたを剥がした、白む朝、ジっと、本物になりそこねたものたちが、ズーっと終電の喉笛で待ちぼうけしている、高架下で星を溺れさせ、川の寝言を転がしながら、モう演じてもいないという顔で、ン、と最後のいびきと共に桜へ身を投げた、スれ違うあなたを私が増築して、ターンする橋のたもとに、生まれていく』
-  </div>
+
   <div class="dialog">
     鑑賞者が巨大なオブジェクトと共に歩くことで、<strong>「注視（ツアー）」</strong>と<strong>「窃視（プロムナード）」</strong>のチャンネルを高速で切り替え続ける移動劇。キミも近代日本文学最大のフラヌール・<strong>江戸川乱歩</strong>の眼を持とう！事件はそこで起きている。
   </div>
@@ -166,20 +165,21 @@ body{font-family:var(--sans);background:var(--sky);color:var(--ink);min-height:1
     <div class="info-card-body">
       <div class="info-row">
         <span class="info-key">日程</span>
-        <span class="info-val">2026年 9月12日・13日<br>10月10日・11日・12日</span>
+        <span class="info-val">9月12日［土］・13日［日］ 16:30～18:00<br>10月10日［土］・11日［日］ 16:30～18:00<br>10月12日［月・祝］ 14:00～15:30</span>
       </div>
       <div class="info-row">
         <span class="info-key">場所</span>
-        <span class="info-val">黄金町ロックカク ほか</span>
+        <span class="info-val">集合：黄金町ロックカク<br>回遊：黄金町・日ノ出町エリア<br>到着：Chat Noir Yokohama</span>
       </div>
       <div class="info-row">
-        <span class="info-key">出演</span>
-        <span class="info-val">ザジ・ズー</span>
+        <span class="info-key">定員</span>
+        <span class="info-val">各回50名予定（約90分）</span>
       </div>
       <div class="info-row">
-        <span class="info-key">チケット</span>
-        <span class="info-val"><em>COMING SOON</em></span>
+        <span class="info-key">料金</span>
+        <span class="info-val">一般 ¥3,000 / U29・割引 ¥2,500<br>小学生～高校生 ¥1,000 / 未就学児 無料</span>
       </div>
+      <a href="ticket.html" class="cta-link">▶ 詳細・予約はこちら</a>
     </div>
   </div>
   <div class="news-preview">
@@ -187,6 +187,13 @@ body{font-family:var(--sans);background:var(--sky);color:var(--ink);min-height:1
       <span>▶ LATEST NEWS</span>
       <a href="news.html">すべて見る →</a>
     </div>
+    <a class="news-item" href="news-ticket.html">
+      <div>
+        <div class="news-date">2026.08.01</div>
+        <span class="news-tag tag-good">情報</span>
+      </div>
+      <div class="news-ttl">公演情報公開＆チケット予約開始！</div>
+    </a>
     <a class="news-item" href="news-date.html">
       <div>
         <div class="news-date">2026.07.01</div>
