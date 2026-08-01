@@ -3,11 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>あらすじ | ZAZIMON</title>
+<title>あらすじ｜ザジ・ズー『ザジモン!!』</title>
 <link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-:root{--sky:#5BA4CF;--grass:#4CAF50;--grass-dark:#388E3C;--sun:#FFD600;--sun-dark:#F9A825;--red:#E53935;--ink:#1A1A2E;--border:#2C3E50;--pixel:'DotGothic16',monospace;--sans:'Noto Sans JP',sans-serif;}
+:root{
+  --sky:#5BA4CF;--sky2:#7EC8E3;--grass:#4CAF50;--grass-dark:#388E3C;--grass-deep:#2E7D32;
+  --sun:#FFD600;--sun-dark:#F9A825;--red:#E53935;--ink:#1A1A2E;
+  --panel:#F0F8FF;--border:#2C3E50;
+  --pixel:'DotGothic16',monospace;--sans:'Noto Sans JP',sans-serif;
+}
+html{scroll-behavior:smooth;}
 body{font-family:var(--sans);background:var(--sky);color:var(--ink);min-height:100vh;overflow-x:hidden;}
 .sky-bg{position:fixed;inset:0;z-index:0;background:linear-gradient(180deg,#5BA4CF 0%,#7EC8E3 40%,#A8D8EA 58%,#4CAF50 58%,#388E3C 78%,#2E7D32 100%);}
 .cloud{position:absolute;background:#fff;opacity:0.9;animation:cloudFloat linear infinite;}
@@ -15,143 +21,352 @@ body{font-family:var(--sans);background:var(--sky);color:var(--ink);min-height:1
 .cloud-1{width:48px;height:16px;top:10%;left:-60px;animation-duration:28s;}
 .cloud-1::before{width:32px;height:16px;top:-12px;left:8px;}
 .cloud-1::after{width:16px;height:12px;top:-8px;left:24px;}
-.cloud-2{width:64px;height:16px;top:18%;left:-80px;animation-duration:36s;animation-delay:-14s;}
+.cloud-2{width:64px;height:16px;top:20%;left:-80px;animation-duration:36s;animation-delay:-14s;}
 .cloud-2::before{width:40px;height:16px;top:-12px;left:12px;}
 .cloud-2::after{width:20px;height:12px;top:-8px;left:32px;}
+.cloud-3{width:40px;height:16px;top:6%;left:-50px;animation-duration:22s;animation-delay:-6s;}
+.cloud-3::before{width:24px;height:14px;top:-10px;left:8px;}
+.cloud-3::after{width:14px;height:10px;top:-6px;left:20px;}
 @keyframes cloudFloat{from{left:-100px}to{left:110vw}}
 .sun-el{position:absolute;top:6%;right:12%;width:40px;height:40px;background:var(--sun);border-radius:50%;box-shadow:0 0 0 8px var(--sun-dark);animation:sunPulse 3s ease-in-out infinite;}
 @keyframes sunPulse{0%,100%{box-shadow:0 0 0 6px var(--sun-dark)}50%{box-shadow:0 0 0 11px var(--sun-dark)}}
 .nav{position:sticky;top:0;z-index:200;background:var(--ink);border-bottom:3px solid var(--grass-dark);}
-.nav-inner{max-width:560px;margin:0 auto;display:flex;align-items:center;padding:0 12px;}
-.nav-logo{font-family:var(--pixel);font-size:14px;color:var(--sun);padding:10px 12px 10px 0;border-right:2px solid #333;margin-right:4px;text-decoration:none;white-space:nowrap;text-shadow:1px 1px 0 #000;}
-.nav-links{display:flex;overflow-x:auto;}
-.nav-links a{font-family:var(--pixel);font-size:11px;color:#aaa;text-decoration:none;padding:10px 12px;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-3px;transition:color 0.15s,border-color 0.15s;}
+.nav-inner{max-width:560px;margin:0 auto;display:flex;align-items:center;padding:0 12px;gap:0;}
+.nav-logo{font-family:var(--pixel);font-size:14px;color:var(--sun);padding:10px 12px 10px 0;border-right:2px solid #333;margin-right:4px;letter-spacing:0.05em;text-shadow:1px 1px 0 #000;white-space:nowrap;}
+.nav-links{display:flex;gap:0;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.nav-links a{font-family:var(--pixel);font-size:11px;color:#aaa;text-decoration:none;padding:10px 12px;letter-spacing:0.1em;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-3px;transition:color 0.15s,border-color 0.15s;}
 .nav-links a:hover{color:#fff;border-bottom-color:var(--grass);}
 .nav-links a.active{color:var(--sun);border-bottom-color:var(--sun);}
-.wrapper{position:relative;z-index:10;max-width:560px;margin:0 auto;padding:28px 16px 64px;display:flex;flex-direction:column;gap:16px;}
-
-.page-label{font-family:var(--pixel);font-size:10px;color:rgba(255,255,255,0.7);letter-spacing:0.3em;}
-.page-heading{font-family:var(--pixel);font-size:22px;color:#fff;text-shadow:2px 2px 0 var(--ink);margin-bottom:4px;}
-
-/* 公演タイトル */
-.show-title-card{background:var(--ink);border:4px solid var(--border);box-shadow:6px 6px 0 var(--border);padding:20px 18px;color:var(--sun);font-family:var(--pixel);font-size:11px;line-height:2.2;letter-spacing:0.04em;}
-.show-title-label{font-size:9px;color:var(--sky);letter-spacing:0.3em;margin-bottom:10px;display:block;}
-
-/* あらすじカード */
-.story-card{background:#fff;border:4px solid var(--border);box-shadow:6px 6px 0 var(--border);overflow:hidden;}
-.story-head{background:var(--border);color:#fff;font-family:var(--pixel);font-size:10px;letter-spacing:0.3em;padding:6px 14px;}
-.story-body{padding:22px 18px;}
-.story-text{font-size:14px;line-height:2.3;color:#333;}
-.story-text p{margin-bottom:14px;}
-.story-text strong{color:var(--ink);}
-.story-text em{font-style:normal;color:var(--grass-dark);font-weight:700;}
-
-/* 作品概要 */
-.concept-block{background:#F0F8FF;border:3px solid var(--sky);padding:16px 18px;margin:16px 0;}
-.concept-label{font-family:var(--pixel);font-size:10px;color:var(--sky);letter-spacing:0.2em;margin-bottom:10px;display:block;}
-.concept-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;font-size:13px;line-height:1.8;}
-.concept-item:last-child{margin-bottom:0;}
-.concept-icon{flex-shrink:0;font-size:18px;}
-
-/* キャスト */
-.cast-card{background:#fff;border:4px solid var(--border);box-shadow:6px 6px 0 var(--border);overflow:hidden;}
-.cast-head{background:var(--grass-dark);color:#fff;font-family:var(--pixel);font-size:10px;letter-spacing:0.3em;padding:6px 14px;}
-.cast-body{padding:16px 18px;display:flex;gap:20px;flex-wrap:wrap;}
-.cast-item{text-align:center;flex:1;min-width:100px;}
-.cast-icon{font-size:40px;margin-bottom:6px;}
-.cast-name{font-family:var(--pixel);font-size:14px;color:var(--ink);margin-bottom:2px;}
-.cast-role{font-size:11px;color:#888;letter-spacing:0.1em;}
-
-/* ダイアログ */
-.dialog{background:#fff;border:3px solid var(--border);padding:14px 16px 20px;position:relative;font-family:var(--pixel);font-size:13px;line-height:1.9;box-shadow:3px 3px 0 var(--border);}
-.dialog::after{content:'▼';position:absolute;bottom:6px;right:12px;font-size:12px;animation:blink 0.8s step-end infinite;}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-.dialog strong{color:var(--red);}
-
-.back-row{display:flex;gap:10px;}
-.back-btn{display:block;font-family:var(--pixel);font-size:12px;background:var(--ink);color:var(--sun);border:3px solid var(--ink);padding:11px 16px;text-decoration:none;text-align:center;box-shadow:4px 4px 0 var(--grass-dark);transition:transform 0.1s;flex:1;}
-.back-btn:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--grass-dark);}
-.game-footer{text-align:center;font-family:var(--pixel);font-size:10px;color:rgba(255,255,255,0.6);letter-spacing:0.2em;}
+.wrapper{position:relative;z-index:10;max-width:560px;margin:0 auto;padding:28px 16px 64px;display:flex;flex-direction:column;gap:18px;}
+.page-title{font-family:var(--pixel);font-size:20px;color:var(--sun);text-shadow:2px 2px 0 var(--sun-dark);margin-bottom:12px;}
+.section-box{width:100%;background:#fff;border:3px solid var(--border);box-shadow:3px 3px 0 var(--border);margin-bottom:12px;}
+.section-header{background:var(--red);color:#fff;font-family:var(--pixel);font-size:11px;letter-spacing:0.2em;padding:8px 14px;}
+.section-body{padding:16px;font-size:13px;line-height:1.9;color:var(--ink);}
+.section-body h3{font-family:var(--pixel);font-size:14px;color:var(--red);margin:12px 0 8px 0;border-bottom:2px solid var(--red);padding-bottom:4px;}
+.section-body h3:first-child{margin-top:0;}
+.text-main{font-size:13px;line-height:2;letter-spacing:0.5px;margin-bottom:16px;font-family:var(--sans);}
+.text-prologue{font-size:12px;line-height:1.9;letter-spacing:0.3px;color:#333;margin-bottom:12px;}
+.text-author{font-family:var(--pixel);font-size:10px;color:#888;text-align:right;margin-top:12px;}
+.info-table{width:100%;margin:12px 0;}
+.info-table-row{display:flex;gap:12px;margin-bottom:10px;align-items:flex-start;}
+.info-table-row:last-child{margin-bottom:0;}
+.info-label{flex-shrink:0;background:var(--border);color:#fff;font-family:var(--pixel);font-size:10px;padding:4px 8px;white-space:nowrap;border-radius:2px;}
+.info-value{flex:1;font-size:12px;line-height:1.7;color:var(--ink);}
+.credits-list{background:#F5F5F5;border-left:4px solid var(--red);padding:12px;margin:12px 0;border-radius:2px;}
+.credits-list dt{font-family:var(--pixel);font-size:11px;color:var(--red);font-weight:bold;margin-top:8px;margin-bottom:4px;}
+.credits-list dt:first-child{margin-top:0;}
+.credits-list dd{font-size:12px;color:var(--ink);margin-left:0;margin-bottom:8px;line-height:1.6;}
+.members-list{font-size:12px;line-height:1.9;background:#F9F9F9;padding:12px;border-radius:2px;border:1px solid #ddd;}
+.location-box{background:#FFF8E7;border:2px solid var(--sun-dark);padding:12px;border-radius:2px;margin:8px 0;font-size:12px;line-height:1.7;}
+.location-box strong{color:var(--red);}
+.highlight{background:linear-gradient(120deg,rgba(255,214,0,0.3),rgba(255,214,0,0.1));padding:2px 4px;border-radius:2px;}
+.game-footer{text-align:center;font-family:var(--pixel);font-size:10px;color:rgba(255,255,255,0.6);letter-spacing:0.2em;padding-bottom:20px;}
+@media(max-width:400px){.page-title{font-size:18px;}}
 </style>
 </head>
 <body>
-<div class="sky-bg"><div class="sun-el"></div><div class="cloud cloud-1"></div><div class="cloud cloud-2"></div></div>
+<div class="sky-bg">
+  <div class="sun-el"></div>
+  <div class="cloud cloud-1"></div>
+  <div class="cloud cloud-2"></div>
+  <div class="cloud cloud-3"></div>
+</div>
 <nav class="nav">
   <div class="nav-inner">
-    <a class="nav-logo" href="index.html">☆ ZAZIMON</a>
+    <div class="nav-logo">☆ ZAZIMON</div>
     <div class="nav-links">
       <a href="index.html">TOP</a>
       <a href="news.html">NEWS</a>
-      <a href="about.html" class="active">あらすじ</a>
+      <a href="about.html" class="active">ABOUT</a>
       <a href="ticket.html">チケット</a>
     </div>
   </div>
 </nav>
 <div class="wrapper">
+  <h1 class="page-title">📖 ザジモン!! あらすじ</h1>
 
-  <div>
-    <div class="page-label">// STORY & CONCEPT</div>
-    <div class="page-heading">📖 あらすじ</div>
-  </div>
-
-  <div class="show-title-card">
-    <span class="show-title-label">// PERFORMANCE TITLE</span>
-    『ザわめきが宇宙の眼前でかさぶたを剥がした、白む朝、ジっと、本物になりそこねたものたちが、ズーっと終電の喉笛で待ちぼうけしている、高架下で星を溺れさせ、川の寝言を転がしながら、モう演じてもいないという顔で、ン、と最後のいびきと共に桜へ身を投げた、スれ違うあなたを私が増築して、ターンする橋のたもとに、生まれていく』
-  </div>
-
-  <div class="dialog">
-    鑑賞者が巨大なオブジェクトと共に歩くことで、<strong>「注視（ツアー）」</strong>と<strong>「窃視（プロムナード）」</strong>のチャンネルを高速で切り替え続ける移動劇。<br>キミも近代日本文学最大のフラヌール・<strong>江戸川乱歩</strong>の眼を持とう！事件はそこで起きている。
-  </div>
-
-  <div class="story-card">
-    <div class="story-head">▶ STORY — あらすじ</div>
-    <div class="story-body">
-      <div class="story-text">
-        <p>コガネタウンに、<strong>ランポくん</strong>という少年がいた。</p>
-        <p>彼は事件を解決するわけでも、誰かを助けるわけでもない。ただ、<em>街を歩き、見つめ、記録する</em>。それだけが彼にできることだった。</p>
-        <p>ある日、ランポくんは3匹のザジモンと出会う。火のザジカゲ、水のジズガメ、草のザジズダネ。どのなかまを選ぶかで、見えてくる街の景色は変わる。</p>
-        <p>歩けば歩くほど、<em>上演ゲージ</em>が蓄積されていく。ゲージが満タンになったとき、街のどこかで何かが起きる。それは演劇なのか、現実なのか。</p>
-        <p>やがてランポくんは気づく。<strong>この街には、まだ誰も語っていない声がある</strong>、と。</p>
+  <div class="section-box">
+    <div class="section-header">▶ 作品について</div>
+    <div class="section-body">
+      <div class="text-main">
+        横浜・黄金町。3つの路上でザジモンが増殖する！
       </div>
+      <p class="text-prologue">
+        ロックカクから街へ出た観客は、黄金町の路地を3つの道に分かれ、それぞれ異なる出来事とザジモンを目撃する。<br><br>
+        けれど、一度に歩けるのは、3つの道のうち、ひとつだけ。あなたが歩かなかった2つの道でも、ザジモンはあなたとは無関係に育っていく。<br><br>
+        やがて、それぞれの道で生まれた記憶や噂が手渡され、見られなかったザジモンまで、あなたのなかで「勝手に」育ちはじめる。<br><br>
+        『ザジモン!!』は、見たもの、見られなかったもの、見えていたのに見ないふりをしたものが交差し、無数のザジモンへと増殖していく都市野外演劇！！<br>
+        <span style="font-size:11px;color:#888;display:block;margin-top:8px;">（ほぼ、屋根あり！）</span>
+      </p>
+      <div style="text-align:center;font-family:var(--pixel);font-size:13px;color:var(--red);margin-top:16px;font-weight:bold;">
+        今、演劇が進化をまちがえる。
+      </div>
+    </div>
+  </div>
 
-      <div class="concept-block">
-        <span class="concept-label">// CONCEPT</span>
-        <div class="concept-item">
-          <span class="concept-icon">👣</span>
-          <div>街を歩くこと自体が、演劇を生み出す。観客はランポくんとなり、黄金町を歩きながら物語に参加する。</div>
+  <div class="section-box">
+    <div class="section-header">▶ PROLOGUE</div>
+    <div class="section-body">
+      <p class="text-prologue">
+        幼い頃に歩いた道を覚えているか？　陽の暮れるまで遊びつくした、21世紀なんて比じゃない永さの寄り道を。キモい虫を捕まえ、ゴツい枝を振り回し、ヘンな石を投げ、捨てられたマンガ雑誌を回し読み、誰かの保険証を拾う。私たちはそこで、寄り道こそが最大の奇貨であることを学んだだろう。私たちは、その気になればいくらでも道草を食うことができる。時計の針を見てみろよ。そうさ、明日なんて永遠にやって来ないンだ……。
+      </p>
+      <p class="text-prologue">
+        さて、ここに人類史上最大の道草を食おうとしているヤツがいる。そいつは私たちを太陽系とその外側へ連れて行きたがっていて、そのために人類史上最大のキャピタリストになった。わかるだろう。その「寄り道」にフロンティアはない。枝も石もマンガ雑誌もない。あるのはTeslaの鉄板焼きみてぇな車だけ。時計の針を見てみろよ。そうさ、明日なんて永遠にやって来ないンだ。私たちは未だ、昏い、昏い夜の中にいる。寝そべって見る、気散じのグレートジャーニー！
+      </p>
+      <div class="text-author">
+        テキスト：西﨑達磨
+      </div>
+    </div>
+  </div>
+
+  <div style="width:100%;background:linear-gradient(135deg, #FFD600 0%, #F9A825 100%);border:3px solid var(--border);box-shadow:4px 4px 0 var(--border);border-radius:4px;padding:16px;text-align:center;margin-bottom:12px;">
+    <p style="font-family:var(--pixel);font-size:12px;color:var(--ink);margin-bottom:10px;letter-spacing:0.1em;">
+      ✦ チケット予約・購入
+    </p>
+    <a href="ticket.html" style="display:inline-block;background:var(--ink);color:var(--sun);text-decoration:none;padding:12px 24px;border-radius:4px;font-family:var(--pixel);font-size:13px;font-weight:bold;border:2px solid var(--ink);transition:transform 0.1s,box-shadow 0.1s;box-shadow:3px 3px 0 rgba(0,0,0,0.3);">
+      ▶ 詳細・予約はこちら
+    </a>
+  </div>
+
+  <div class="section-box">
+    <div class="section-header">▶ 公演情報</div>
+    <div class="section-body">
+      <div class="info-table">
+        <div class="info-table-row">
+          <span class="info-label">日程</span>
+          <span class="info-value">
+            9月12日［土］ 16:30～18:00<br>
+            9月13日［日］ 16:30～18:00<br>
+            10月10日［土］ 16:30～18:00<br>
+            10月11日［日］ 16:30～18:00<br>
+            10月12日［月・祝］ 14:00～15:30
+          </span>
         </div>
-        <div class="concept-item">
-          <span class="concept-icon">🎭</span>
-          <div>上演・展示・街歩き——すべてがひとつの作品。ジャンルの境界が溶けていく体験。</div>
+        <div class="info-table-row">
+          <span class="info-label">回数</span>
+          <span class="info-value">全5回</span>
         </div>
-        <div class="concept-item">
-          <span class="concept-icon">🔍</span>
-          <div>江戸川乱歩のフラヌール的視線で、コガネタウンの記憶を集めよ。</div>
+        <div class="info-table-row">
+          <span class="info-label">時間</span>
+          <span class="info-value">所要時間 約90分</span>
+        </div>
+        <div class="info-table-row">
+          <span class="info-label">定員</span>
+          <span class="info-value">各回50名予定</span>
+        </div>
+        <div class="info-table-row">
+          <span class="info-label">受付</span>
+          <span class="info-value">各回開演30分前<br>
+            <span style="font-size:11px;color:#666;">※遅刻した場合、移動中の参加者へ合流できないため、途中からご参加いただけないことがあります。</span>
+          </span>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="cast-card">
-    <div class="cast-head">▶ CAST — 出演</div>
-    <div class="cast-body">
-      <div class="cast-item">
-        <div class="cast-icon">🎪</div>
-        <div class="cast-name">ザジ</div>
-        <div class="cast-role">performer</div>
+  <div class="section-box">
+    <div class="section-header">▶ 開催場所</div>
+    <div class="section-body">
+      <h3>集合・受付／上演スタート</h3>
+      <div class="location-box">
+        <strong>みんなのひろば黄金町ロックカク</strong><br>
+        神奈川県横浜市中区黄金町2-69先<br>
+        京急本線「黄金町駅」徒歩約3分
       </div>
-      <div class="cast-item">
-        <div class="cast-icon">🎪</div>
-        <div class="cast-name">ズー</div>
-        <div class="cast-role">performer</div>
+
+      <h3>街歩き・回遊</h3>
+      <div class="location-box">
+        <strong>黄金町・日ノ出町エリア一帯</strong>
+      </div>
+
+      <h3>到着／屋内上演</h3>
+      <div class="location-box">
+        <strong>Chat Noir Yokohama</strong><br>
+        （シャノアール・ヨコハマ）<br>
+        神奈川県横浜市中区日ノ出町1-76-1<br>
+        インペリアル横浜パークサイド104<br>
+        京急本線「日ノ出町駅」徒歩約1分
+      </div>
+      <p style="font-size:12px;line-height:1.7;color:#333;margin-top:12px;">
+        1997年に開かれたシャンソニエをルーツに持つ、日ノ出町のライブバー。マンション1階の通路を奥へ進んだ先にある、黒猫の看板が目印の空間です。上演終了後は打ち上げしましょう！
+      </p>
+      <p style="font-size:11px;color:#666;margin-top:12px;line-height:1.8;">
+        ※受付後、ロックカクで上演を観たのち、3つのルートに分かれて黄金町・日ノ出町の街を歩き、Chat Noir Yokohamaへ向かいます。<br>
+        ※Chat Noir Yokohamaへ直接お越しいただいても、途中からはご参加いただけません。必ずロックカクで受付をお済ませください。<br>
+        ※ロックカクにはトイレがありません。集合前にお済ませください。<br>
+        ※専用駐車場はありません。公共交通機関をご利用ください。
+      </p>
+    </div>
+  </div>
+
+  <div class="section-box">
+    <div class="section-header">▶ ご来場にあたって</div>
+    <div class="section-body">
+      <ul style="font-size:12px;line-height:1.9;margin-left:16px;color:var(--ink);">
+        <li>街中と屋外を歩いて移動します。動きやすい服装・履き慣れた靴でお越しください。</li>
+        <li>できるかぎり雨天決行です。雨天時はレインウェアの使用をおすすめします。</li>
+        <li>荒天による中止・変更は、予約時のメールと公式SNSでお知らせします。</li>
+        <li>車いすをご利用の方、歩行や移動に不安のある方、乳幼児をお連れの方、参加にあたり配慮が必要な方は、予約前にお問い合わせください。</li>
+        <li style="font-size:11px;color:#666;">歩行距離、段差・階段、休憩、途中離脱、内容に関する注意、記録撮影の詳細は予約ページへ掲載します。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-box">
+    <div class="section-header">▶ ROLE CREDITS</div>
+    <div class="section-body">
+      <div class="credits-list">
+        <dt>出演・出現</dt>
+        <dd>プレゼンスメンバー</dd>
+
+        <dt>構成・演出</dt>
+        <dd>アガリクスティ・パイソン</dd>
+
+        <dt>テキスト</dt>
+        <dd>西﨑達磨</dd>
+
+        <dt>常設・街歩き</dt>
+        <dd>長沼航</dd>
+
+        <dt>街歩き・ARG・照明</dt>
+        <dd>渡邉結衣</dd>
+
+        <dt>イベント・ものづくり・振付</dt>
+        <dd>木皮成</dd>
+
+        <dt>広報</dt>
+        <dd>大石水月　白川結衣杏</dd>
+
+        <dt>制作・進行</dt>
+        <dd>白川結衣杏</dd>
+
+        <dt>制作統括</dt>
+        <dd>木村友哉</dd>
+
+        <dt>舞台監督・安全管理</dt>
+        <dd>松林京子</dd>
+
+        <dt>舞台監督補</dt>
+        <dd>大和田鼓己</dd>
+
+        <dt>宣伝美術・デザイン</dt>
+        <dd>メルチャー</dd>
+
+        <dt>テーマソング</dt>
+        <dd>糸井幸之介</dd>
+
+        <dt>企画・製作</dt>
+        <dd>ザジ・ズー</dd>
       </div>
     </div>
   </div>
 
-  <div class="back-row">
-    <a class="back-btn" href="index.html">← TOPに戻る</a>
+  <div class="section-box">
+    <div class="section-header">▶ PRESENCE MEMBERS</div>
+    <div class="section-body">
+      <p style="font-size:12px;margin-bottom:12px;line-height:1.7;">
+        出演、出現、制作など、異なるかたちで今回の企画に関わる全員を「プレゼンスメンバー」と呼びます。（2026年7月31日現在）
+      </p>
+      <div class="members-list">
+        綾門優季／今井桃子／石田裕己／大石水月／岡本陽介／大和田鼓己／柿沼美保／柿原寛子／カゲヤマ気象台／木皮成／木村友哉／葛生大雅／笹川幹太／蔡循（サイジュン）／佐藤正宗／徐永行／白川結衣杏／白鳥真生／武田朋也／徳永倫乃介／中尾幸志郎／中澤美海／長沼航／西﨑達磨／西岡サヤ／濱野ゆき子／日和下駄／北條風知／星ヒナコ／穂高／松井絵里／松林京子／松橋萌／村田天翔／メルチャー／渡邉結衣／and more…
+      </div>
+      <p style="font-size:11px;color:#888;margin-top:12px;">
+        会期に向けて、さらに出現予定。最新情報は特設サイトへ。
+      </p>
+    </div>
   </div>
-  <div class="game-footer">© ZAZIZOO 2026 | 黄金町ARGプロジェクト</div>
+
+  <div class="section-box">
+    <div class="section-header">▶ 会期中の展開</div>
+    <div class="section-body">
+      <p style="font-size:13px;line-height:1.9;margin-bottom:12px;">
+        上演のない日も。あなたがこの場所にいない間にも、ザジモンは育っている。
+      </p>
+      <p style="font-size:12px;line-height:1.8;color:#333;margin-bottom:12px;">
+        黄金町バザールの会期中街のあちこちにザジモンが出現！案内・交換・ショップ・情報拠点「ザジモンセンター」や、トーク、ワークショップ、パーティーなどの関連イベントを展開予定。
+      </p>
+      <p style="font-size:11px;color:#666;">
+        場所・日時・料金・予約方法は、特設サイトと公式SNSで発表します。
+      </p>
+    </div>
+  </div>
+
+  <div class="section-box">
+    <div class="section-header">▶ 黄金町バザール2026</div>
+    <div class="section-body">
+      <p style="font-size:13px;font-weight:bold;margin-bottom:8px;color:var(--red);">
+        「交差する私たち―アートでつながるまち―」
+      </p>
+      <div class="info-table">
+        <div class="info-table-row">
+          <span class="info-label">会期</span>
+          <span class="info-value">2026年9月10日［木］～10月12日［月・祝］</span>
+        </div>
+        <div class="info-table-row">
+          <span class="info-label">休場日</span>
+          <span class="info-value">黄金町会場：木曜日（初日9月10日を除く）<br>
+            ※京急百貨店・ウィング上大岡は会期中無休
+          </span>
+        </div>
+        <div class="info-table-row">
+          <span class="info-label">パスポート</span>
+          <span class="info-value">一般 1,000円／高校生以下 無料<br>
+            <span style="font-size:11px;color:#666;">※会期中何度でも入場可能</span>
+          </span>
+        </div>
+      </div>
+      <h3 style="margin-top:16px;">主催</h3>
+      <p style="font-size:12px;line-height:1.8;color:var(--ink);">
+        特定非営利活動法人黄金町エリアマネジメントセンター<br>
+        株式会社京急百貨店<br>
+        初黄・日ノ出町環境浄化推進協議会
+      </p>
+      <h3>会場協力</h3>
+      <p style="font-size:12px;line-height:1.8;color:var(--ink);">
+        みんなのひろば黄金町ロックカク<br>
+        Chat Noir Yokohama
+      </p>
+      <p style="margin-top:16px;">
+        <a href="https://koganecho.net/koganecho-bazaar-2026/" target="_blank" style="color:var(--red);text-decoration:underline;font-weight:bold;font-size:12px;">▶ 黄金町バザール公式情報ページ</a>
+      </p>
+    </div>
+  </div>
+
+  <div class="section-box">
+    <div class="section-header">▶ お問い合わせ</div>
+    <div class="section-body">
+      <p style="font-size:13px;font-weight:bold;margin-bottom:8px;">
+        ザジ・ズー / ZAZI・ZOO
+      </p>
+      <div class="info-table">
+        <div class="info-table-row">
+          <span class="info-label">WEB</span>
+          <span class="info-value"><a href="https://zazizoo.com/" target="_blank" style="color:var(--red);text-decoration:underline;">https://zazizoo.com/</a></span>
+        </div>
+        <div class="info-table-row">
+          <span class="info-label">特設</span>
+          <span class="info-value"><a href="https://wawawawawachan.github.io/zazizookoganecho/" target="_blank" style="color:var(--red);text-decoration:underline;">https://wawawawawachan.github.io/zazizookoganecho/</a></span>
+        </div>
+        <div class="info-table-row">
+          <span class="info-label">MAIL</span>
+          <span class="info-value">zazi.zoo.info@gmail.com</span>
+        </div>
+        <div class="info-table-row">
+          <span class="info-label">X</span>
+          <span class="info-value">@0zazizoo0</span>
+        </div>
+        <div class="info-table-row">
+          <span class="info-label">Instagram</span>
+          <span class="info-value">@zazi.zoo.official</span>
+        </div>
+      </div>
+      <p style="font-size:11px;color:#888;margin-top:12px;text-align:center;">
+        #ザジモン　#ザジズー
+      </p>
+    </div>
+  </div>
+
+  <div class="game-footer">© ZAZIZOO 2026 &nbsp;|&nbsp; 黄金町ARGプロジェクト</div>
 </div>
 </body>
 </html>
