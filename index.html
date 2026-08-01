@@ -47,19 +47,6 @@ body{font-family:var(--sans);background:var(--sky);color:var(--ink);min-height:1
 .gb-blink{width:8px;height:8px;background:var(--grass);border-radius:50%;animation:blink 1s step-end infinite;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 .gb-panel-body{padding:14px 12px;}
-.dialog{width:100%;background:#fff;border:3px solid var(--border);padding:14px 16px 20px;position:relative;font-family:var(--pixel);font-size:13px;line-height:1.9;box-shadow:3px 3px 0 var(--border);}
-.dialog::after{content:'▼';position:absolute;bottom:6px;right:12px;font-size:12px;animation:blink 0.8s step-end infinite;}
-.dialog strong{color:var(--red);}
-.show-title{width:100%;background:var(--ink);color:var(--sun);border:3px solid var(--border);padding:16px;font-size:11px;line-height:2;box-shadow:3px 3px 0 rgba(0,0,0,0.4);}
-.show-title-label{font-size:9px;color:var(--sky2);letter-spacing:0.3em;margin-bottom:8px;display:block;}
-.info-card{width:100%;background:#fff;border:3px solid var(--border);box-shadow:3px 3px 0 var(--border);}
-.info-card-title{background:var(--red);color:#fff;font-family:var(--pixel);font-size:11px;letter-spacing:0.2em;padding:6px 14px;}
-.info-card-body{padding:14px 16px;}
-.info-row{display:flex;gap:12px;align-items:flex-start;font-size:12px;margin-bottom:10px;line-height:1.7;}
-.info-row:last-child{margin-bottom:0;}
-.info-key{flex-shrink:0;background:var(--border);color:#fff;font-family:var(--pixel);font-size:10px;padding:2px 6px;letter-spacing:0.1em;margin-top:2px;}
-.info-val{color:var(--ink);font-size:13px;}
-.info-val em{font-style:normal;color:#888;font-size:11px;display:block;margin-top:2px;letter-spacing:0.2em;}
 .menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 .menu-btn{display:block;text-decoration:none;background:#fff;border:3px solid var(--border);padding:12px 10px;box-shadow:3px 3px 0 var(--border);font-family:var(--pixel);transition:transform 0.1s,box-shadow 0.1s;position:relative;overflow:hidden;}
 .menu-btn:hover{transform:translate(1px,1px);box-shadow:2px 2px 0 var(--border);}
@@ -97,8 +84,6 @@ body{font-family:var(--sans);background:var(--sky);color:var(--ink);min-height:1
 .game-footer{text-align:center;font-family:var(--pixel);font-size:10px;color:rgba(255,255,255,0.6);letter-spacing:0.2em;padding-bottom:20px;}
 @keyframes glitchFlash{0%{filter:invert(0) hue-rotate(0deg)}20%{filter:invert(1) hue-rotate(180deg)}40%{filter:invert(0) hue-rotate(90deg)}60%{filter:invert(1) hue-rotate(270deg)}80%{filter:invert(0) hue-rotate(45deg)}100%{filter:invert(0) hue-rotate(0deg)}}
 .glitch-transition{animation:glitchFlash 0.5s steps(2) forwards;}
-.cta-link{display:inline-block;background:linear-gradient(135deg, var(--sun) 0%, var(--sun-dark) 100%);color:var(--ink);text-decoration:none;padding:10px 16px;border-radius:4px;font-family:var(--pixel);font-size:12px;font-weight:bold;border:2px solid var(--sun-dark);transition:transform 0.1s,box-shadow 0.1s;box-shadow:2px 2px 4px rgba(0,0,0,0.2);margin-top:8px;}
-.cta-link:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 6px rgba(0,0,0,0.3);}
 @media(max-width:400px){.game-title-main{font-size:28px;}}
 </style>
 </head>
@@ -116,7 +101,7 @@ body{font-family:var(--sans);background:var(--sky);color:var(--ink);min-height:1
       <a href="index.html" class="active">TOP</a>
       <a href="news.html">NEWS</a>
       <a href="about.html">ABOUT</a>
-      <a href="ticket.html">チケット</a>
+      <a href="https://r7ticket.jp/001c19fb25550f7" target="_blank">チケット</a>
     </div>
   </div>
 </nav>
@@ -124,10 +109,6 @@ body{font-family:var(--sans);background:var(--sky);color:var(--ink);min-height:1
   <div class="game-title">
     <div class="game-title-sub">OFFICIAL PERFORMANCE INFO</div>
     <span class="game-title-main">ZAZIMON</span>
-  </div>
-
-  <div class="dialog">
-    鑑賞者が巨大なオブジェクトと共に歩くことで、<strong>「注視（ツアー）」</strong>と<strong>「窃視（プロムナード）」</strong>のチャンネルを高速で切り替え続ける移動劇。キミも近代日本文学最大のフラヌール・<strong>江戸川乱歩</strong>の眼を持とう！事件はそこで起きている。
   </div>
 
   <div style="width:100%;background:#fff;border:3px solid var(--border);box-shadow:3px 3px 0 var(--border);padding:16px;margin-bottom:18px;">
@@ -165,13 +146,19 @@ body{font-family:var(--sans);background:var(--sky);color:var(--ink);min-height:1
   </div>
 
   <div style="width:100%;background:linear-gradient(135deg, #FFD600 0%, #F9A825 100%);border:3px solid var(--border);box-shadow:4px 4px 0 var(--border);border-radius:4px;padding:16px;text-align:center;margin-bottom:12px;">
-    <p style="font-family:var(--pixel);font-size:12px;color:var(--ink);margin-bottom:10px;letter-spacing:0.1em;">
+    <p style="font-family:var(--pixel);font-size:12px;color:var(--ink);margin-bottom:14px;letter-spacing:0.1em;">
       ✦ チケット予約・購入
     </p>
-    <a href="ticket.html" style="display:inline-block;background:var(--ink);color:var(--sun);text-decoration:none;padding:12px 24px;border-radius:4px;font-family:var(--pixel);font-size:13px;font-weight:bold;border:2px solid var(--ink);transition:transform 0.1s,box-shadow 0.1s;box-shadow:3px 3px 0 rgba(0,0,0,0.3);">
-      ▶ 詳細・予約はこちら
-    </a>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+      <a href="about.html" style="display:inline-block;background:var(--ink);color:var(--sun);text-decoration:none;padding:10px 18px;border-radius:4px;font-family:var(--pixel);font-size:12px;font-weight:bold;border:2px solid var(--ink);transition:transform 0.1s,box-shadow 0.1s;box-shadow:3px 3px 0 rgba(0,0,0,0.3);">
+        ▶ 詳細はこちら
+      </a>
+      <a href="https://r7ticket.jp/001c19fb25550f7" target="_blank" style="display:inline-block;background:var(--ink);color:var(--sun);text-decoration:none;padding:10px 18px;border-radius:4px;font-family:var(--pixel);font-size:12px;font-weight:bold;border:2px solid var(--ink);transition:transform 0.1s,box-shadow 0.1s;box-shadow:3px 3px 0 rgba(0,0,0,0.3);">
+        ▶ チケットはこちら
+      </a>
+    </div>
   </div>
+
   <div class="gb-panel">
     <div class="gb-panel-head">
       <span>▶ MENU</span>
@@ -190,7 +177,7 @@ body{font-family:var(--sans);background:var(--sky);color:var(--ink);min-height:1
           <span class="menu-btn-label">ABOUT</span>
           <span class="menu-btn-sub">STORY</span>
         </a>
-        <a class="menu-btn ticket" href="ticket.html">
+        <a class="menu-btn ticket" href="https://r7ticket.jp/001c19fb25550f7" target="_blank">
           <span class="menu-btn-icon">🎫</span>
           <span class="menu-btn-label">チケット</span>
           <span class="menu-btn-sub">好評発売中</span>
@@ -203,6 +190,7 @@ body{font-family:var(--sans);background:var(--sky);color:var(--ink);min-height:1
       </div>
     </div>
   </div>
+
   <div class="news-preview">
     <div class="news-preview-head">
       <span>▶ LATEST NEWS</span>
@@ -230,6 +218,7 @@ body{font-family:var(--sans);background:var(--sky);color:var(--ink);min-height:1
       <div class="news-ttl">ザジモン、開発中！</div>
     </a>
   </div>
+
   <div class="search-panel" id="search">
     <div class="search-panel-title">▶ SEARCH / キーワード検索</div>
     <div class="search-body">
@@ -241,8 +230,10 @@ body{font-family:var(--sans);background:var(--sky);color:var(--ink);min-height:1
       <div id="search-result"></div>
     </div>
   </div>
+
   <div class="game-footer">© ZAZIZOO 2026 &nbsp;|&nbsp; 黄金町ARGプロジェクト</div>
 </div>
+
 <script>
 var PAGES = {
   'ザジモン':     'zazimon-article.html',
@@ -262,8 +253,6 @@ var PAGES = {
   '挫時紋':       'zajimon.html',
   '挫時紋目撃':   'sightings.html'
 };
-
-
 
 var DARK = ['ザジ山ザジ蔵', 'うんち', 'Discord'];
 
